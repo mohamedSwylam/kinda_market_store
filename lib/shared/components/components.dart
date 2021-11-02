@@ -36,11 +36,12 @@ Widget defaultFormFiled({
   Function onChange,
   bool isClickable = true,
   Function onTap,
-  IconData suffix,
+  IconData prefix,
   @required Function validate,
   Function suffixPressed,
 }) =>
     TextFormField(
+      textAlign: TextAlign.end,
       obscureText: isPassword,
       validator: validate,
       enabled: isClickable,
@@ -53,12 +54,6 @@ Widget defaultFormFiled({
         border: InputBorder.none,
         hintStyle: TextStyle(color: Colors.grey.withOpacity(.8),),
         hintText: hint,
-        suffixIcon: suffix != null
-            ? IconButton(
-                icon: Icon(suffix),
-                onPressed: suffixPressed,
-              )
-            : null,
       ),
     );
 /*TextFormField(

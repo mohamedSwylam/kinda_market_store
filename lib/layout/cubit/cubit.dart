@@ -1,26 +1,31 @@
+import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:kinda_store/layout/store_layout.dart';
+import 'package:kinda_store/models/user_model.dart';
+import 'package:kinda_store/modules/search/search_screen.dart';
+import 'package:kinda_store/modules/sign_up_screen/cubit/states.dart';
+import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/cart_model.dart';
 import 'package:kinda_store/models/category_model.dart';
 import 'package:kinda_store/models/order_model.dart';
 import 'package:kinda_store/models/product_model.dart';
-import 'package:kinda_store/models/user_model.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
 import 'package:kinda_store/modules/categories_screen/categories_screen.dart';
-import 'package:kinda_store/modules/categoties_feed_screen.dart';
+import 'package:kinda_store/modules/categories_screen/categoties_feed_screen.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/modules/home_screen/home_screen.dart';
 import 'package:kinda_store/modules/landingPage/landing_page.dart';
-import 'package:kinda_store/modules/sign_up_screen/cubit/cubit.dart';
 import 'package:kinda_store/modules/user_screen/user_screen.dart';
-import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,7 +39,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   List<Widget> StoreScreens = [
     HomeScreen(),
     FeedsScreen(),
-    CategoriesScreen(),
+    SearchScreen(),
     CartScreen(),
     UserScreen(),
   ];
@@ -47,6 +52,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void selectedCart() {
     currentIndex = 3;
     emit(StoreAppBottomBarCartState());
+  }
+  void selectedSearch() {
+    currentIndex = 2;
+    emit(StoreAppBottomBarSearchState());
   }
 
   bool isDark = false;
@@ -75,7 +84,138 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     dropDownValue = newValue;
     emit(StoreChangeDropdownState());
   }
+  ///////////////////////////SignUp
+  void userSignUp({
+    @required String password,
+    @required String email,
+    @required String name,
+    @required String phone,
+    @required String address,
+    @required String joinedAt,
+    @required String createdAt,
+    @required String profileImage,
+  }) {
+    emit(SignUpLoadingState());
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password,)
+        .then((value) {
+      createUser(
+        uId: value.user.uid,
+        name: name,
+        address: address,
+        email: email,
+        phone: phone,
+        joinedAt: joinedAt,
+        createdAt: createdAt,
+        profileImage: profileImage,
+      );
+      print(value.user.email);
+      print(value.user.uid);
+      emit(SignUpSuccessState());
+    }).catchError((error) {
+      emit(SignUpErrorState(error.toString()));
+    });
+  }
+  void createUser({
+    String name,
+    String uId,
+    String phone,
+    String email,
+    String address,
+    String joinedAt,
+    String createdAt,
+    String profileImage,
+  }) {
+    UserModel model = UserModel(
+      name: name,
+      phone: phone,
+      email: email,
+      uId: uId,
+      profileImage: profileImage,
+      address: address,
+      createdAt: createdAt,
+      joinedAt: joinedAt,
+    );
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .set(model.toMap())
+        .then((value) {
+      emit(CreateUserSuccessState());
+    }).catchError((error) {
+      emit(CreateUserErrorState(error.toString()));
+    });
+  }
 
+  IconData prefix = Icons.visibility_outlined;
+  bool isPasswordShown = true;
+
+  void changePasswordVisibility() {
+    isPasswordShown = !isPasswordShown;
+    prefix = isPasswordShown
+        ? Icons.visibility_outlined
+        : Icons.visibility_off_outlined;
+    emit(SignUpPasswordVisibilityState());
+  }
+  File profile;
+  String url;
+  var picker = ImagePicker();
+  Future<void> getProfileImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      profile = File(pickedFile.path);
+      uploadProfileImage();
+      emit(SignUpPickedProfileImageSuccessState());
+    } else {
+      print('No image selected.');
+      emit(SignUpPickedProfileImageErrorState());
+    }
+  }
+  void uploadProfileImage() {
+    emit(UploadProfileImageLoadingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('users/${Uri.file(profile.path).pathSegments.last}')
+        .putFile(profile)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        emit(UploadPickedProfileImageSuccessState());
+        updateUser(
+          name: name,
+          address: address,
+          joinedAt: joinedAt,
+          email: email,
+          phone: phone,
+          profileImage: value,
+          uId: uId,
+          createdAt: createdAt,
+        );
+        url=value;
+        print(value);
+        emit(UploadPickedProfileImageSuccessState());
+      }).catchError((error) {
+        emit(UploadPickedProfileImageErrorState());
+      });
+    }).catchError((error) {
+      emit(UploadPickedProfileImageErrorState());
+    });
+  }
+  void pickImageCamera() async {
+    final picker = ImagePicker();
+    final pickedImage =
+    await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+    final pickedImageFile = File(profile.path);
+    profile = pickedImageFile;
+    uploadProfileImage();
+    emit(SignUpPickedProfileImageCameraSuccessState());
+  }
+
+  void remove() {
+    url = 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+    uploadProfileImage();
+    emit(SignUpRemoveProfileImageSuccessState());
+  }
+ ///////////////////////////// login Screen
   void userLogin({
     @required String password,
     @required String email,
@@ -95,6 +235,19 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(LoginErrorState(error.toString()));
     });
   }
+  void userForgetPassword({
+    @required String email,
+  }) {
+    emit(ForgetPasswordLoadingState());
+    FirebaseAuth.instance
+        .sendPasswordResetEmail(email: email.trim().toLowerCase())
+        .then((value) {
+      emit(ForgetPasswordSuccessState());
+    }).catchError((error) {
+      emit(ForgetPasswordErrorState(error.toString()));
+    });
+  }
+
 
   void userLoginAnonymous(context) {
     emit(LoginAnonymousLoadingState());
@@ -105,7 +258,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     FirebaseAuth.instance
         .signInAnonymously()
         .then((value) {
-      name = 'بدون اسم';
+      name = 'زائر';
       email = 'بدون بريد الكتروني';
       joinedAt = formattedDate;
       phone = 'بدون رقم هاتف' ;
@@ -161,7 +314,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
-  IconData suffix = Icons.visibility_outlined;
+/*  IconData suffix = Icons.visibility_outlined;
   bool isPasswordShown = true;
 
   void changePasswordVisibility() {
@@ -170,7 +323,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         ? Icons.visibility_outlined
         : Icons.visibility_off_outlined;
     emit(LoginPasswordVisibilityState());
-  }
+  }*/
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String name;
@@ -218,7 +371,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
               GoogleAuthProvider.credential(
                   idToken: googleAuth.idToken,
                   accessToken: googleAuth.accessToken));
-          SignUpCubit.get(context).createUser(
+          createUser(
             uId: googleAccount.id,
             profileImage: googleAccount.photoUrl,
             phone: '',
@@ -235,7 +388,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           address = '';
           profileImage = googleAccount.photoUrl;
           createdAt = Timestamp.now().toString() ;
-          StoreAppCubit.get(context).getUserData();
+          getUserData();
+          getCarts();
+          getWishList();
+          getOrders();
           navigateTo(context, StoreLayout());
         } catch (error) {
           authErrorHandle(error.message, context);

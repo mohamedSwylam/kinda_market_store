@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
+import 'package:kinda_store/shared/styles/color.dart';
 
 
 class EmptyOrder extends StatelessWidget {
@@ -8,6 +9,7 @@ class EmptyOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
+        leading: Text(''),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.0,
       ),
@@ -20,7 +22,7 @@ class EmptyOrder extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/cart3.png'),
+                image: AssetImage('assets/images/Empty.png'),
               ),
             ),
           ),
@@ -55,15 +57,15 @@ class EmptyOrder extends StatelessWidget {
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: BorderSide(color: Colors.red),
+                side: BorderSide(color: defaultColor),
               ),
-              color: Colors.redAccent,
+              color: defaultColor,
               child: Text(
                 'تسوق الان',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).textSelectionColor,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600),
               ),
             ),

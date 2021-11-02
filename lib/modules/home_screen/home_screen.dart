@@ -1,6 +1,7 @@
 import 'package:backdrop/app_bar.dart';
 import 'package:backdrop/button.dart';
 import 'package:backdrop/scaffold.dart';
+import 'package:badges/badges.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/product_model.dart';
+import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
 import 'package:kinda_store/modules/product_screen/product_details.dart';
+import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
@@ -32,6 +35,60 @@ class HomeScreen extends StatelessWidget {
                 leading: BackdropToggleButton(
                   icon: AnimatedIcons.home_menu,
                   color: Colors.black,
+                ),
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0),
+                      child: Badge(
+                        badgeColor: defaultColor,
+                        animationType: BadgeAnimationType.slide,
+                        toAnimate: true,
+                        position: BadgePosition.topEnd(top: -6, end: -5),
+                        badgeContent: Text(StoreAppCubit
+                            .get(context)
+                            .carts
+                            .length
+                            .toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 18),),
+                        child: IconButton(
+                          onPressed: () {
+                            StoreAppCubit.get(context).selectedCart();
+                          },
+                          icon: Icon(
+                            Feather.shopping_cart,
+                            size: 25,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5,),
+                    Badge(
+                      badgeColor: defaultColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: -5, end: -3),
+                      badgeContent: Text(StoreAppCubit
+                          .get(context)
+                          .wishList
+                          .length
+                          .toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 18),),
+                      child: IconButton(
+                        onPressed: () {
+                          navigateTo(context, WishListScreen());
+                        },
+                        icon: Icon(
+                          Icons.favorite_border,
+                          size: 28,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 elevation: 0.0,
                 backgroundColor: Colors.grey[300],
@@ -66,7 +123,9 @@ class HomeScreen extends StatelessWidget {
                         child: Container(
                           child: TextFormField(
                             textAlign: TextAlign.end,
-                            onTap: () {},
+                            onTap: () {
+                              StoreAppCubit.get(context).selectedSearch();
+                            },
                             cursorHeight: 20,
                             decoration: InputDecoration(
                               hintText: "ابحث في المتجر",

@@ -106,6 +106,18 @@ class LoginErrorState extends StoreAppStates {
   final String error;
 
   LoginErrorState(this.error);
+
+}
+class ForgetPasswordLoadingState extends StoreAppStates {}
+
+class ForgetPasswordSuccessState extends StoreAppStates {
+
+}
+
+class ForgetPasswordErrorState extends StoreAppStates {
+  final String error;
+
+  ForgetPasswordErrorState(this.error);
 }
 
 class LoginAnonymousLoadingState extends StoreAppStates {}
@@ -181,10 +193,45 @@ class UpdateErrorState extends StoreAppStates {
 
 class UpdateLoadingState extends StoreAppStates {}
 
+
+/////signUp
+
+class SignUpInitialState extends StoreAppStates {}
+
+class SignUpLoadingState extends StoreAppStates {}
+
+class SignUpSuccessState extends StoreAppStates {}
+
+class SignUpErrorState extends StoreAppStates {
+  final String error;
+
+  SignUpErrorState(this.error);
+}
+
+class CreateUserSuccessState extends StoreAppStates {}
+
+class CreateUserErrorState extends StoreAppStates {
+  final String error;
+
+  CreateUserErrorState(this.error);
+}
+
+class SignUpPasswordVisibilityState extends StoreAppStates {}
+
+class SignUpPickedProfileImageSuccessState extends StoreAppStates {}
+
+class SignUpPickedProfileImageErrorState extends StoreAppStates {}
+
+class UploadProfileImageLoadingState extends StoreAppStates {}
+
 class UploadPickedProfileImageSuccessState extends StoreAppStates {}
 
-class UploadPickedProfileImageErrorState extends StoreAppStates {
-  final error;
+class UploadPickedProfileImageErrorState extends StoreAppStates {}
 
-  UploadPickedProfileImageErrorState(this.error);
-}
+class SignUpPickedProfileImageCameraSuccessState extends StoreAppStates {}
+
+
+class SignUpRemoveProfileImageSuccessState extends StoreAppStates {}
+
+
+

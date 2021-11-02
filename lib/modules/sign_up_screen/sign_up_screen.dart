@@ -6,6 +6,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/modules/Login_screen/login_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
@@ -25,7 +35,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignUpCubit, SignUpStates>(
+    return BlocConsumer<StoreAppCubit, StoreAppStates>(
       listener: (context, state) {
         if (state is SignUpSuccessState) {
           navigateTo(context, LoginScreen());
@@ -36,9 +46,9 @@ class SignUpScreen extends StatelessWidget {
         var dateparse = DateTime.parse(date);
         var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse
             .year}";
-        var profileImage = SignUpCubit
+        var profileImage = StoreAppCubit
             .get(context)
-            .profileImage;
+            .profile;
         return Scaffold(
           body: SingleChildScrollView(
             child: Stack(
@@ -108,7 +118,7 @@ class SignUpScreen extends StatelessWidget {
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    SignUpCubit.get(context).pickImageCamera();
+                                                    StoreAppCubit.get(context).pickImageCamera();
                                                     Navigator.pop(context);
                                                   },
                                                   splashColor: Colors
@@ -139,7 +149,7 @@ class SignUpScreen extends StatelessWidget {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    SignUpCubit.get(context).getProfileImage();
+                                                    StoreAppCubit.get(context).getProfileImage();
                                                     Navigator.pop(context);
                                                   },
                                                   splashColor: Colors
@@ -170,7 +180,7 @@ class SignUpScreen extends StatelessWidget {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    SignUpCubit.get(context).remove();
+                                                    StoreAppCubit.get(context).remove();
                                                     Navigator.pop(context);
                                                   },
                                                   splashColor: Colors
@@ -302,12 +312,12 @@ class SignUpScreen extends StatelessWidget {
                                       }
                                       return null;
                                     },
-                                    isPassword: SignUpCubit.get(context).isPasswordShown,
+                                    isPassword: StoreAppCubit.get(context).isPasswordShown,
                                     suffixPressed: () {
-                                      SignUpCubit.get(context)
+                                      StoreAppCubit.get(context)
                                           .changePasswordVisibility();
                                     },
-                                    suffix: SignUpCubit.get(context).suffix,
+                                    prefix: StoreAppCubit.get(context).prefix,
                                     hint: 'ادخل كلمه المرور'
                                 ),
                               ),),
@@ -322,7 +332,7 @@ class SignUpScreen extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               if (formKey.currentState.validate()) {
-                                SignUpCubit.get(context).userSignUp(
+                                StoreAppCubit.get(context).userSignUp(
                                   password: passwordController.text,
                                   email: emailController.text,
                                   name: nameController.text,
@@ -330,7 +340,7 @@ class SignUpScreen extends StatelessWidget {
                                   phone: phoneController.text,
                                   joinedAt: formattedDate,
                                   createdAt: Timestamp.now().toString(),
-                                  profileImage: SignUpCubit.get(context).url,
+                                  profileImage: StoreAppCubit.get(context).url,
                                 );
                               }
                             },

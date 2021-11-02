@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
+import 'package:kinda_store/shared/styles/color.dart';
 
 class EmptyCart extends StatelessWidget {
   @override
@@ -11,15 +12,7 @@ class EmptyCart extends StatelessWidget {
     return Scaffold(
       appBar:AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        leading: IconButton(
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            MaterialCommunityIcons.arrow_left,
-            size: 25,
-          ),
-        ) ,
+        leading: Text(''),
         elevation: 0.0,
       ),
       body: Column(
@@ -31,7 +24,7 @@ class EmptyCart extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/cart3.png'),
+                image: AssetImage('assets/images/Empty.png'),
               ),
             ),
           ),
@@ -66,15 +59,15 @@ class EmptyCart extends StatelessWidget {
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: BorderSide(color: Colors.red),
+                side: BorderSide(color: defaultColor),
               ),
-              color: Colors.redAccent,
+              color: defaultColor,
               child: Text(
                 'تسوق الان',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).textSelectionColor,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600),
               ),
             ),

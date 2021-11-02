@@ -1,3 +1,4 @@
+/*
 abstract class SignUpStates {}
 
 class SignUpInitialState extends SignUpStates {}
@@ -39,3 +40,4 @@ class SignUpRemoveProfileImageSuccessState extends SignUpStates {}
 
 
 
+*/

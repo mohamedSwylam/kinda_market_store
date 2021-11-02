@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/shared/components/components.dart';
+import 'package:kinda_store/shared/styles/color.dart';
 
 import '../feeds_screen/feeds_screen.dart';
 
@@ -10,6 +11,7 @@ class EmptyWishList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
+        leading: Text(''),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0.0,
       ),
@@ -22,7 +24,7 @@ class EmptyWishList extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/favorite.png'),
+                image: AssetImage('assets/images/Empty.png'),
               ),
             ),
           ),
@@ -57,15 +59,15 @@ class EmptyWishList extends StatelessWidget {
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: BorderSide(color: Colors.red),
+                side: BorderSide(color:defaultColor),
               ),
-              color: Colors.redAccent,
+              color: defaultColor,
               child: Text(
                 'تسوق الان',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).textSelectionColor,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600),
               ),
             ),

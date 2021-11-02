@@ -1,4 +1,7 @@
 
+import 'package:backdrop/app_bar.dart';
+import 'package:backdrop/button.dart';
+import 'package:backdrop/scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -11,6 +14,7 @@ import 'package:kinda_store/modules/order_screen/order_details_screen.dart';
 import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
+import 'package:kinda_store/widget/backlayer.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,52 +30,53 @@ class CartScreen extends StatelessWidget {
               ? Scaffold(
             body: EmptyCart(),
           )
-              : Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  /*showDialogg(context, 'تنظيف العربه',
-                      'هل تريد حقل حذف جميع المنتجات من العربه', () {
-                        StoreAppCubit.get(context).clearCart();
-                      });*/
-                },
-                icon: Icon(
-                  Feather.trash,
+              :Scaffold(
+            body: Center(
+              child: BackdropScaffold(
+                headerHeight: MediaQuery.of(context).size.height * .25,
+                appBar: BackdropAppBar(
+                  leading: BackdropToggleButton(
+                    icon: AnimatedIcons.home_menu,
+                    color: Colors.black,
+                  ),
+                  elevation: 0.0,
+                  backgroundColor: Colors.grey[300],
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10),
+                      child: Text(
+                        "العربه (${StoreAppCubit.get(context).carts.length})",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                backLayer: BackLayer(),
+                frontLayer: Scaffold(
+                  body: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 0.0),
+                      child: ListView.separated(
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          var list=StoreAppCubit.get(context).carts;
+                          return buildCartItem(list[index],context);
+                        },
+                        separatorBuilder: (context, index) => Container(
+                          height: 8,
+                        ),
+                        itemCount: StoreAppCubit.get(context).carts.length,
+                      ),
+                    ),
+                  ),
+                  // bottomSheet: bottomSheet(context),
                 ),
               ),
-             backgroundColor: Colors.grey[300],
-              elevation: 0,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 11),
-                  child: Text(
-                    'العربه (${StoreAppCubit.get(context).carts.length})',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
             ),
-            body: Container(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 0.0),
-                child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var list=StoreAppCubit.get(context).carts;
-                    return buildCartItem(list[index],context);
-                  },
-                  separatorBuilder: (context, index) => Container(
-                    height: 8,
-                  ),
-                  itemCount: StoreAppCubit.get(context).carts.length,
-                ),
-              ),
-            ),
-            // bottomSheet: bottomSheet(context),
           );
         });
   }
@@ -301,75 +306,78 @@ Widget buildCartItem(CartModel model,context) => InkWell(
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: RaisedButton(
-                        onPressed: StoreAppCubit.get(context)
-                            .orders.any((element) => element.productId==model.productId)
-                            ? () {}
-                            : () {
-                          navigateTo(
-                              context,
-                              OrderDetailsScreen(
-                                price: model.price,
-                                cartId: model.cartId,
-                                title: model.title,
-                                quantity: model.quantity,
-                                imageUrl: model.imageUrl,
-                                productId: model.productId,
-                              ));
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: BorderSide(color: defaultColor),
-                        ),
-                        color: defaultColor,
-                        child: Text(
-                          StoreAppCubit.get(context)
-                              .orders.any((element) => element.productId==model.productId)
-                              ? 'تم تأكيد الطلب'
-                              : 'تأكيد الطلب',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).textSelectionColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: RaisedButton(
-                        onPressed: () {
-                          launch("tel:01098570050");
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: BorderSide(color:defaultColor,
-                          ),
-                        ),
-                        color: defaultColor,
-                        child: Text(
-                          'الاتصال للطلب',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).textSelectionColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                  ],
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: RaisedButton(
+                  onPressed: StoreAppCubit.get(context)
+                      .orders.any((element) => element.productId==model.productId)
+                      ? () {}
+                      : () {
+                    navigateTo(
+                        context,
+                        OrderDetailsScreen(
+                          price: model.price,
+                          cartId: model.cartId,
+                          title: model.title,
+                          quantity: model.quantity,
+                          imageUrl: model.imageUrl,
+                          productId: model.productId,
+                        ));
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(color: defaultColor),
+                  ),
+                  color: defaultColor,
+                  child: Text(
+                    StoreAppCubit.get(context)
+                        .orders.any((element) => element.productId==model.productId)
+                        ? 'تم تأكيد الطلب'
+                        : 'تأكيد الطلب',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).textSelectionColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
+              ),
+              SizedBox(height: 15,),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: InkWell(
+                      child: Icon(FontAwesome.whatsapp,color: Colors.green[700],size: 38,),
+                      onTap: () {  },
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Container(
+                    width: 235,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: RaisedButton(
+                      onPressed: () {
+                        launch("tel:01098570050");
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        side: BorderSide(color:defaultColor,
+                        ),
+                      ),
+                      color: defaultColor,
+                      child: Text(
+                        'الاتصال للطلب',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).textSelectionColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 15,),
             ],

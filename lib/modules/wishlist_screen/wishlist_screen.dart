@@ -1,3 +1,6 @@
+import 'package:backdrop/app_bar.dart';
+import 'package:backdrop/button.dart';
+import 'package:backdrop/scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -7,6 +10,7 @@ import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
 import 'package:kinda_store/shared/components/components.dart';
+import 'package:kinda_store/widget/backlayer.dart';
 
 import 'empty_wishlist.dart';
 
@@ -17,48 +21,52 @@ class WishListScreen extends StatelessWidget {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return StoreAppCubit.get(context).wishList.isEmpty
+          return  StoreAppCubit.get(context).wishList.isEmpty
               ? Scaffold(
             body: EmptyWishList(),
           )
-              : Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                onPressed: (){
-                 // showDialogg(context, 'تنظيف المفضله', 'هل تريد حقل حذف جميع المنتجات من تفضيلاتك', (){ StoreAppCubit.get(context).clearWishList();});
-                },
-                icon: Icon(
-                  Feather.trash,
-                ),
-              ),
-              backgroundColor: Theme.of(context).backgroundColor,
-              elevation: 1,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 11),
-                  child: Text(
-                    'المفضله (${StoreAppCubit.get(context).wishList.length})',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+              :Scaffold(
+            body: Center(
+              child: BackdropScaffold(
+                headerHeight: MediaQuery.of(context).size.height * .25,
+                appBar: BackdropAppBar(
+                  leading: BackdropToggleButton(
+                    icon: AnimatedIcons.home_menu,
+                    color: Colors.black,
                   ),
+                  elevation: 0.0,
+                  backgroundColor: Colors.grey[300],
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10),
+                      child: Text(
+                        "المفضله (${StoreAppCubit.get(context).wishList.length})",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: ListView.separated(
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  var list=StoreAppCubit.get(context).wishList;
-                  return buildWishListItem(list[index],context);
-                },
-                separatorBuilder: (context, index) => Container(
-                  height: 8,
-                ),
-                itemCount: StoreAppCubit.get(context).wishList.length,
+                backLayer: BackLayer(),
+                frontLayer: Scaffold(
+                  body: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var list=StoreAppCubit.get(context).wishList;
+                        return buildWishListItem(list[index],context);
+                      },
+                      separatorBuilder: (context, index) => Container(
+                        height: 8,
+                      ),
+                      itemCount: StoreAppCubit.get(context).wishList.length,
+                    ),
+                  ),
+                )
               ),
             ),
           );

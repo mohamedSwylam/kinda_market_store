@@ -1,3 +1,6 @@
+import 'package:backdrop/app_bar.dart';
+import 'package:backdrop/button.dart';
+import 'package:backdrop/scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -6,6 +9,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/order_model.dart';
+import 'package:kinda_store/widget/backlayer.dart';
 
 import 'empty_order.dart';
 
@@ -20,39 +24,52 @@ class OrderScreen extends StatelessWidget {
               ? Scaffold(
             body: EmptyOrder(),
           )
-              : Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              elevation: 1,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 11),
-                  child: Text(
-                    'الطلبات (${StoreAppCubit.get(context).orders.length})',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+              :Scaffold(
+            body: Center(
+              child: BackdropScaffold(
+                headerHeight: MediaQuery.of(context).size.height * .25,
+                appBar: BackdropAppBar(
+                  leading: BackdropToggleButton(
+                    icon: AnimatedIcons.home_menu,
+                    color: Colors.black,
+                  ),
+                  elevation: 0.0,
+                  backgroundColor: Colors.grey[300],
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 8),
+                      child: Text(
+                        'الطلبات (${StoreAppCubit.get(context).orders.length})',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                backLayer: BackLayer(),
+                frontLayer: Scaffold(
+                  body: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var list=StoreAppCubit.get(context).orders;
+                        return buildOrderItem(context,list[index]);
+                      },
+                      separatorBuilder: (context, index) => Container(
+                        height: 8,
+                      ),
+                      itemCount: StoreAppCubit.get(context).orders.length,
+                    ),
                   ),
                 ),
-              ],
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: ListView.separated(
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  var list=StoreAppCubit.get(context).orders;
-                  return buildOrderItem(context,list[index]);
-                },
-                separatorBuilder: (context, index) => Container(
-                  height: 8,
-                ),
-                itemCount: StoreAppCubit.get(context).orders.length,
               ),
             ),
           );
+
         });
   }
 }

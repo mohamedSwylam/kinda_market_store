@@ -47,10 +47,6 @@ class MyApp extends StatelessWidget
         BlocProvider(
           create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct()..getUserData()..getOrders()..getWishList()..getCarts(),
         ),
-        BlocProvider(
-          create: (BuildContext context) => SignUpCubit(),
-        ),
-
       ],
       child: BlocConsumer<StoreAppCubit,StoreAppStates>(
         listener: (context, state) {},

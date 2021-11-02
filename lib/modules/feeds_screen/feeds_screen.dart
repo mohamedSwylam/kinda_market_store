@@ -1,4 +1,7 @@
 
+import 'package:backdrop/app_bar.dart';
+import 'package:backdrop/button.dart';
+import 'package:backdrop/scaffold.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +15,7 @@ import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
+import 'package:kinda_store/widget/backlayer.dart';
 
 import '../../feeds_dialog.dart';
 
@@ -22,79 +26,109 @@ class FeedsScreen extends StatelessWidget {
     return BlocConsumer<StoreAppCubit,StoreAppStates>(
       listener: (context,state){},
       builder: (context,state){
-        return Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 65,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 18.0),
-              child: Badge(
-                badgeColor: defaultColor,
-                animationType: BadgeAnimationType.slide,
-                toAnimate: true,
-                position: BadgePosition.topEnd(top: 0,end: -8),
-                badgeContent: Text(StoreAppCubit.get(context).carts.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-                child: IconButton(
-                  onPressed: () {
-                    navigateTo(context, CartScreen());
-                  },
-                  icon: Icon(
-                    Feather.shopping_cart,
-                    size: 25,
+        return
+          Scaffold (
+            body: Center(
+              child: BackdropScaffold(
+                headerHeight: MediaQuery.of(context).size.height * .25,
+                appBar: BackdropAppBar(
+                  leading: BackdropToggleButton(
+                    icon: AnimatedIcons.home_menu,
                     color: Colors.black,
+                  ),
+                  elevation: 0.0,
+                  backgroundColor: Colors.grey[300],
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Badge(
+                          badgeColor: defaultColor,
+                          animationType: BadgeAnimationType.slide,
+                          toAnimate: true,
+                          position: BadgePosition.topEnd(top: -6, end: -5),
+                          badgeContent: Text(StoreAppCubit
+                              .get(context)
+                              .carts
+                              .length
+                              .toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 18),),
+                          child: IconButton(
+                            onPressed: () {
+                              StoreAppCubit.get(context).selectedCart();
+                            },
+                            icon: Icon(
+                              Feather.shopping_cart,
+                              size: 25,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 5,),
+                      Badge(
+                        badgeColor: defaultColor,
+                        animationType: BadgeAnimationType.slide,
+                        toAnimate: true,
+                        position: BadgePosition.topEnd(top: -5, end: -3),
+                        badgeContent: Text(StoreAppCubit
+                            .get(context)
+                            .wishList
+                            .length
+                            .toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 18),),
+                        child: IconButton(
+                          onPressed: () {
+                            navigateTo(context, WishListScreen());
+                          },
+                          icon: Icon(
+                            Icons.favorite_border,
+                            size: 28,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 9),
+                      child: Text(
+                        "جميع المنتجات",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                backLayer: BackLayer(),
+                frontLayer:  Scaffold(
+                  body: Container(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: StoreAppCubit.get(context).products.length,
+                      physics: BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 0.0,
+                        crossAxisSpacing: 0.0,
+                        childAspectRatio: 0.6,
+                      ),
+                      itemBuilder: (context, index) {
+                        var list = StoreAppCubit.get(context).products;
+                        return buildFeedsItem(context,list[index]);
+                      },
+                    ),
                   ),
                 ),
               ),
             ),
-            title: Badge(
-              badgeColor: defaultColor,
-              animationType: BadgeAnimationType.slide,
-              toAnimate: true,
-              position: BadgePosition.topEnd(top: -5,end: -3),
-              badgeContent: Text(StoreAppCubit.get(context).wishList.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-              child: IconButton(
-                onPressed: () {
-                  navigateTo(context, WishListScreen());
-                },
-                icon: Icon(
-                  Icons.favorite_border,
-                  size: 28,
-                  color: Colors.redAccent,
-                ),
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
-                child: Text(
-                  'جميع المنتجات',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                ),
-            ],
-          ),
-          body: Container(
-            child: GridView.builder(
-              shrinkWrap: true,
-              itemCount: StoreAppCubit.get(context).products.length,
-              physics: BouncingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 0.0,
-                crossAxisSpacing: 0.0,
-                childAspectRatio: 0.6,
-              ),
-              itemBuilder: (context, index) {
-                var list = StoreAppCubit.get(context).products;
-                return buildFeedsItem(context,list[index]);
-              },
-            ),
-          ),
-        );
+          );
       },
     );
   }

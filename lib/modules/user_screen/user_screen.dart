@@ -576,8 +576,117 @@ class _UserInfoState extends State<UserScreen> {
           backgroundColor: Colors.yellow[700],
           heroTag: "btn1",
           onPressed: () {
-
-          },
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(
+                      'اختر طريقه',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: ColorsConsts
+                              .gradiendLStart),
+                    ),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              StoreAppCubit.get(context).pickImageCamera();
+                              Navigator.pop(context);
+                            },
+                            splashColor: Colors
+                                .teal,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.all(
+                                      8.0),
+                                  child: Icon(
+                                    Icons.camera,
+                                    color: Colors
+                                        .yellow[700],
+                                  ),
+                                ),
+                                Text(
+                                  'الكاميرا',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight:
+                                      FontWeight.w500,
+                                      color:
+                                      ColorsConsts.title),
+                                )
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              StoreAppCubit.get(context).getProfileImage();
+                              Navigator.pop(context);
+                            },
+                            splashColor: Colors
+                                .teal,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.all(
+                                      8.0),
+                                  child: Icon(
+                                    Icons.image,
+                                    color: Colors
+                                        .yellow[700],
+                                  ),
+                                ),
+                                Text(
+                                  'المعرض',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight:
+                                      FontWeight.w500,
+                                      color:
+                                      ColorsConsts.title),
+                                )
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              StoreAppCubit.get(context).remove();
+                              Navigator.pop(context);
+                            },
+                            splashColor: Colors
+                                .teal,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.all(
+                                      8.0),
+                                  child: Icon(
+                                    Icons.remove_circle,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Text(
+                                  'حذف',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight:
+                                      FontWeight.w500,
+                                      color: Colors.red),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+            },
           child: Icon(Icons.camera_alt_outlined),
         ),
       ),
