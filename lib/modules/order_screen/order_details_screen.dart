@@ -52,13 +52,12 @@ class OrderDetailsScreen extends StatelessWidget {
               horizontal: 10.0, vertical: 11),
                 child: Text(
                   'تفاصيل الطلب',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
+                  style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
               ),
-            ],
+          )],
           ),
           body: SingleChildScrollView(
             child: Form(

@@ -1,6 +1,7 @@
 import 'package:backdrop/app_bar.dart';
 import 'package:backdrop/button.dart';
 import 'package:backdrop/scaffold.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -9,10 +10,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/order_model.dart';
+import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
+import 'package:kinda_store/shared/components/components.dart';
+import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
 
 import 'empty_order.dart';
-
 class OrderScreen extends StatelessWidget {
 
   @override
@@ -31,20 +34,74 @@ class OrderScreen extends StatelessWidget {
                 appBar: BackdropAppBar(
                   leading: BackdropToggleButton(
                     icon: AnimatedIcons.home_menu,
-                    color: Colors.black,
+                    color: Theme.of(context).splashColor,
+                  ),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Badge(
+                          badgeColor: defaultColor,
+                          animationType: BadgeAnimationType.slide,
+                          toAnimate: true,
+                          position: BadgePosition.topEnd(top: -6, end: -5),
+                          badgeContent: Text(StoreAppCubit
+                              .get(context)
+                              .carts
+                              .length
+                              .toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 18),),
+                          child: IconButton(
+                            onPressed: () {
+                              StoreAppCubit.get(context).selectedCart();
+                            },
+                            icon: Icon(
+                              Feather.shopping_cart,
+                              size: 25,
+                              color: Theme.of(context).splashColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 5,),
+                      Badge(
+                        badgeColor: defaultColor,
+                        animationType: BadgeAnimationType.slide,
+                        toAnimate: true,
+                        position: BadgePosition.topEnd(top: -5, end: -3),
+                        badgeContent: Text(StoreAppCubit
+                            .get(context)
+                            .wishList
+                            .length
+                            .toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 18),),
+                        child: IconButton(
+                          onPressed: () {
+                            navigateTo(context, WishListScreen());
+                          },
+                          icon: Icon(
+                            Icons.favorite_border,
+                            size: 28,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   elevation: 0.0,
-                  backgroundColor: Colors.grey[300],
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   actions: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 8),
+                          horizontal: 20.0, vertical: 10),
                       child: Text(
                         'الطلبات (${StoreAppCubit.get(context).orders.length})',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                       ),
                     ),
                   ],

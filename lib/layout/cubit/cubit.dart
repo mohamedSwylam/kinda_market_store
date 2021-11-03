@@ -22,13 +22,13 @@ import 'package:kinda_store/models/order_model.dart';
 import 'package:kinda_store/models/product_model.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
-import 'package:kinda_store/modules/categories_screen/categories_screen.dart';
 import 'package:kinda_store/modules/categories_screen/categoties_feed_screen.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/modules/home_screen/home_screen.dart';
 import 'package:kinda_store/modules/landingPage/landing_page.dart';
 import 'package:kinda_store/modules/user_screen/user_screen.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
 import '../store_layout.dart';
@@ -85,6 +85,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void changeDropDownValue(String newValue) {
     dropDownValue = newValue;
     emit(StoreChangeDropdownState());
+  }
+
+  void openWattsAppChat () async {
+    await launch('http://wa.me/01093717500?text=مرحبا بكم في كنده تشيز ');
   }
   ///////////////////////////SignUp
   void userSignUp({

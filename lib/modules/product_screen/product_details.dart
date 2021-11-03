@@ -43,7 +43,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   icon: Icon(
                     Feather.shopping_cart,
                     size: 25,
-                    color: Colors.black,
+                    color: Theme.of(context).splashColor,
                   ),
                 ),
               ),
@@ -72,10 +72,10 @@ class ProductDetailsScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
                 child: Text(
                   'تفاصيل المنتج',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                  style:  Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                 ),
               ),
             ],
@@ -155,10 +155,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                 '${productAttr.description}',
                                 maxLines: 15,
                                 textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
+                                style:  Theme.of(context)
+                                    .textTheme
+                                    .bodyText2,
                               ),
                             ),
                             SizedBox(
@@ -186,11 +185,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       ),
                                       Text(
                                         '0 %',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style: Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -198,11 +193,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 18),
                                       Text(
                                         '0 %',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -210,11 +201,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 16),
                                       Text(
                                         '0 %',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -222,11 +209,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 17),
                                       Text(
                                         '0 %',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -234,11 +217,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 16),
                                       Text(
                                         '0 %',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -316,11 +295,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       ),
                                       Text(
                                         'رائع',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -328,11 +303,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 20),
                                       Text(
                                         'ممتاز',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -340,11 +311,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 16),
                                       Text(
                                         'جيد',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -352,11 +319,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 17),
                                       Text(
                                         'لم يعجبني',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -364,11 +327,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       SizedBox(height: 16),
                                       Text(
                                         'سئ',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13,
-                                        ),
+                                        style:  Theme.of(context).textTheme.subtitle2,
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,

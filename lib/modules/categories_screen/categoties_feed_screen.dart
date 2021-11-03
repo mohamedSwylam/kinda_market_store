@@ -9,14 +9,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/product_model.dart';
-import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
-
 import '../../feeds_dialog.dart';
-import '../cart_screen/cart_screen.dart';
 
 
 class CategoriesFeedScreen extends StatelessWidget {
@@ -35,10 +32,8 @@ class CategoriesFeedScreen extends StatelessWidget {
               appBar: BackdropAppBar(
                 leading: BackdropToggleButton(
                   icon: AnimatedIcons.home_menu,
-                  color: Colors.black,
+                  color: Theme.of(context).splashColor,
                 ),
-                elevation: 0.0,
-                backgroundColor: Colors.grey[300],
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +58,7 @@ class CategoriesFeedScreen extends StatelessWidget {
                           icon: Icon(
                             Feather.shopping_cart,
                             size: 25,
-                            color: Colors.black,
+                            color: Theme.of(context).splashColor,
                           ),
                         ),
                       ),
@@ -93,19 +88,22 @@ class CategoriesFeedScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                actions: [
+                elevation: 0.0,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                actions: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0, vertical: 11),
+                        horizontal: 10.0, vertical: 10),
                     child: Text(
-                      '${categoryName}',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
+                      "${categoryName}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                     ),
                   ),
-                ],              ),
+                ],
+              ),
               backLayer: BackLayer(),
               frontLayer:  Scaffold(
                 body: GridView.builder(

@@ -59,10 +59,8 @@ class _SearchScreenState extends State<SearchScreen> {
           appBar: BackdropAppBar(
             leading: BackdropToggleButton(
               icon: AnimatedIcons.home_menu,
-              color: Colors.black,
+              color: Theme.of(context).splashColor,
             ),
-            elevation: 0.0,
-            backgroundColor: Colors.grey[300],
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -87,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       icon: Icon(
                         Feather.shopping_cart,
                         size: 25,
-                        color: Colors.black,
+                        color: Theme.of(context).splashColor,
                       ),
                     ),
                   ),
@@ -117,16 +115,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ],
             ),
+            elevation: 0.0,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 9),
+                    horizontal: 20.0, vertical: 10),
                 child: Text(
                   "البحث",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                 ),
               ),
             ],
@@ -166,14 +166,18 @@ class _SearchScreenState extends State<SearchScreen> {
                             _searchList = result;
                           });
                         },
+                        style: TextStyle(
+                          color: Theme.of(context).scaffoldBackgroundColor
+                    ),
                         decoration: InputDecoration(
                           hintText: "ابحث في المتجر",
+                          hintStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
                           fillColor: Colors.white,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Icon(Feather.search),
+                              child: Icon(Feather.search,color: Theme.of(context).scaffoldBackgroundColor,),
                             ),
                           ),
                           suffixIcon: IconButton(

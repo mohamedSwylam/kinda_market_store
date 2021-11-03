@@ -34,10 +34,8 @@ class FeedsScreen extends StatelessWidget {
                 appBar: BackdropAppBar(
                   leading: BackdropToggleButton(
                     icon: AnimatedIcons.home_menu,
-                    color: Colors.black,
+                    color: Theme.of(context).splashColor,
                   ),
-                  elevation: 0.0,
-                  backgroundColor: Colors.grey[300],
                   title: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -62,7 +60,7 @@ class FeedsScreen extends StatelessWidget {
                             icon: Icon(
                               Feather.shopping_cart,
                               size: 25,
-                              color: Colors.black,
+                              color: Theme.of(context).splashColor,
                             ),
                           ),
                         ),
@@ -92,16 +90,18 @@ class FeedsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  elevation: 0.0,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   actions: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 9),
+                          horizontal: 10.0, vertical: 10),
                       child: Text(
                         "جميع المنتجات",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                       ),
                     ),
                   ],

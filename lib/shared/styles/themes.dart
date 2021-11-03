@@ -11,6 +11,7 @@ ThemeData darkTheme = ThemeData(
     elevation: 0.0,
   ),
   primaryColor:  Colors.black ,
+  splashColor:  Colors.white ,
   accentColor:defaultColor,
   backgroundColor:  Colors.grey.shade700 ,
   scaffoldBackgroundColor: Colors.black,
@@ -31,13 +32,13 @@ ThemeData darkTheme = ThemeData(
         fontWeight: FontWeight.bold,
         color: Colors.white),
     bodyText2: TextStyle(
-      color: Colors.grey,
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
     ),
     subtitle2: TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 10,
+      fontSize: 13,
       color: Colors.white,
     ),
     bodyText1: TextStyle(
@@ -66,6 +67,7 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.grey.shade300,
   primarySwatch: Colors.amber,
   primaryColor: Colors.grey.shade300,
+  splashColor:  Colors.black,
   accentColor: defaultColor,
   backgroundColor: Colors.white,
   indicatorColor:  Color(0xffCBDCF8),
@@ -88,13 +90,13 @@ ThemeData lightTheme = ThemeData(
         fontWeight: FontWeight.bold,
         color: Colors.black),
     bodyText2: TextStyle(
-      color: Colors.grey,
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
     ),
     subtitle2: TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 10,
+      fontSize: 13,
       color: Colors.black,
     ),
     bodyText1: TextStyle(

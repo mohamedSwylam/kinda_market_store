@@ -22,18 +22,7 @@ class BackLayer extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      Colors.white
-                      ,
-                     Colors.grey[300],
-                    ],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
             Positioned(
               top: -100.0,

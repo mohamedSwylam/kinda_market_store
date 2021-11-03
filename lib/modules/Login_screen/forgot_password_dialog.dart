@@ -41,20 +41,20 @@ class ForgotPasswordDialog extends StatelessWidget {
                     Text(
                       'تم ارسال رابط اعاده تعيين كلمه المرور بنجاح',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.w600,fontSize: 15),),
                     SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),
                       child: Text(
                         'برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم ',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.w600,fontSize: 15),),
                     ),
 
                     SizedBox(height: 20,),

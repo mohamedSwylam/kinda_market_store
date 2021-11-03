@@ -41,7 +41,7 @@ class OrderConfirmDialog extends StatelessWidget {
                   'تم تاكيد طلبكم بنجاح',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Theme.of(context).splashColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w600),),
                     SizedBox(height: 20,),
@@ -51,7 +51,7 @@ class OrderConfirmDialog extends StatelessWidget {
                         ' سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال بهذا الرقم',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).splashColor,
                             fontSize: 15,
                             fontWeight: FontWeight.w600),),
                     ),

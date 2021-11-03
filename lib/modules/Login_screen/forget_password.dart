@@ -85,11 +85,10 @@ class ForgetPasswordScreen extends StatelessWidget {
                           Text(
                             'Kinda Cheese',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                              color: Colors.black,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(fontWeight: FontWeight.bold,fontSize: 30),
                           ),
                         ),
                       ),

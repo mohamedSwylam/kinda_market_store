@@ -2,6 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kinda_store/shared/styles/color.dart';
 
 Widget defaultButtom({
   double radius = 10,
@@ -41,6 +42,7 @@ Widget defaultFormFiled({
   Function suffixPressed,
 }) =>
     TextFormField(
+      style: TextStyle(color: defaultColor),
       textAlign: TextAlign.end,
       obscureText: isPassword,
       validator: validate,

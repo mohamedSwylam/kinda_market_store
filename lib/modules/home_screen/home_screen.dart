@@ -3,17 +3,13 @@ import 'package:backdrop/button.dart';
 import 'package:backdrop/scaffold.dart';
 import 'package:badges/badges.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/product_model.dart';
-import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
 import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
@@ -34,7 +30,7 @@ class HomeScreen extends StatelessWidget {
               appBar: BackdropAppBar(
                 leading: BackdropToggleButton(
                   icon: AnimatedIcons.home_menu,
-                  color: Colors.black,
+                  color: Theme.of(context).splashColor,
                 ),
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -60,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                           icon: Icon(
                             Feather.shopping_cart,
                             size: 25,
-                            color: Colors.black,
+                            color: Theme.of(context).splashColor,
                           ),
                         ),
                       ),
@@ -91,17 +87,17 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 elevation: 0.0,
-                backgroundColor: Colors.grey[300],
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 actions: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 10),
                     child: Text(
                       "الرئيسية",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                     ),
                   ),
                 ],
@@ -109,7 +105,7 @@ class HomeScreen extends StatelessWidget {
               backLayer: BackLayer(),
               frontLayer: Scaffold(
                 resizeToAvoidBottomInset: false,
-                backgroundColor: Colors.grey[300],
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -129,12 +125,13 @@ class HomeScreen extends StatelessWidget {
                             cursorHeight: 20,
                             decoration: InputDecoration(
                               hintText: "ابحث في المتجر",
+                              hintStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
                               fillColor: Colors.white,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Feather.search),
+                                  child: Icon(Feather.search,color: Theme.of(context).scaffoldBackgroundColor,),
                                 ),
                               ),
                               border: OutlineInputBorder(
