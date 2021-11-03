@@ -81,6 +81,22 @@ class GetOrdersSuccessStates extends StoreAppStates {}
 
 class GetOrdersErrorStates extends StoreAppStates {}
 
+//////////////////get banner
+class GetBannersLoadingStates extends StoreAppStates {}
+
+class GetBannersSuccessStates extends StoreAppStates {}
+
+class GetBannersErrorStates extends StoreAppStates {
+  final String error;
+
+  GetBannersErrorStates(this.error);
+}
+/////////////////////////faceBook
+class LoginWithFacebookLoadingStates extends StoreAppStates {}
+
+class LoginWithFacebookSuccessStates extends StoreAppStates {}
+
+////////////////
 class GetCartsLoadingStates extends StoreAppStates {}
 
 class GetCartsSuccessStates extends StoreAppStates {}
@@ -128,6 +144,15 @@ class LoginAnonymousErrorState extends StoreAppStates {
   final String error;
 
   LoginAnonymousErrorState(this.error);
+}
+class LoginWithFacebookLoadingState extends StoreAppStates {}
+
+class LoginWithFacebookSuccessState extends StoreAppStates {}
+
+class LoginWithFacebookErrorState extends StoreAppStates {
+  final String error;
+
+  LoginWithFacebookErrorState(this.error);
 }
 
 class LoginPasswordVisibilityState extends StoreAppStates {}

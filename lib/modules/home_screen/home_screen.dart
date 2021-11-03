@@ -170,21 +170,25 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: true,
                             radius: Radius.circular(20),
                             indicatorBgPadding: 7.0,
-                            images: [
-                              Image.asset(
-                                'assets/images/banner1.jpg',
+                            images: (StoreAppCubit.get(context).banners.length < 4 ) ? [
+                              Image.network(
+                                'https://firebasestorage.googleapis.com/v0/b/flutter-app3-17a99.appspot.com/o/banners%2Fbkala.jpg?alt=media&token=ef69d9d8-7453-4bb3-933e-8e73102c6a1d',
+                              fit: BoxFit.fill,
+                            )] : [
+                              Image.network(
+                                StoreAppCubit.get(context).banners[0].imageUrl,
                                 fit: BoxFit.fill,
                               ),
-                              Image.asset(
-                                'assets/images/banner2.jpg',
+                              Image.network(
+                                StoreAppCubit.get(context).banners[1].imageUrl,
                                 fit: BoxFit.fill,
                               ),
-                              Image.asset(
-                                'assets/images/banner3.jpg',
+                              Image.network(
+                                StoreAppCubit.get(context).banners[2].imageUrl,
                                 fit: BoxFit.fill,
                               ),
-                              Image.asset(
-                                'assets/images/bkala.jpg',
+                              Image.network(
+                                StoreAppCubit.get(context).banners[3].imageUrl,
                                 fit: BoxFit.fill,
                               ),
                             ],

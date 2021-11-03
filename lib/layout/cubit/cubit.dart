@@ -6,9 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kinda_store/layout/store_layout.dart';
+import 'package:kinda_store/models/banner_model.dart';
 import 'package:kinda_store/models/user_model.dart';
 import 'package:kinda_store/modules/search/search_screen.dart';
 import 'package:kinda_store/modules/sign_up_screen/cubit/states.dart';
@@ -248,7 +250,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
-
   void userLoginAnonymous(context) {
     emit(LoginAnonymousLoadingState());
     var date = DateTime.now().toString();
@@ -275,6 +276,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(LoginAnonymousErrorState(error.toString()));
     });
   }
+
   void updateUser({
     String name,
     String phone,
@@ -470,8 +472,97 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetOrdersErrorStates());
     });
   }
+//////////////get banners
+  List banners = [];
+  void getBanners() async {
+    emit(GetBannersLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('banners')
+        .get()
+        .then((QuerySnapshot bannersSnapshot) {
+      banners = [];
+      bannersSnapshot.docs.forEach((element) {
+        banners.insert(
+          0,
+          BannerModel(
+            id: element.get('id'),
+            imageUrl: element.get('imageUrl'),),
+        );
+      });
+      emit(GetBannersSuccessStates());
+    }).catchError((error) {
+      emit(GetBannersErrorStates(error.toString()));
+    });
+  }
+  //////////////////////////facebook Login
+  var loading = false;
+  void logInWithFacebook(context) async {
+    var date = DateTime.now().toString();
+    var dateparse = DateTime.parse(date);
+    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse
+        .year}";
+    loading = true;
+    emit(LoginWithFacebookLoadingStates());
+    try {
+      final facebookLoginResult = await FacebookAuth.instance.login();
+      final userData = await FacebookAuth.instance.getUserData();
 
-  /////////
+      final facebookAuthCredential = FacebookAuthProvider.credential(facebookLoginResult.accessToken.token);
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential).then((value){
+        createUser(
+          uId: value.user.uid,
+          name: userData['name'],
+          address: '',
+          email: userData['email'],
+          phone: '',
+          joinedAt: formattedDate,
+          createdAt: Timestamp.now().toString(),
+          profileImage: userData['picture']['data']['url'],
+        );
+        getUserData();
+        getOrders();
+        getWishList();
+        getCarts();
+        CacheHelper.saveData(key: 'uId', value: value.user.uid ).then((value) {
+          navigateAndFinish(context, StoreLayout());
+        });
+      });
+
+    } on FirebaseAuthException catch (e) {
+      var content = '';
+      switch (e.code) {
+        case 'account-exists-with-different-credential':
+          content = 'This account exists with a different sign in provider';
+          break;
+        case 'invalid-credential':
+          content = 'Unknown error has occurred';
+          break;
+        case 'operation-not-allowed':
+          content = 'This operation is not allowed';
+          break;
+        case 'user-disabled':
+          content = 'The user you tried to log into is disabled';
+          break;
+        case 'user-not-found':
+          content = 'The user you tried to log into was not found';
+          break;
+      }
+
+      showDialog(context: context, builder: (context) => AlertDialog(
+        title: Text('Log in with facebook failed'),
+        content: Text(content),
+        actions: [TextButton(onPressed: () {
+          Navigator.of(context).pop();
+
+        }, child: Text('Ok'))],
+      ));
+
+    } finally {
+      loading = false;
+      emit(LoginWithFacebookSuccessStates());
+    }
+  }
+  ////////////////////////////////////
   List<Product> popularProducts = [];
 
   Product findById(String productId) {
