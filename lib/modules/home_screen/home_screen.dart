@@ -23,84 +23,86 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         Size size = MediaQuery.of(context).size;
+        var height = MediaQuery.of(context).size.height;
+        var width = MediaQuery.of(context).size.width;
+        var cubit=StoreAppCubit.get(context);
         return Scaffold(
           body: Center(
             child: BackdropScaffold(
-              headerHeight: MediaQuery.of(context).size.height * .25,
-              appBar: BackdropAppBar(
-                leading: BackdropToggleButton(
-                  icon: AnimatedIcons.home_menu,
-                  color: Theme.of(context).splashColor,
+              headerHeight: width * .8,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(
+                  height * .07,
                 ),
-                title: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18.0),
-                      child: Badge(
-                        badgeColor: defaultColor,
-                        animationType: BadgeAnimationType.slide,
-                        toAnimate: true,
-                        position: BadgePosition.topEnd(top: -6, end: -5),
-                        badgeContent: Text(StoreAppCubit
-                            .get(context)
-                            .carts
-                            .length
-                            .toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 18),),
-                        child: IconButton(
-                          onPressed: () {
-                            StoreAppCubit.get(context).selectedCart();
-                          },
-                          icon: Icon(
-                            Feather.shopping_cart,
-                            size: 25,
-                            color: Theme.of(context).splashColor,
+                child: BackdropAppBar(
+                  leading: BackdropToggleButton(
+                    icon: AnimatedIcons.home_menu,
+                    color: Theme.of(context).splashColor,
+                  ),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Badge(
+                          badgeColor: defaultColor,
+                          animationType: BadgeAnimationType.slide,
+                          toAnimate: true,
+                          position: BadgePosition.topEnd(top: -6, end: -5),
+                          badgeContent: Text(
+                            StoreAppCubit.get(context).carts.length.toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              StoreAppCubit.get(context).selectedCart();
+                            },
+                            icon: Icon(
+                              Feather.shopping_cart,
+                              size: 25,
+                              color: Theme.of(context).splashColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 5,),
-                    Badge(
-                      badgeColor: defaultColor,
-                      animationType: BadgeAnimationType.slide,
-                      toAnimate: true,
-                      position: BadgePosition.topEnd(top: -5, end: -3),
-                      badgeContent: Text(StoreAppCubit
-                          .get(context)
-                          .wishList
-                          .length
-                          .toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 18),),
-                      child: IconButton(
-                        onPressed: () {
-                          navigateTo(context, WishListScreen());
-                        },
-                        icon: Icon(
-                          Icons.favorite_border,
-                          size: 28,
-                          color: Colors.redAccent,
+                      Badge(
+                        badgeColor: defaultColor,
+                        animationType: BadgeAnimationType.slide,
+                        toAnimate: true,
+                        position: BadgePosition.topEnd(top: -5, end: -3),
+                        badgeContent: Text(
+                          StoreAppCubit.get(context).wishList.length.toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
+                        child: IconButton(
+                          onPressed: () {
+                            navigateTo(context, WishListScreen());
+                          },
+                          icon: Icon(
+                            Icons.favorite_border,
+                            size: 28,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  elevation: 0.0,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10),
+                      child: Text(
+                        "الرئيسية",
+                        style: DeviceType.Tablet ? Theme.of(context).textTheme.headline6.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 20) : Theme.of(context).textTheme.headline6.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
                   ],
                 ),
-                elevation: 0.0,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                actions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10),
-                    child: Text(
-                      "الرئيسية",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
-                    ),
-                  ),
-                ],
               ),
               backLayer: BackLayer(),
               frontLayer: Scaffold(
@@ -110,110 +112,132 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 40.0, vertical: 20),
-                        child: Container(
-                          child: TextFormField(
-                            textAlign: TextAlign.end,
-                            onTap: () {
-                              StoreAppCubit.get(context).selectedSearch();
-                            },
-                            cursorHeight: 20,
-                            decoration: InputDecoration(
-                              hintText: "ابحث في المتجر",
-                              hintStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
-                              fillColor: Colors.white,
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Feather.search,color: Theme.of(context).scaffoldBackgroundColor,),
+                          horizontal: 40.0,vertical: 20.0,
+                        ),
+                        child: Center(
+                          child: Container(
+                            height: height * .09,
+                            width: width*.70,
+                            child: Center(
+                              child: TextFormField(
+                                textAlign: TextAlign.end,
+                                onTap: () {
+                                  StoreAppCubit.get(context).selectedSearch();
+                                },
+                                cursorHeight: 20,
+                                decoration: InputDecoration(
+                                  hintText: "ابحث في المتجر",
+                                  hintStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor),
+                                  fillColor: Colors.white,
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Feather.search,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                    ),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
                                 ),
                               ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: Container(
-                          height: 160.0,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
+
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          child: Container(
+                            height: height * .2,
+                            width: width*.88,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Carousel(
+                              boxFit: BoxFit.fill,
+                              autoplay: true,
+                              animationCurve: Curves.fastOutSlowIn,
+                              animationDuration: Duration(milliseconds: 1000),
+                              dotSize: 5.0,
+                              dotIncreasedColor: defaultColor,
+                              dotPosition: DotPosition.bottomCenter,
+                              dotVerticalPadding: 0.0,
+                              showIndicator: true,
+                              borderRadius: true,
+                              radius: Radius.circular(20),
+                              indicatorBgPadding: 7.0,
+                              images:
+                                  (StoreAppCubit.get(context).banners.length <
+                                          4)
+                                      ? [
+                                          Image.network(
+                                            'https://firebasestorage.googleapis.com/v0/b/flutter-app3-17a99.appspot.com/o/banners%2Fbkala.jpg?alt=media&token=ef69d9d8-7453-4bb3-933e-8e73102c6a1d',
+                                            fit: BoxFit.fill,
+                                          )
+                                        ]
+                                      : [
+                                          Image.network(
+                                            StoreAppCubit.get(context)
+                                                .banners[0]
+                                                .imageUrl,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          Image.network(
+                                            StoreAppCubit.get(context)
+                                                .banners[1]
+                                                .imageUrl,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          Image.network(
+                                            StoreAppCubit.get(context)
+                                                .banners[2]
+                                                .imageUrl,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          Image.network(
+                                            StoreAppCubit.get(context)
+                                                .banners[3]
+                                                .imageUrl,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ],
+                            ),
                           ),
-                          child: Carousel(
-                            boxFit: BoxFit.fill,
-                            autoplay: true,
-                            animationCurve: Curves.fastOutSlowIn,
-                            animationDuration: Duration(milliseconds: 1000),
-                            dotSize: 5.0,
-                            dotIncreasedColor: defaultColor,
-                            dotPosition: DotPosition.bottomCenter,
-                            dotVerticalPadding: 0.0,
-                            showIndicator: true,
-                            borderRadius: true,
-                            radius: Radius.circular(20),
-                            indicatorBgPadding: 7.0,
-                            images: (StoreAppCubit.get(context).banners.length < 4 ) ? [
-                              Image.network(
-                                'https://firebasestorage.googleapis.com/v0/b/flutter-app3-17a99.appspot.com/o/banners%2Fbkala.jpg?alt=media&token=ef69d9d8-7453-4bb3-933e-8e73102c6a1d',
-                              fit: BoxFit.fill,
-                            )] : [
-                              Image.network(
-                                StoreAppCubit.get(context).banners[0].imageUrl,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.network(
-                                StoreAppCubit.get(context).banners[1].imageUrl,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.network(
-                                StoreAppCubit.get(context).banners[2].imageUrl,
-                                fit: BoxFit.fill,
-                              ),
-                              Image.network(
-                                StoreAppCubit.get(context).banners[3].imageUrl,
-                                fit: BoxFit.fill,
-                              ),
-                            ],
+                        ),
+                      ),
+
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,vertical: 20,
+                          ),
+                          child: Text(
+                            'جميع الاصناف',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                        ),
-                        child: Text(
-                          'جميع الاصناف',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Container(
-                          height: 150,
+                          height: height * .25,
                           child: ListView.separated(
                             physics: BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
@@ -230,25 +254,21 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
+
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
+                          horizontal: 20.0,vertical: 20,
                         ),
                         child: Text(
                           ' اشهر المنتجات ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Container(
-                          height: 370,
+                          height: height * .6,
                           child: ListView.separated(
                             physics: BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
@@ -279,31 +299,36 @@ Widget buildProductItem(context, Product model) => InkWell(
       },
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Container(
-          width: 220,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                  ),
+        child: LayoutBuilder(builder: (context, constraints) {
+          double localHeight = constraints.maxHeight;
+          double localwidth = constraints.maxWidth;
+          return Container(
+            width: MediaQuery.of(context).size.width*.70,
+            height: localHeight,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: localHeight*.65,
+                  decoration: BoxDecoration(),
                   child: Stack(
                     children: [
                       Image(
                         image: NetworkImage(model.imageUrl),
                         width: double.infinity,
+                        height: double.infinity,
                         fit: BoxFit.fill,
                       ),
                       Positioned(
-                        right:0,
+                        right: 0,
                         bottom: 32.0,
                         child: Container(
+                          width: MediaQuery.of(context).size.width*.25,
                           padding: EdgeInsets.all(10.0),
                           color: Colors.black.withOpacity(0.7),
                           child: Row(
@@ -321,10 +346,9 @@ Widget buildProductItem(context, Product model) => InkWell(
                               Text(
                                 '${model.price}',
                                 style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                    fontSize: 15.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -333,99 +357,115 @@ Widget buildProductItem(context, Product model) => InkWell(
                     ],
                   ),
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 90,
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        model.title,
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                Container(
+                  width: localwidth,
+                  height: localHeight* .25,
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        width: 160,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
-                          model.description,
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                          maxLines: 2,
+                          model.title,
                           textAlign: TextAlign.end,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: defaultColor,
-                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),
-                ),
-                width: double.infinity,
-                height: 50,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        StoreAppCubit.get(context).addItemToCart(
-                            productId:  model.id,
-                            title:  StoreAppCubit.get(context).findById(model.id).title,
-                            price:  StoreAppCubit.get(context).findById(model.id).price,
-                            imageUrl: StoreAppCubit.get(context).findById(model.id).imageUrl);
-                      },
-                      child: Icon(StoreAppCubit.get(context)
-                          .carts.any((element) => element.productId== model.id)? MaterialCommunityIcons.check_all : Feather.shopping_cart,),
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        StoreAppCubit.get(context)
-                            .wishList.any((element) => element.productId==model.id)
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: StoreAppCubit.get(context)
-                            .wishList.any((element) => element.productId==model.id)
-                            ? Colors.red
-                            : Theme.of(context).textSelectionColor,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Container(
+                          width: 160,
+                          child: Text(
+                            model.description,
+                            style: TextStyle(color: Colors.grey, fontSize: 10),
+                            maxLines: 2,
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ),
-                      onTap:
-                        StoreAppCubit.get(context)
-                            .wishList.any((element) => element.productId==model.id)? (){}:() {
-                          StoreAppCubit.get(context)
-                              .addToWishList(
-                            productId: model.id,
-                            title:  model.title,
-                            price: model.price,
-                            imageUrl:  model.imageUrl ,
-                            userId: StoreAppCubit.get(context).uId,
-                          );
-                      },
-                    ),
-                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: defaultColor,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(20.0),
+                          bottomLeft: Radius.circular(20.0)),
+                    ),
+                    width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            StoreAppCubit.get(context).addItemToCart(
+                                productId: model.id,
+                                title: StoreAppCubit.get(context)
+                                    .findById(model.id)
+                                    .title,
+                                price: StoreAppCubit.get(context)
+                                    .findById(model.id)
+                                    .price,
+                                imageUrl: StoreAppCubit.get(context)
+                                    .findById(model.id)
+                                    .imageUrl);
+                          },
+                          child: Icon(
+                            StoreAppCubit.get(context).carts.any(
+                                    (element) => element.productId == model.id)
+                                ? MaterialCommunityIcons.check_all
+                                : Feather.shopping_cart,
+                          ),
+                        ),
+                        GestureDetector(
+                          child: Icon(
+                            StoreAppCubit.get(context).wishList.any(
+                                    (element) => element.productId == model.id)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: StoreAppCubit.get(context).wishList.any(
+                                    (element) => element.productId == model.id)
+                                ? Colors.red
+                                : Theme.of(context).textSelectionColor,
+                          ),
+                          onTap: StoreAppCubit.get(context)
+                                  .wishList
+                                  .any((element) => element.productId == model.id)
+                              ? () {}
+                              : () {
+                                  StoreAppCubit.get(context).addToWishList(
+                                    productId: model.id,
+                                    title: model.title,
+                                    price: model.price,
+                                    imageUrl: model.imageUrl,
+                                    userId: StoreAppCubit.get(context).uId,
+                                  );
+                                },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );

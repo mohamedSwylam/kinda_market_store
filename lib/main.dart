@@ -10,7 +10,7 @@ import 'package:kinda_store/shared/components/constants.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
 import 'package:kinda_store/shared/network/remote/dio_helper.dart';
 import 'package:kinda_store/shared/styles/themes.dart';
-
+import 'package:device_preview/device_preview.dart';
 import 'layout/cubit/cubit.dart';
 import 'layout/cubit/states.dart';
 import 'layout/store_layout.dart';
@@ -30,7 +30,7 @@ void main() async {
   }
 
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
-  runApp(MyApp(isDark: isDark,startWidget: widget,));
+  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,)));
 }
 
 class MyApp extends StatelessWidget
@@ -52,12 +52,13 @@ class MyApp extends StatelessWidget
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
+            builder: DevicePreview.appBuilder,
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme,
             theme: lightTheme,
             themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            home: LandingPage(),
+            home: StoreLayout(),
           );
         },
       ),

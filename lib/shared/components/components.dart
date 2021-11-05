@@ -2,6 +2,8 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:kinda_store/models/device_info.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 
 Widget defaultButtom({
@@ -226,6 +228,23 @@ Widget defaultFormField({
   },
 );
 
+enum DeviceType { Mobile, Tablet, Desktop }
+Widget build(BuildContext context) {
+  return LayoutBuilder(
+    builder: (context, constrains) {
+      var mediaQueryData = MediaQuery.of(context);
+      var deviceInfo = DeviceInfo(
+        orientation: mediaQueryData.orientation,
+        deviceType: StoreAppCubit.get(context).getDeviceType(mediaQueryData),
+        screenWidth: mediaQueryData.size.width,
+        screenHeight: mediaQueryData.size.height,
+        localHeight: constrains.maxHeight,
+        localWidth: constrains.maxWidth,
+      );
+      return builder(context, deviceInfo);
+    },
+  );
+}
 Future<void> showDialogg(context,title,subtitle,Function function) async {
   showDialog(
       context: context,

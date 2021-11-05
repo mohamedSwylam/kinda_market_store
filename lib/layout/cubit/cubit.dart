@@ -55,6 +55,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     currentIndex = 3;
     emit(StoreAppBottomBarCartState());
   }
+
   void selectedSearch() {
     currentIndex = 2;
     emit(StoreAppBottomBarSearchState());
@@ -87,9 +88,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(StoreChangeDropdownState());
   }
 
-  void openWattsAppChat () async {
+  void openWattsAppChat() async {
     await launch('http://wa.me/01093717500?text=مرحبا بكم في كنده تشيز ');
   }
+
   ///////////////////////////SignUp
   void userSignUp({
     @required String password,
@@ -103,7 +105,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }) {
     emit(SignUpLoadingState());
     FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password,)
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
         .then((value) {
       createUser(
         uId: value.user.uid,
@@ -122,6 +127,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(SignUpErrorState(error.toString()));
     });
   }
+
   void createUser({
     String name,
     String uId,
@@ -163,9 +169,11 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         : Icons.visibility_off_outlined;
     emit(SignUpPasswordVisibilityState());
   }
+
   File profile;
   String url;
   var picker = ImagePicker();
+
   Future<void> getProfileImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -177,6 +185,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(SignUpPickedProfileImageErrorState());
     }
   }
+
   void uploadProfileImage() {
     emit(UploadProfileImageLoadingState());
     firebase_storage.FirebaseStorage.instance
@@ -196,7 +205,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           uId: uId,
           createdAt: createdAt,
         );
-        url=value;
+        url = value;
         print(value);
         emit(UploadPickedProfileImageSuccessState());
       }).catchError((error) {
@@ -206,10 +215,11 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(UploadPickedProfileImageErrorState());
     });
   }
+
   void pickImageCamera() async {
     final picker = ImagePicker();
     final pickedImage =
-    await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
     final pickedImageFile = File(profile.path);
     profile = pickedImageFile;
     uploadProfileImage();
@@ -217,11 +227,13 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
 
   void remove() {
-    url = 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+    url =
+        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
     uploadProfileImage();
     emit(SignUpRemoveProfileImageSuccessState());
   }
- ///////////////////////////// login Screen
+
+  ///////////////////////////// login Screen
   void userLogin({
     @required String password,
     @required String email,
@@ -241,6 +253,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(LoginErrorState(error.toString()));
     });
   }
+
   void userForgetPassword({
     @required String email,
   }) {
@@ -258,18 +271,16 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(LoginAnonymousLoadingState());
     var date = DateTime.now().toString();
     var dateparse = DateTime.parse(date);
-    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse
-        .year}";
-    FirebaseAuth.instance
-        .signInAnonymously()
-        .then((value) {
+    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+    FirebaseAuth.instance.signInAnonymously().then((value) {
       name = 'زائر';
       email = 'بدون بريد الكتروني';
       joinedAt = formattedDate;
-      phone = 'بدون رقم هاتف' ;
+      phone = 'بدون رقم هاتف';
       address = 'بدون عنوان';
-      profileImage ='https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
-      createdAt =  Timestamp.now().toString();
+      profileImage =
+          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+      createdAt = Timestamp.now().toString();
       getUserData();
       getOrders();
       getWishList();
@@ -301,10 +312,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       createdAt: createdAt,
       joinedAt: joinedAt,
     );
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uId)
-        .update({
+    FirebaseFirestore.instance.collection('users').doc(uId).update({
       'name': name,
       'email': email,
       'phone': phone,
@@ -333,7 +341,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String name;
-  String phone ;
+  String phone;
+
   String email;
   String uId;
   String profileImage;
@@ -358,15 +367,15 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       phone = userDoc.get('phone');
       address = userDoc.get('address');
       profileImage = userDoc.get('profileImage');
-      createdAt =  userDoc.get('createdAt');
+      createdAt = userDoc.get('createdAt');
       emit(GetUserLoginSuccessStates());
     }
   }
+
   Future<void> googleSignIn(context) async {
     var date = DateTime.now().toString();
     var dateparse = DateTime.parse(date);
-    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse
-        .year}";
+    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
     final googleSignIn = GoogleSignIn();
     final googleAccount = await googleSignIn.signIn();
     if (googleAccount != null) {
@@ -393,7 +402,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           phone = '';
           address = '';
           profileImage = googleAccount.photoUrl;
-          createdAt = Timestamp.now().toString() ;
+          createdAt = Timestamp.now().toString();
           getUserData();
           getCarts();
           getWishList();
@@ -405,6 +414,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       }
     }
   }
+
   Future<void> authErrorHandle(String subtitle, BuildContext context) async {
     showDialog(
         context: context,
@@ -428,7 +438,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             ),
             content: Text(subtitle),
             actions: [
-
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -438,6 +447,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           );
         });
   }
+
   ///////////
   List<OrderModel> orders = [];
 
@@ -476,8 +486,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetOrdersErrorStates());
     });
   }
+
 //////////////get banners
   List banners = [];
+
   void getBanners() async {
     emit(GetBannersLoadingStates());
     await FirebaseFirestore.instance
@@ -490,7 +502,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           0,
           BannerModel(
             id: element.get('id'),
-            imageUrl: element.get('imageUrl'),),
+            imageUrl: element.get('imageUrl'),
+          ),
         );
       });
       emit(GetBannersSuccessStates());
@@ -498,21 +511,25 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetBannersErrorStates(error.toString()));
     });
   }
+
   //////////////////////////facebook Login
   var loading = false;
+
   void logInWithFacebook(context) async {
     var date = DateTime.now().toString();
     var dateparse = DateTime.parse(date);
-    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse
-        .year}";
+    var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
     loading = true;
     emit(LoginWithFacebookLoadingStates());
     try {
       final facebookLoginResult = await FacebookAuth.instance.login();
       final userData = await FacebookAuth.instance.getUserData();
 
-      final facebookAuthCredential = FacebookAuthProvider.credential(facebookLoginResult.accessToken.token);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential).then((value){
+      final facebookAuthCredential = FacebookAuthProvider.credential(
+          facebookLoginResult.accessToken.token);
+      await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential)
+          .then((value) {
         createUser(
           uId: value.user.uid,
           name: userData['name'],
@@ -527,11 +544,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         getOrders();
         getWishList();
         getCarts();
-        CacheHelper.saveData(key: 'uId', value: value.user.uid ).then((value) {
+        CacheHelper.saveData(key: 'uId', value: value.user.uid).then((value) {
           navigateAndFinish(context, StoreLayout());
         });
       });
-
     } on FirebaseAuthException catch (e) {
       var content = '';
       switch (e.code) {
@@ -552,20 +568,25 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           break;
       }
 
-      showDialog(context: context, builder: (context) => AlertDialog(
-        title: Text('Log in with facebook failed'),
-        content: Text(content),
-        actions: [TextButton(onPressed: () {
-          Navigator.of(context).pop();
-
-        }, child: Text('Ok'))],
-      ));
-
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('Log in with facebook failed'),
+                content: Text(content),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Ok'))
+                ],
+              ));
     } finally {
       loading = false;
       emit(LoginWithFacebookSuccessStates());
     }
   }
+
   ////////////////////////////////////
   List<Product> popularProducts = [];
 
@@ -581,8 +602,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .toList();
     return categoryList;
   }
-
-
 
   var uuid = Uuid();
 
@@ -832,17 +851,32 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   ////////////////////////////////categoryScreen
   List<CategoryModel> categories = [
-    CategoryModel(categoryName: 'توابل', categoryImage: 'assets/images/twabl.jpg'),
-    CategoryModel(categoryName: 'مجمدات', categoryImage: 'assets/images/mogmdat.jpg'),
-    CategoryModel(categoryName: 'مشروبات', categoryImage: 'assets/images/mshrob.jpg'),
-    CategoryModel(categoryName: 'مثلجات', categoryImage: 'assets/images/moslgat.jpg'),
-    CategoryModel(categoryName: 'جبن', categoryImage: 'assets/images/cheese.jpg',),
-    CategoryModel(categoryName: 'صوصات', categoryImage: 'assets/images/sos.jpg'),
-    CategoryModel(categoryName: 'مخبوزات', categoryImage: 'assets/images/bread.jpg'),
-    CategoryModel(categoryName: 'شيكولاته', categoryImage: 'assets/images/choclate.jpg',),
-    CategoryModel(categoryName: 'حلوي', categoryImage: 'assets/images/halwa.jpeg'),
-    CategoryModel(categoryName: 'مكسرات', categoryImage: 'assets/images/mksrat.gif'),
-    CategoryModel(categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg'),
+    CategoryModel(
+        categoryName: 'توابل', categoryImage: 'assets/images/twabl.jpg'),
+    CategoryModel(
+        categoryName: 'مجمدات', categoryImage: 'assets/images/mogmdat.jpg'),
+    CategoryModel(
+        categoryName: 'مشروبات', categoryImage: 'assets/images/mshrob.jpg'),
+    CategoryModel(
+        categoryName: 'مثلجات', categoryImage: 'assets/images/moslgat.jpg'),
+    CategoryModel(
+      categoryName: 'جبن',
+      categoryImage: 'assets/images/cheese.jpg',
+    ),
+    CategoryModel(
+        categoryName: 'صوصات', categoryImage: 'assets/images/sos.jpg'),
+    CategoryModel(
+        categoryName: 'مخبوزات', categoryImage: 'assets/images/bread.jpg'),
+    CategoryModel(
+      categoryName: 'شيكولاته',
+      categoryImage: 'assets/images/choclate.jpg',
+    ),
+    CategoryModel(
+        categoryName: 'حلوي', categoryImage: 'assets/images/halwa.jpeg'),
+    CategoryModel(
+        categoryName: 'مكسرات', categoryImage: 'assets/images/mksrat.gif'),
+    CategoryModel(
+        categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg'),
   ];
 
   Widget buildCategoryItem(context, CategoryModel category) => InkWell(
@@ -853,49 +887,72 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
                 categoryName: category.categoryName,
               ));
         },
-        child: Container(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xff37475A).withOpacity(0.2),
-                blurRadius: 20.0,
-                offset: const Offset(0, 10),
-              )
-            ],
-          ),
-          child: Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            children: [
-              Image(
-                image: AssetImage(
-                  category.categoryImage,
+        child:LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              double localHeight = constraints.maxHeight;
+              double localwidth = constraints.maxWidth;
+              return Container(
+                width: MediaQuery.of(context).size.width * .4,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xff37475A).withOpacity(0.2),
+                      blurRadius: 20.0,
+                      offset: const Offset(0, 10),
+                    )
+                  ],
                 ),
-                fit: BoxFit.fill,
-                height: 150,
-                width: 150,
-              ),
-              Container(
-                  height: 30,
-                  width: 150,
-                  color: Colors.black.withOpacity(0.8),
-                  child: Center(
-                    child: Text(
-                      category.categoryName,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  children: [
+                    Image(
+                      image: AssetImage(
+                        category.categoryImage,
+                      ),
+                      fit: BoxFit.fill,
+                      height: localHeight,
+                      width: localwidth,
                     ),
-                  )),
-            ],
-          ),
-        ),
+                    Container(
+                        height: localHeight * .2,
+                        width: localwidth,
+                        color: Colors.black.withOpacity(0.8),
+                        child: Center(
+                          child: Text(
+                            category.categoryName,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ))
+                  ],
+                ),
+              );
+            }),
       );
 
-// BrandScreen
+// responsive function
+
+  DeviceType getDeviceType(MediaQueryData mediaQueryData) {
+    Orientation orientation = mediaQueryData.orientation;
+    double width = 0;
+    if (orientation == Orientation.landscape) {
+      width = mediaQueryData.size.height;
+    } else {
+      width = mediaQueryData.size.width;
+    }
+    if (width >= 950) {
+      return DeviceType.Desktop;
+    }
+    if (width >= 600) {
+      return DeviceType.Tablet;
+    }
+    return DeviceType.Mobile;
+  }
 }

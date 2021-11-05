@@ -87,15 +87,7 @@ class _UserInfoState extends State<UserScreen> {
                   top = constraints.biggest.height;
                   return Container(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            Colors.grey[300],
-                            Colors.grey[300],
-                          ],
-                          begin: const FractionalOffset(0.0, 0.0),
-                          end: const FractionalOffset(1.0, 0.0),
-                          stops: [0.0, 1.0],
-                          tileMode: TileMode.clamp),
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     child: FlexibleSpaceBar(
                       collapseMode: CollapseMode.parallax,
@@ -133,8 +125,7 @@ class _UserInfoState extends State<UserScreen> {
                                 Text(
                                   // 'top.toString()',
                                   StoreAppCubit.get(context).name == null ? 'ضيف' : StoreAppCubit.get(context).name,
-                                  style: TextStyle(
-                                      fontSize: 20.0, color: Colors.black),
+                                  style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20),
                                 ),
                               ],
                             ),
