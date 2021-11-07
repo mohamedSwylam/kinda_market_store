@@ -190,7 +190,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(UploadProfileImageLoadingState());
     firebase_storage.FirebaseStorage.instance
         .ref()
-        .child('users/${Uri.file(profile.path).pathSegments.last}')
+        .child('users/${Uri
+        .file(profile.path)
+        .pathSegments
+        .last}')
         .putFile(profile)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
@@ -219,7 +222,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void pickImageCamera() async {
     final picker = ImagePicker();
     final pickedImage =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+    await picker.getImage(source: ImageSource.camera, imageQuality: 10);
     final pickedImageFile = File(profile.path);
     profile = pickedImageFile;
     uploadProfileImage();
@@ -228,7 +231,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   void remove() {
     url =
-        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+    'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
     uploadProfileImage();
     emit(SignUpRemoveProfileImageSuccessState());
   }
@@ -279,7 +282,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       phone = 'بدون رقم هاتف';
       address = 'بدون عنوان';
       profileImage =
-          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+      'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
       createdAt = Timestamp.now().toString();
       getUserData();
       getOrders();
@@ -357,7 +360,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     print('user.displayName ${user.displayName}');
     print('user.photoURL ${user.photoURL}');
     final DocumentSnapshot userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(uId).get();
+    await FirebaseFirestore.instance.collection('users').doc(uId).get();
     if (userDoc == null) {
       return;
     } else {
@@ -570,7 +573,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
       showDialog(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (context) =>
+              AlertDialog(
                 title: Text('Log in with facebook failed'),
                 content: Text(content),
                 actions: [
@@ -596,7 +600,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   List<Product> findByCategory(String categoryName) {
     List categoryList = products
-        .where((element) => element.productCategoryName
+        .where((element) =>
+        element.productCategoryName
             .toLowerCase()
             .contains(categoryName.toLowerCase()))
         .toList();
@@ -675,14 +680,13 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
-  void addItemByOne(
-      {String productId,
-      String title,
-      double price,
-      String imageUrl,
-      String userId,
-      int quantity,
-      cartId}) async {
+  void addItemByOne({String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String userId,
+    int quantity,
+    cartId}) async {
     emit(AddCartItemByOneLoadingStates());
     await FirebaseFirestore.instance.collection('carts').doc(cartId).update({
       'productId': productId.toString(),
@@ -700,14 +704,13 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
-  void reduceItemByOne(
-      {String productId,
-      String title,
-      double price,
-      String imageUrl,
-      String userId,
-      int quantity,
-      cartId}) async {
+  void reduceItemByOne({String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String userId,
+    int quantity,
+    cartId}) async {
     emit(ReduceCartItemByOneLoadingStates());
     await FirebaseFirestore.instance.collection('carts').doc(cartId).update({
       'productId': productId.toString(),
@@ -801,7 +804,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   List<Product> searchQuery(String searchText) {
     searchList = products
         .where((element) =>
-            element.title.toLowerCase().contains(searchText.toLowerCase()))
+        element.title.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
     emit(StoreAppSearchQuerySuccessState());
     return searchList;
@@ -840,7 +843,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
 
   ///////////////////////////////////Signout
-  void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
+  void signOut(context) =>
+      CacheHelper.removeData(key: 'uId').then((value) {
         if (value) {
           FirebaseAuth.instance
               .signOut()
@@ -879,80 +883,5 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg'),
   ];
 
-  Widget buildCategoryItem(context, CategoryModel category) => InkWell(
-        onTap: () {
-          navigateTo(
-              context,
-              CategoriesFeedScreen(
-                categoryName: category.categoryName,
-              ));
-        },
-        child:LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double localHeight = constraints.maxHeight;
-              double localwidth = constraints.maxWidth;
-              return Container(
-                width: MediaQuery.of(context).size.width * .4,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xff37475A).withOpacity(0.2),
-                      blurRadius: 20.0,
-                      offset: const Offset(0, 10),
-                    )
-                  ],
-                ),
-                child: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: [
-                    Image(
-                      image: AssetImage(
-                        category.categoryImage,
-                      ),
-                      fit: BoxFit.fill,
-                      height: localHeight,
-                      width: localwidth,
-                    ),
-                    Container(
-                        height: localHeight * .2,
-                        width: localwidth,
-                        color: Colors.black.withOpacity(0.8),
-                        child: Center(
-                          child: Text(
-                            category.categoryName,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ))
-                  ],
-                ),
-              );
-            }),
-      );
 
-// responsive function
-
-  DeviceType getDeviceType(MediaQueryData mediaQueryData) {
-    Orientation orientation = mediaQueryData.orientation;
-    double width = 0;
-    if (orientation == Orientation.landscape) {
-      width = mediaQueryData.size.height;
-    } else {
-      width = mediaQueryData.size.width;
-    }
-    if (width >= 950) {
-      return DeviceType.Desktop;
-    }
-    if (width >= 600) {
-      return DeviceType.Tablet;
-    }
-    return DeviceType.Mobile;
-  }
 }

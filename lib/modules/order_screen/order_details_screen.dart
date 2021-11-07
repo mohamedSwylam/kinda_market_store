@@ -6,10 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
+import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:kinda_store/shared/styles/color.dart';
+import 'package:sizer/sizer.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -46,6 +47,56 @@ class OrderDetailsScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             elevation:1,
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Badge(
+                    badgeColor: defaultColor,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: -6, end: -5),
+                    badgeContent: Text(
+                      StoreAppCubit.get(context).carts.length.toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        StoreAppCubit.get(context).selectedCart();
+                      },
+                      icon: Icon(
+                        Feather.shopping_cart,
+                        size: 25,
+                        color: Theme.of(context).splashColor,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 3.w,),
+                Badge(
+                  badgeColor: defaultColor,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: BadgePosition.topEnd(top: -5, end: -3),
+                  badgeContent: Text(
+                    StoreAppCubit.get(context).wishList.length.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      navigateTo(context, WishListScreen());
+                    },
+                    icon: Icon(
+                      Icons.favorite_border,
+                      size: 28,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             actions: [
               Padding(
           padding: const EdgeInsets.symmetric(
@@ -67,8 +118,9 @@ class OrderDetailsScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(height: 10,),
-                      Padding(
+                      SizedBox(
+                        height: 2.h,
+                      ),                      Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10),
                         child: Text(
@@ -79,11 +131,11 @@ class OrderDetailsScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1
-                              .copyWith(fontSize: 15),
+                              .copyWith(fontSize: 13.sp),
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 2.h,
                       ),
                       myDivider(),
                         Container(
@@ -95,10 +147,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SizedBox(
-                                height: 5,
-                              ),
-                              SizedBox(
-                                height: 10,
+                                height: 2.5.h,
                               ),
                               Text(
                                 '${StoreAppCubit.get(context).name}',
@@ -108,10 +157,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(fontSize: 15),
+                                    .copyWith(fontSize: 13.sp),
                               ),
                               SizedBox(
-                                height: 7,
+                                height: 2.h,
                               ),
                               if(StoreAppCubit.get(context).address !='')
                                 Column(
@@ -125,10 +174,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2
-                                        .copyWith(fontSize: 15),
+                                        .copyWith(fontSize: 13.sp),
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    height: 2.h,
                                   ),
                                   Text(
                                     '${StoreAppCubit.get(context).phone}',
@@ -138,10 +187,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2
-                                        .copyWith(fontSize: 15),
+                                        .copyWith(fontSize: 13.sp),
                                   ),
                                   SizedBox(
-                                    height: 15,
+                                    height: 2.5.h,
                                   ),
                                 ],
                               ),
@@ -152,7 +201,9 @@ class OrderDetailsScreen extends StatelessWidget {
                       myDivider(),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 4.h,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -179,15 +230,17 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           'ج.م',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
                                         Text(
                                           '${productAttr.price.toStringAsFixed(0)}',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -197,7 +250,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       'السعر',
                                       style: TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 14.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -206,7 +259,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 2.h,
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -218,12 +271,12 @@ class OrderDetailsScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         SizedBox(
-                                          width: 46,
+                                          width: 13.w
                                         ),
                                         Text(
                                           '${quantity}',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -233,7 +286,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       'الكميه',
                                       style: TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 14.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -242,7 +295,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 2.h,
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -256,15 +309,17 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           'ج.م',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
                                         Text(
                                           '${(price*quantity).toStringAsFixed(0)}',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -274,7 +329,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       'الاجمالي',
                                       style: TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 14.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -282,7 +337,9 @@ class OrderDetailsScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 2.h,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Row(
@@ -295,15 +352,17 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           'ج.م',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
                                         Text(
                                           '10',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -313,7 +372,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       'الشحن',
                                       style: TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 14.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -321,7 +380,9 @@ class OrderDetailsScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 2.h,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                 child: Row(
@@ -334,15 +395,17 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           'ج.م',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.0.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
-                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
                                         Text(
                                           '${total.toStringAsFixed(0)}',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 17.sp,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -352,7 +415,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       ' السعر الكلي ',
                                       style: TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 14.0.sp,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -361,7 +424,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 4.h,
                               ),
                             ],
                           ),
@@ -370,7 +433,9 @@ class OrderDetailsScreen extends StatelessWidget {
                       myDivider(),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 4.h,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -383,12 +448,11 @@ class OrderDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SizedBox(
-                                height: 15,
+                                height: 2.5.h,
                               ),
-                              defaultFormField(
+                              defaultFormFiled(
                                   type: TextInputType.text,
                                   controller: addressDetailsController,
-                                  onSubmit: () {},
                                   prefix: Icons.location_on,
                                   validate: (String value) {
                                     if (value.isEmpty) {
@@ -396,25 +460,39 @@ class OrderDetailsScreen extends StatelessWidget {
                                     }
                                     return null;
                                   },
-                                  context: context,
-                                  labelText: 'تفاصيل اكثر عن العنوان '
+                                  hint: 'تفاصيل اكثر عن العنوان '
                               ),
                               SizedBox(
                                 height: 15,
                               ),
-                              defaultFormField(
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Container(
+                        color: Colors.white,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 2.5.h,
+                              ),
+                              defaultFormFiled(
                                   type: TextInputType.phone,
                                   controller: anotherPhoneController,
-                                  onSubmit: () {},
-                                  prefix: Icons.call,
                                   validate: (String value) {
                                     if (value.isEmpty) {
                                       return 'رثم الهاتف الذي ادخلته غير صالح';
                                     }
                                     return null;
                                   },
-                                  context: context,
-                                  labelText: 'رقم هاتف اخر للتواصل'
+                                  hint: 'رقم هاتف اخر للتواصل'
                               ),
                               SizedBox(
                                 height: 15,
@@ -426,7 +504,9 @@ class OrderDetailsScreen extends StatelessWidget {
                       myDivider(),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 4.h,
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.06,

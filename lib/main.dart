@@ -9,12 +9,14 @@ import 'package:kinda_store/shared/bloc_observer.dart';
 import 'package:kinda_store/shared/components/constants.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
 import 'package:kinda_store/shared/network/remote/dio_helper.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store/shared/styles/themes.dart';
 import 'package:device_preview/device_preview.dart';
 import 'layout/cubit/cubit.dart';
 import 'layout/cubit/states.dart';
 import 'layout/store_layout.dart';
 import 'modules/landingPage/landing_page.dart';
+import 'modules/landingPage/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +32,7 @@ void main() async {
   }
 
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
-  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,)));
+  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,),));
 }
 
 class MyApp extends StatelessWidget
@@ -51,14 +53,16 @@ class MyApp extends StatelessWidget
       child: BlocConsumer<StoreAppCubit,StoreAppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return MaterialApp(
-            builder: DevicePreview.appBuilder,
-            title: 'Flutter Demo',
-            debugShowCheckedModeBanner: false,
-            darkTheme: darkTheme,
-            theme: lightTheme,
-            themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            home: StoreLayout(),
+          return Sizer(
+            builder: (context, orientation, deviceType)=> MaterialApp(
+              builder: DevicePreview.appBuilder,
+              title: 'Flutter Demo',
+              debugShowCheckedModeBanner: false,
+              darkTheme: darkTheme,
+              theme: lightTheme,
+              themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+              home: SplashScreen(),
+            ),
           );
         },
       ),

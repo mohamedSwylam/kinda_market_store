@@ -1,20 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/modules/Login_screen/login_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
@@ -22,8 +14,7 @@ import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/fade_animation.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'cubit/cubit.dart';
-import 'cubit/states.dart';
+
 
 class SignUpScreen extends StatelessWidget {
   var phoneController = TextEditingController();
@@ -54,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 1.0,
+                  height: MediaQuery.of(context).size.height * 1.1,
                   child: RotatedBox(
                     quarterTurns: 4,
                     child: WaveWidget(
@@ -82,150 +73,153 @@ class SignUpScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 50,),
+                      SizedBox(height: 8.5.h,),
                       FadeAnimation(.9,Center(
                         child: Stack(
                           alignment: AlignmentDirectional.bottomEnd,
                           children: [
                             CircleAvatar(
-                              radius: 64,
+                              radius: 16.w,
                               backgroundColor: Colors.white,
                               child: CircleAvatar(
                                 backgroundImage: profileImage == null
                                     ? NetworkImage(
                                   'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',)
                                     : FileImage(profileImage),
-                                radius: 60,
+                                radius: 25.w,
                                 backgroundColor: ColorsConsts.backgroundColor,
                               ),
                             ),
-                            CircleAvatar(
-                              child: IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text(
+                            InkWell(
+                              onTap: (){
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Center(
+                                          child: Text(
                                             'اختر طريقه',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                color: ColorsConsts
-                                                    .gradiendLStart),
+                                                color: defaultColor,fontSize: 13.sp),
                                           ),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    StoreAppCubit.get(context).pickImageCamera();
-                                                    Navigator.pop(context);
-                                                  },
-                                                  splashColor: Colors
-                                                      .teal,
-                                                  child: Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                        child: Icon(
-                                                          Icons.camera,
-                                                          color: Colors
-                                                              .yellow[700],
-                                                        ),
+                                        ),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  StoreAppCubit.get(context).pickImageCamera();
+                                                  Navigator.pop(context);
+                                                },
+                                                splashColor: defaultColor,
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.all(
+                                                          8.0),
+                                                      child: Icon(
+                                                        Icons.camera,
+                                                        color: Colors
+                                                            .yellow[700],
+                                                        size: 7.w,
                                                       ),
-                                                      Text(
-                                                        'الكاميرا',
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                            FontWeight.w500,
-                                                            color:
-                                                            ColorsConsts.title),
-                                                      )
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    Text(
+                                                      'الكاميرا',
+                                                      style: TextStyle(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                          color:
+                                                          ColorsConsts.title),
+                                                    )
+                                                  ],
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    StoreAppCubit.get(context).getProfileImage();
-                                                    Navigator.pop(context);
-                                                  },
-                                                  splashColor: Colors
-                                                      .teal,
-                                                  child: Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                        child: Icon(
-                                                          Icons.image,
-                                                          color: Colors
-                                                              .yellow[700],
-                                                        ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  StoreAppCubit.get(context).getProfileImage();
+                                                  Navigator.pop(context);
+                                                },
+                                                splashColor: defaultColor,
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.all(
+                                                          8.0),
+                                                      child: Icon(
+                                                        Icons.image,
+                                                        size: 7.w,
+                                                        color: Colors
+                                                            .yellow[700],
                                                       ),
-                                                      Text(
-                                                        'المعرض',
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                            FontWeight.w500,
-                                                            color:
-                                                            ColorsConsts.title),
-                                                      )
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    Text(
+                                                      'المعرض',
+                                                      style: TextStyle(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                          color:
+                                                          ColorsConsts.title),
+                                                    )
+                                                  ],
                                                 ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    StoreAppCubit.get(context).remove();
-                                                    Navigator.pop(context);
-                                                  },
-                                                  splashColor: Colors
-                                                      .teal,
-                                                  child: Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                        child: Icon(
-                                                          Icons.remove_circle,
-                                                          color: Colors.red,
-                                                        ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  StoreAppCubit.get(context).remove();
+                                                  Navigator.pop(context);
+                                                },
+                                                splashColor: defaultColor,
+                                                child: Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.all(
+                                                          8.0),
+                                                      child: Icon(
+                                                        Icons.remove_circle,
+                                                        color: Colors.red,
+                                                        size: 7.w,
                                                       ),
-                                                      Text(
-                                                        'حذف',
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                            FontWeight.w500,
-                                                            color: Colors.red),
-                                                      )
-                                                    ],
-                                                  ),
+                                                    ),
+                                                    Text(
+                                                      'حذف',
+                                                      style: TextStyle(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                          color: Colors.red),
+                                                    )
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        );
-                                      });
-                                },
-                                icon: Icon(
-                                  Feather.camera,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: CircleAvatar(
+                                child: Center(
+                                  child:  Icon(
+                                      Feather.camera,
+                                      color: Colors.white,
+                                      size: 6.w,
+                                    ),
+                                  ),
+                                backgroundColor: Colors.yellow[700],
+                                radius: 5.w,
                               ),
-                              backgroundColor: Colors.yellow[700],
-                              radius: 18,
                             ),
                           ],
                         ),
                       ),),
-                      SizedBox(height: 80,),
+                      SizedBox(height: 18.h,),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30.0),
                         child: FadeAnimation(.9,Container(
@@ -325,9 +319,9 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),),
                       ),
-                      SizedBox(height: 30,),
+                      SizedBox(height: 10.h),
                       ConditionalBuilder(
-                        condition: state is! SignUpLoadingState,
+                        condition: state is! LoginLoadingState,
                         builder: (context) {
                           return InkWell(
                             onTap: () {
@@ -344,8 +338,9 @@ class SignUpScreen extends StatelessWidget {
                                 );
                               }
                             },
-                            child: FadeAnimation(3.1,Container(
-                              width: 120,
+                            child: Container(
+                              width: 30.w,
+                              height: 11.h,
                               padding: EdgeInsets.all(15),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
@@ -354,9 +349,9 @@ class SignUpScreen extends StatelessWidget {
                                   child: Text(
                                     "تسجيل",
                                     style: TextStyle(
-                                        color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                        color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15.sp),
                                   )),
-                            ),),
+                            ),
                           );
                         },
                         fallback: (context) =>

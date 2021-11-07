@@ -14,7 +14,7 @@ import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
-
+import 'package:sizer/sizer.dart';
 import 'empty_order.dart';
 class OrderScreen extends StatelessWidget {
 
@@ -28,101 +28,84 @@ class OrderScreen extends StatelessWidget {
             body: EmptyOrder(),
           )
               :Scaffold(
-            body: Center(
-              child: BackdropScaffold(
-                headerHeight: MediaQuery.of(context).size.height * .25,
-                appBar: BackdropAppBar(
-                  leading: BackdropToggleButton(
-                    icon: AnimatedIcons.home_menu,
-                    color: Theme.of(context).splashColor,
-                  ),
-                  title: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Badge(
-                          badgeColor: defaultColor,
-                          animationType: BadgeAnimationType.slide,
-                          toAnimate: true,
-                          position: BadgePosition.topEnd(top: -6, end: -5),
-                          badgeContent: Text(StoreAppCubit
-                              .get(context)
-                              .carts
-                              .length
-                              .toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 18),),
-                          child: IconButton(
-                            onPressed: () {
-                              StoreAppCubit.get(context).selectedCart();
-                            },
-                            icon: Icon(
-                              Feather.shopping_cart,
-                              size: 25,
-                              color: Theme.of(context).splashColor,
-                            ),
-                          ),
-                        ),
+            appBar: AppBar(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0),
+                    child: Badge(
+                      badgeColor: defaultColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: -6, end: -5),
+                      badgeContent: Text(
+                        StoreAppCubit.get(context).carts.length.toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 15.sp),
                       ),
-                      SizedBox(width: 5,),
-                      Badge(
-                        badgeColor: defaultColor,
-                        animationType: BadgeAnimationType.slide,
-                        toAnimate: true,
-                        position: BadgePosition.topEnd(top: -5, end: -3),
-                        badgeContent: Text(StoreAppCubit
-                            .get(context)
-                            .wishList
-                            .length
-                            .toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 18),),
-                        child: IconButton(
-                          onPressed: () {
-                            navigateTo(context, WishListScreen());
-                          },
-                          icon: Icon(
-                            Icons.favorite_border,
-                            size: 28,
-                            color: Colors.redAccent,
-                          ),
+                      child: IconButton(
+                        onPressed: () {
+                          StoreAppCubit.get(context).selectedCart();
+                        },
+                        icon: Icon(
+                          Feather.shopping_cart,
+                          size: 7.w,
+                          color: Theme.of(context).splashColor,
                         ),
-                      ),
-                    ],
-                  ),
-                  elevation: 0.0,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  actions: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10),
-                      child: Text(
-                        'الطلبات (${StoreAppCubit.get(context).orders.length})',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                       ),
                     ),
-                  ],
-                ),
-                backLayer: BackLayer(),
-                frontLayer: Scaffold(
-                  body: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        var list=StoreAppCubit.get(context).orders;
-                        return buildOrderItem(context,list[index]);
+                  ),
+                  Badge(
+                    badgeColor: defaultColor,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: -6, end: -4),
+                    badgeContent: Text(
+                      StoreAppCubit.get(context).wishList.length.toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 15.sp),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        navigateTo(context, WishListScreen());
                       },
-                      separatorBuilder: (context, index) => Container(
-                        height: 8,
+                      icon: Icon(
+                        Icons.favorite_border,
+                        size: 7.w,
+                        color: Colors.redAccent,
                       ),
-                      itemCount: StoreAppCubit.get(context).orders.length,
                     ),
                   ),
+                ],
+              ),
+              elevation: 0.0,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: Text(
+                    'الطلبات (${StoreAppCubit.get(context).orders.length})',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                  ),
                 ),
+              ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: ListView.separated(
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  var list=StoreAppCubit.get(context).orders;
+                  return buildOrderItem(context,list[index]);
+                },
+                separatorBuilder: (context, index) => Container(
+                  height: 8,
+                ),
+                itemCount: StoreAppCubit.get(context).orders.length,
               ),
             ),
           );
@@ -140,83 +123,79 @@ Widget buildOrderItem(context ,OrderModel orderModel) => Padding(
           children: [
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  Text(
+                    '${orderModel.title}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 15.sp),
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        '${orderModel.title}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.end,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
                         children: [
-                          Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'ج.م',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                '${orderModel.total}',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            'ج.م',
+                            style: TextStyle(
+                              fontSize: 13.0.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 3.w,
                           ),
                           Text(
-                            '  : الاجمالي ',
+                            '${orderModel.total}',
                             style: TextStyle(
-                              fontSize: 13.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                              fontSize:13.0.sp,
+                              color: Colors.grey,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
                       Text(
-                        '....جاري توصيل الطلب',
+                        '  : الاجمالي ',
                         style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),
+                          fontSize: 13.0.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
-
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    '....جاري توصيل الطلب',
+                    style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ],
               ),
             ),
             SizedBox(
-              width: 15.0,
+              width: 6.w,
             ),
             Container(
-              width: 120,
-              height: 145,
+              width: 35.w,
+              height: 27.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,

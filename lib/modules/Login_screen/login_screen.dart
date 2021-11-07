@@ -2,13 +2,12 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/layout/store_layout.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
-import 'package:kinda_store/shared/styles/color.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store/widget/fade_animation.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -40,7 +39,7 @@ class LoginScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 1.0,
+                  height: MediaQuery.of(context).size.height * 1,
                   child: RotatedBox(
                     quarterTurns: 4,
                     child: WaveWidget(
@@ -67,21 +66,22 @@ class LoginScreen extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                        height: 50,
+                        height: 8.h,
                       ),
                       FadeAnimation(0.9,Center(
                         child: Container(
-                          height: 100,
-                          width: 100,
+                          height: 17.h,
+                          width: 35.w,
                           child: Image(
                             image: AssetImage('assets/images/login.png'),
                           ),
                         ),
                       ),),
                       SizedBox(
-                        height: 20,
+                        height: 8.h,
                       ),
                       Center(
                         child: FadeAnimation(
@@ -92,12 +92,12 @@ class LoginScreen extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6
-                                .copyWith(fontWeight: FontWeight.bold,fontSize: 30),
+                                .copyWith(fontWeight: FontWeight.bold,fontSize: 25.sp),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 10.h,
                       ),
                       FadeAnimation(
                           1.5,
@@ -161,12 +161,12 @@ class LoginScreen extends StatelessWidget {
                               },
                               child: Text(
                                 'نسيت كلمه المرور ؟',
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(color: Colors.black,fontSize: 13.sp),
                               ),
                             )),
                       ),),
                       SizedBox(
-                        height: 20,
+                        height: 3.h,
                       ),
                       FadeAnimation(
                           2.1,
@@ -184,7 +184,8 @@ class LoginScreen extends StatelessWidget {
                                     }
                                   },
                                   child: Container(
-                                    width: 120,
+                                    width: 26.w,
+                                    height: 11.h,
                                     padding: EdgeInsets.all(15),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
@@ -193,7 +194,7 @@ class LoginScreen extends StatelessWidget {
                                         child: Text(
                                           "دخول",
                                           style: TextStyle(
-                                              color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                              color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15.sp),
                                         )),
                                   ),
                                 );
@@ -202,7 +203,6 @@ class LoginScreen extends StatelessWidget {
                                   Center(child: CircularProgressIndicator()),
                             ),
                           )),
-
                     ],
                   ),
                 ),

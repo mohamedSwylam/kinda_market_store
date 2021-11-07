@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,7 @@ import 'modules/product_screen/product_details.dart';
 
 class FeedsDialog extends StatelessWidget {
   final String productId;
-  const FeedsDialog({this.productId});
+   FeedsDialog({this.productId});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(

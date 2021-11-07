@@ -12,7 +12,7 @@ import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-
+import 'package:sizer/sizer.dart';
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
 
@@ -26,59 +26,70 @@ class ProductDetailsScreen extends StatelessWidget {
         var productAttr = StoreAppCubit.get(context).findById(productId);
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 65,
-            elevation: 0,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 18.0),
-              child: Badge(
-                badgeColor: defaultColor,
-                animationType: BadgeAnimationType.slide,
-                toAnimate: true,
-                position: BadgePosition.topEnd(top: 0,end: -8),
-                badgeContent: Text(StoreAppCubit.get(context).carts.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-                child: IconButton(
-                  onPressed: () {
-                    navigateTo(context, CartScreen());
-                  },
-                  icon: Icon(
-                    Feather.shopping_cart,
-                    size: 25,
-                    color: Theme.of(context).splashColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            elevation:1,
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Badge(
+                    badgeColor: defaultColor,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: -6, end: -5),
+                    badgeContent: Text(
+                      StoreAppCubit.get(context).carts.length.toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        StoreAppCubit.get(context).selectedCart();
+                      },
+                      icon: Icon(
+                        Feather.shopping_cart,
+                        size: 25,
+                        color: Theme.of(context).splashColor,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            title: Badge(
-              badgeColor: defaultColor,
-              animationType: BadgeAnimationType.slide,
-              toAnimate: true,
-              position: BadgePosition.topEnd(top: -5,end: -3),
-              badgeContent: Text(StoreAppCubit.get(context).wishList.length.toString(),style: TextStyle(color: Colors.white,fontSize: 18),),
-              child: IconButton(
-                onPressed: () {
-                  navigateTo(context, WishListScreen());
-                },
-                icon: Icon(
-                  Icons.favorite_border,
-                  size: 28,
-                  color: Colors.redAccent,
+                SizedBox(width: 3.w,),
+                Badge(
+                  badgeColor: defaultColor,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: BadgePosition.topEnd(top: -5, end: -3),
+                  badgeContent: Text(
+                    StoreAppCubit.get(context).wishList.length.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      navigateTo(context, WishListScreen());
+                    },
+                    icon: Icon(
+                      Icons.favorite_border,
+                      size: 28,
+                      color: Colors.redAccent,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-            backgroundColor: Colors.transparent,
             actions: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 11),
                 child: Text(
                   'تفاصيل المنتج',
-                  style:  Theme.of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .headline6
-                      .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                      .copyWith(fontWeight: FontWeight.bold,fontSize:20),
                 ),
-              ),
-            ],
+              )],
           ),
           body: Stack(
             children: [
@@ -108,17 +119,21 @@ class ProductDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             SizedBox(
-                              height: 20,
+                              height: 4.h,
                             ),
-                            Text(
-                              '${productAttr.title}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(fontSize: 22),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Text(
+                                '${productAttr.title}',
+                                maxLines: 3,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(fontSize: 20.sp),
+                              ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             Padding(
                               padding:
@@ -130,23 +145,25 @@ class ProductDetailsScreen extends StatelessWidget {
                                     'ج.م',
                                     style: TextStyle(
                                       color: Colors.red,
+                                      fontSize: 17.sp
                                     ),
                                   ),
                                   Text(
                                     '${productAttr.price.toStringAsFixed(0)}',
                                     style: TextStyle(
                                       color: Colors.red,
+                                        fontSize: 17.sp
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             myDivider(),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             Padding(
                               padding:
@@ -157,19 +174,19 @@ class ProductDetailsScreen extends StatelessWidget {
                                 textAlign: TextAlign.end,
                                 style:  Theme.of(context)
                                     .textTheme
-                                    .bodyText2,
+                                    .bodyText2.copyWith(fontSize: 13.sp),
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             myDivider(),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             myDivider(),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(15.0),
@@ -365,7 +382,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    height: 10,
+                                    height: 2.h,
                                   ),
                                   Text(
                                     'بدون تقييم حتي الان',
@@ -373,14 +390,14 @@ class ProductDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
-                                        .copyWith(color: Colors.black),
+                                        .copyWith(color: Colors.black,fontSize: 17.sp),
                                   ),
                                   Text(
                                     'كن اول من يقيم',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 18,
+                                      fontSize: 15.sp,
                                     ),
                                   ),
                                 ],
@@ -388,7 +405,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                             myDivider(),
                             SizedBox(
-                              height: 20,
+                              height: 2.h,
                             ),
                             Padding(
                               padding:
@@ -398,17 +415,17 @@ class ProductDetailsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(fontSize: 18),
+                                    .copyWith(fontSize: 18.sp),
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 2.h,
                             ),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 15.0),
                               child: Container(
-                                height: 370,
+                                height: 65.h,
                                 child: ListView.separated(
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
@@ -424,7 +441,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20,),
+                            SizedBox(height: 4.h,),
                           ],
                         ),
                       ),
@@ -455,47 +472,49 @@ class ProductDetailsScreen extends StatelessWidget {
                                             (element) => element.productId == productId)
                                         ? 'في العربه '.toUpperCase()
                                         : 'اضف الي العربه'.toUpperCase(),
-                                    style: TextStyle(fontSize: 16, color: Colors.white),
+                                    style: TextStyle(fontSize: 14.sp, color: Colors.white),
                                   ),
                                 ),
                               ),
                             ),
                             Expanded(
                               flex: 2,
-                              child: Container(
-                                height: 50,
-                                child: RaisedButton(
-                                  materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                                  shape: RoundedRectangleBorder(side: BorderSide.none),
-                                  color: Theme.of(context).backgroundColor,
-                                  onPressed: () {
-                                    StoreAppCubit.get(context).addItemToCart(
-                                        productId: productId,
-                                        title: productAttr.title,
-                                        price: productAttr.price,
-                                        imageUrl: productAttr.imageUrl);
-                                    StoreAppCubit.get(context).selectedCart();
-                                    navigateTo(context, StoreLayout());
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'اشتري الان'.toUpperCase(),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color:
-                                            Theme.of(context).textSelectionColor),
-                                      ),
-                                      SizedBox(
-                                        width: 18,
-                                      ),
-                                      Icon(
-                                        Icons.payment,
-                                        color: Colors.green.shade700,
-                                        size: 17,
-                                      ),
-                                    ],
+                              child: Center(
+                                child: Container(
+                                  height: 50,
+                                  child: RaisedButton(
+                                    materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                    shape: RoundedRectangleBorder(side: BorderSide.none),
+                                    color: Theme.of(context).backgroundColor,
+                                    onPressed: () {
+                                      StoreAppCubit.get(context).addItemToCart(
+                                          productId: productId,
+                                          title: productAttr.title,
+                                          price: productAttr.price,
+                                          imageUrl: productAttr.imageUrl);
+                                      StoreAppCubit.get(context).selectedCart();
+                                      navigateTo(context, StoreLayout());
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'اشتري الان'.toUpperCase(),
+                                          style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color:
+                                              Theme.of(context).textSelectionColor),
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Icon(
+                                          Icons.payment,
+                                          color: Colors.green.shade700,
+                                          size: 4.5.w,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -552,79 +571,114 @@ class ProductDetailsScreen extends StatelessWidget {
 }
 
 Widget buildSuggestProduct(context, Product model) => InkWell(
-      onTap: () {
-        navigateTo(context, ProductDetailsScreen(productId: model.id));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Container(
-          width: 220,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(),
-                  child: Stack(
-                    children: [
-                      Image(
-                        image: NetworkImage(model.imageUrl),
-                        width: double.infinity,
-                        fit: BoxFit.fill,
-                      ),
-                    ],
+  onTap: () {
+    navigateTo(context, ProductDetailsScreen(productId: model.id));
+  },
+  child: Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: LayoutBuilder(builder: (context, constraints) {
+      double localHeight = constraints.maxHeight;
+      double localwidth = constraints.maxWidth;
+      return Container(
+        width: 60.w,
+        height: localHeight,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              height: localHeight*.65,
+              decoration: BoxDecoration(),
+              child: Stack(
+                children: [
+                  Image(
+                    image: NetworkImage(model.imageUrl),
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
                   ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 90,
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 10,
+                  Positioned(
+                    right: 0,
+                    bottom: 32.0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width*.30,
+                      padding: EdgeInsets.all(10.0),
+                      color: Colors.black.withOpacity(0.7),
+                      child: Row(
+                        children: [
+                          Text(
+                            'ج.م',
+                            style: TextStyle(
+                              fontSize: 13.0.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${model.price}',
+                            style: TextStyle(
+                                fontSize: 15.0.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              width: localwidth,
+              height: 15.h,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                      model.title,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.sp,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Container(
+                      width: localwidth,
                       child: Text(
-                        model.title,
+                        model.description,
+                        style: TextStyle(color: Colors.grey, fontSize: 5.sp),
+                        maxLines: 2,
                         textAlign: TextAlign.end,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        width: 160,
-                        child: Text(
-                          model.description,
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                          maxLines: 2,
-                          textAlign: TextAlign.end,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
               ),
-              Container(
+            ),
+            Expanded(
+              child: Container(
                 decoration: BoxDecoration(
                   color: defaultColor,
                   borderRadius: BorderRadius.only(
@@ -632,7 +686,6 @@ Widget buildSuggestProduct(context, Product model) => InkWell(
                       bottomLeft: Radius.circular(20.0)),
                 ),
                 width: double.infinity,
-                height: 50,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -652,45 +705,44 @@ Widget buildSuggestProduct(context, Product model) => InkWell(
                                 .imageUrl);
                       },
                       child: Icon(
-                        StoreAppCubit.get(context)
-                                .carts
-                                .any((element) => element.productId == model.id)
+                        StoreAppCubit.get(context).carts.any(
+                                (element) => element.productId == model.id)
                             ? MaterialCommunityIcons.check_all
                             : Feather.shopping_cart,
                       ),
                     ),
                     GestureDetector(
                       child: Icon(
-                        StoreAppCubit.get(context)
-                                .wishList
-                                .any((element) => element.productId == model.id)
+                        StoreAppCubit.get(context).wishList.any(
+                                (element) => element.productId == model.id)
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: StoreAppCubit.get(context)
-                                .wishList
-                                .any((element) => element.productId == model.id)
+                        color: StoreAppCubit.get(context).wishList.any(
+                                (element) => element.productId == model.id)
                             ? Colors.red
                             : Theme.of(context).textSelectionColor,
                       ),
                       onTap: StoreAppCubit.get(context)
-                              .wishList
-                              .any((element) => element.productId == model.id)
+                          .wishList
+                          .any((element) => element.productId == model.id)
                           ? () {}
                           : () {
-                              StoreAppCubit.get(context).addToWishList(
-                                productId: model.id,
-                                title: model.title,
-                                price: model.price,
-                                imageUrl: model.imageUrl,
-                                userId: StoreAppCubit.get(context).uId,
-                              );
-                            },
+                        StoreAppCubit.get(context).addToWishList(
+                          productId: model.id,
+                          title: model.title,
+                          price: model.price,
+                          imageUrl: model.imageUrl,
+                          userId: StoreAppCubit.get(context).uId,
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    }),
+  ),
+);

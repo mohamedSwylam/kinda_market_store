@@ -2,8 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/models/device_info.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 
 Widget defaultButtom({
@@ -39,6 +38,7 @@ Widget defaultFormFiled({
   Function onChange,
   bool isClickable = true,
   Function onTap,
+  IconData suffix,
   IconData prefix,
   @required Function validate,
   Function suffixPressed,
@@ -50,7 +50,6 @@ Widget defaultFormFiled({
       validator: validate,
       enabled: isClickable,
       onTap: onTap,
-      onFieldSubmitted: onSubmit,
       onChanged: onChange,
       controller: controller,
       keyboardType: type,
@@ -60,21 +59,6 @@ Widget defaultFormFiled({
         hintText: hint,
       ),
     );
-/*TextFormField(
-keyboardType:  TextInputType.emailAddress,
-controller: emailController,
-validator: (String value) {
-if (value.isEmpty || !value.contains('@')) {
-return 'بريد الكتروني غير صالح';
-}
-return null;
-},
-decoration: InputDecoration(
-border: InputBorder.none,
-hintStyle: TextStyle(color: Colors.grey.withOpacity(.8)),
-hintText: "ادخل البريد الالكتروني"
-),
-),*/
 Widget userTitle({ String title}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -189,7 +173,8 @@ Widget defaultButton(
         textColor: Colors.white,
       ),
     );
-Widget defaultFormField({
+
+Widget defaultTextFormFieldField({
   @required TextInputType type,
   @required TextEditingController controller,
   String labelText,
@@ -207,7 +192,7 @@ Widget defaultFormField({
   obscureText: isPassword,
   textInputAction: TextInputAction.next,
   keyboardType: type,
-  textAlign: TextAlign.end,
+  textAlign: TextAlign.center,
   decoration: InputDecoration(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
@@ -228,23 +213,6 @@ Widget defaultFormField({
   },
 );
 
-enum DeviceType { Mobile, Tablet, Desktop }
-Widget build(BuildContext context) {
-  return LayoutBuilder(
-    builder: (context, constrains) {
-      var mediaQueryData = MediaQuery.of(context);
-      var deviceInfo = DeviceInfo(
-        orientation: mediaQueryData.orientation,
-        deviceType: StoreAppCubit.get(context).getDeviceType(mediaQueryData),
-        screenWidth: mediaQueryData.size.width,
-        screenHeight: mediaQueryData.size.height,
-        localHeight: constrains.maxHeight,
-        localWidth: constrains.maxWidth,
-      );
-      return builder(context, deviceInfo);
-    },
-  );
-}
 Future<void> showDialogg(context,title,subtitle,Function function) async {
   showDialog(
       context: context,
@@ -257,23 +225,27 @@ Future<void> showDialogg(context,title,subtitle,Function function) async {
                 const EdgeInsets.only(right: 6.0),
                 child: Image.network(
                   'https://image.flaticon.com/icons/png/128/1828/1828304.png',
-                  height: 20,
-                  width: 20,
+                  height: 18.h,
+                  width: 18.w,
                 ),
               ),
+              Spacer(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(title),
+                child: Text(title,style: TextStyle(fontSize: 15.sp),textAlign: TextAlign.center,),
               ),
             ],
           ),
-          content: Text(subtitle),
+          content: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(subtitle,style: TextStyle(fontSize: 13.sp),textAlign: TextAlign.center,maxLines: 2,),
+          ),
           actions: [
             TextButton(
                 onPressed: () async {
                   Navigator.pop(context);
                 },
-                child: Text('الغاء')),
+                child: Text('الغاء',style: TextStyle(fontSize: 15.sp),)),
             TextButton(
                 onPressed: () async {
                   function();
@@ -281,7 +253,7 @@ Future<void> showDialogg(context,title,subtitle,Function function) async {
                 },
                 child: Text(
                   'موافق',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.red,fontSize: 15.sp),
                 ))
           ],
         );

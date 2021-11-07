@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/shared/styles/color.dart';
+import 'package:sizer/sizer.dart';
 
 
 
@@ -27,16 +28,17 @@ class FeedsDialog extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(children: [
               Container(
-                constraints: BoxConstraints(
-                    minHeight: 100,
-                    maxHeight: MediaQuery.of(context).size.height * 0.5),
-                width: double.infinity,
+                width: 70.w,
+                height: 70.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: Image.network(
                   StoreAppCubit.get(context).findById(productId).imageUrl,
+                  width: 70.w,
+                  height: 70.h,
+                  fit: BoxFit.fill,
                 ),
               ),
               SizedBox(height: 15,),

@@ -1,15 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
-import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
-import 'package:kinda_store/modules/order_screen/orders_screen.dart';
-import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
-import 'package:kinda_store/shared/components/components.dart';
-import 'package:kinda_store/shared/styles/color.dart';
+import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class BackLayer extends StatelessWidget {
@@ -86,113 +82,264 @@ class BackLayer extends StatelessWidget {
             ),
             SingleChildScrollView(
               child: Container(
-                margin: EdgeInsets.all(50),
+                margin: EdgeInsets.all(20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Center(
-                      child : InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: CircleAvatar(
-                            backgroundImage:  NetworkImage(StoreAppCubit.get(context).profileImage ??
-        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
-                            radius: 45,
-                            backgroundColor: Colors.grey[300],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            navigateTo(context, WishListScreen());
-                          },
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 12.0),
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    image:DecorationImage(
-                                        image:   AssetImage('assets/images/wishlist.png')
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'المفضله',
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                            ],
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: CircleAvatar(
+                              backgroundImage:  NetworkImage(StoreAppCubit.get(context).profileImage ??
+        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
+                              radius: 10.w,
+                              backgroundColor: Colors.grey[300],
+                            ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                           navigateTo(context, CartScreen());
-                          },
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
-                                  child: Container(
-                                    width: 80,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      image:DecorationImage(
-                                          image:   AssetImage('assets/images/cart.png')
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'العربه',
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
+                        Spacer(),
+                        Column(
+                          children: [
+                            Text(
+                              'مرحبا',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(fontSize: 13.sp),
+                            ),
+                            Text(
+                              '${StoreAppCubit.get(context).name}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(fontSize: 13.sp),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      'معلومات عنا',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(fontSize: 15.sp),
+                    ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 39.w,
+                          child: Text(
+                            'اشمون  ميدان فليفل خلف صيدليه الحكمه',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 12.sp,color: Colors.red[700]),
+
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  navigateTo(context, OrderScreen());
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
-                                  child: Container(
-                                    width: 80,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      image:DecorationImage(
-                                          image:   AssetImage('assets/images/order.png')
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'طلباتي',
-                                style: Theme.of(context).textTheme.bodyText1,
-                              )
-                            ],
+                        Spacer(),
+                        Container(
+                          child: Text(
+                            'العنوان',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 13.sp),
                           ),
                         ),
                       ],
                     ),
-
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 60.w,
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  launch("tel:01229369779");
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.call,
+                                      size: 6.w,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    Text(
+                                      '01229369779',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp,color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 2.h,),
+                              InkWell(
+                                onTap: (){
+                                  launch("tel:01093717500");
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.call,
+                                      size: 6.w,
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    Text(
+                                      '01093717500',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp,color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          child: Text(
+                            'ارقام التواصل',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 60.w,
+                          child: InkWell(
+                            onTap: ()=>StoreAppCubit.get(context).openWattsAppChat(),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  FontAwesome.whatsapp,color: Colors.green[700],size: 6.w,
+                                ),
+                                SizedBox(width: 10.w,),
+                                Text(
+                                  '01093717500',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .copyWith(fontSize: 12.sp,color: Colors.red),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          child: Text(
+                            'واتساب',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 60.w,
+                          child: InkWell(
+                            onTap: ()=> launch("https://www.facebook.com/groups/2123012787993306"),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  FontAwesome.facebook,color: Colors.blue[700],size: 6.w,
+                                ),
+                                SizedBox(width: 10.w,),
+                                Text(
+                                  'Kinda Cheese',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .copyWith(fontSize: 12.sp,color: Colors.blue[700]),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          child: Text(
+                            'فيسبوك',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 2.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 60.w,
+                          child: InkWell(
+                            onTap: ()=> launch("tel:01093717500"),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,color: Colors.green[700],size: 6.w,
+                                ),
+                                SizedBox(width: 10.w,),
+                                Text(
+                                  'Location',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .copyWith(fontSize: 12.sp,color: Colors.red[700]),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          child: Text(
+                            'Gps',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 13.sp),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -200,25 +347,6 @@ class BackLayer extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-  Widget content(BuildContext context, String text, IconData icon) {
-    return Container(
-      height: 60,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              text,
-              style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 20),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Icon(icon),
-        ],
-      ),
     );
   }
 }

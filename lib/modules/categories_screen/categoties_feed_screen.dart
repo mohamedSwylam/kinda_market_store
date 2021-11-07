@@ -14,6 +14,7 @@ import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
 import '../../feeds_dialog.dart';
+import 'package:sizer/sizer.dart';
 
 
 class CategoriesFeedScreen extends StatelessWidget {
@@ -25,104 +26,88 @@ class CategoriesFeedScreen extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         var productAttr=StoreAppCubit.get(context).findByCategory(categoryName);
-        return Scaffold (
-          body: Center(
-            child: BackdropScaffold(
-              headerHeight: MediaQuery.of(context).size.height * .25,
-              appBar: BackdropAppBar(
-                leading: BackdropToggleButton(
-                  icon: AnimatedIcons.home_menu,
-                  color: Theme.of(context).splashColor,
-                ),
-                title: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 18.0),
-                      child: Badge(
-                        badgeColor: defaultColor,
-                        animationType: BadgeAnimationType.slide,
-                        toAnimate: true,
-                        position: BadgePosition.topEnd(top: -6, end: -5),
-                        badgeContent: Text(StoreAppCubit
-                            .get(context)
-                            .carts
-                            .length
-                            .toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 18),),
-                        child: IconButton(
-                          onPressed: () {
-                            StoreAppCubit.get(context).selectedCart();
-                          },
-                          icon: Icon(
-                            Feather.shopping_cart,
-                            size: 25,
-                            color: Theme.of(context).splashColor,
-                          ),
-                        ),
+        return Scaffold(
+          appBar: AppBar(
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Badge(
+                    badgeColor: defaultColor,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: -6, end: -5),
+                    badgeContent: Text(
+                      StoreAppCubit.get(context).carts.length.toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        StoreAppCubit.get(context).selectedCart();
+                      },
+                      icon: Icon(
+                        Feather.shopping_cart,
+                        size: 25,
+                        color: Theme.of(context).splashColor,
                       ),
                     ),
-                    SizedBox(width: 5,),
-                    Badge(
-                      badgeColor: defaultColor,
-                      animationType: BadgeAnimationType.slide,
-                      toAnimate: true,
-                      position: BadgePosition.topEnd(top: -5, end: -3),
-                      badgeContent: Text(StoreAppCubit
-                          .get(context)
-                          .wishList
-                          .length
-                          .toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 18),),
-                      child: IconButton(
-                        onPressed: () {
-                          navigateTo(context, WishListScreen());
-                        },
-                        icon: Icon(
-                          Icons.favorite_border,
-                          size: 28,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                elevation: 0.0,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                actions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10),
-                    child: Text(
-                      "${categoryName}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                SizedBox(width: 3.w,),
+                Badge(
+                  badgeColor: defaultColor,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: BadgePosition.topEnd(top: -5, end: -3),
+                  badgeContent: Text(
+                    StoreAppCubit.get(context).wishList.length.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      navigateTo(context, WishListScreen());
+                    },
+                    icon: Icon(
+                      Icons.favorite_border,
+                      size: 28,
+                      color: Colors.redAccent,
                     ),
                   ),
-                ],
-              ),
-              backLayer: BackLayer(),
-              frontLayer:  Scaffold(
-                body: GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: StoreAppCubit.get(context).findByCategory(categoryName).length,
-                  physics: BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 0.0,
-                    crossAxisSpacing: 0.0,
-                    childAspectRatio: 0.6,
-                  ),
-                  itemBuilder: (context, index) {
-                    var list=StoreAppCubit.get(context).findByCategory(categoryName);
-                    return buildFeedsItem(context,list[index]);
-                  },
                 ),
-              ),
+              ],
             ),
+            elevation: 0.0,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10),
+                child: Text(
+                  "${categoryName}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+          body: GridView.builder(
+            shrinkWrap: true,
+            itemCount: StoreAppCubit.get(context).findByCategory(categoryName).length,
+            physics: BouncingScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 0.0,
+              crossAxisSpacing: 0.0,
+              childAspectRatio: 0.6,
+            ),
+            itemBuilder: (context, index) {
+              var list=StoreAppCubit.get(context).findByCategory(categoryName);
+              return buildFeedsItem(context,list[index]);
+            },
           ),
         );
 
@@ -144,7 +129,6 @@ Widget buildFeedsItem(context,Product model)=>InkWell(
     clipBehavior: Clip.antiAliasWithSaveLayer,
     decoration: BoxDecoration(
       color:Colors.white,
-      border: Border.all(color: Colors.grey),
       borderRadius: BorderRadius.circular(20.0),
       boxShadow: [
         BoxShadow(
@@ -177,52 +161,57 @@ Widget buildFeedsItem(context,Product model)=>InkWell(
           ),
 
         ),
-        SizedBox(height: 5,),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: Text(
-            model.title, style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 13,
-          ),
-            textAlign: TextAlign.end,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        SizedBox(height: 5,),
-        Padding(
-          padding: const EdgeInsets.only(right: 5.0 , left: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        Container(
+          color: Colors.grey[300],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'ج.م',
-                style: TextStyle(
-                  fontSize: 13.0,
-                  color: Colors.red,
+              SizedBox(height: 5,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: Text(
+                  model.title, style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13.sp,
+                ),
+                  textAlign: TextAlign.end,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              SizedBox(width: 5,),
-              Text(
-                '${model.price}',
-                style: TextStyle(
-                  fontSize: 13.0,
-                  color: Colors.red,
-                ),
+              SizedBox(height: 5,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'ج.م',
+                    style: TextStyle(
+                      fontSize: 13.0.sp,
+                      color: Colors.red,
+                    ),
+                  ),
+                  SizedBox(width: 5,),
+                  Text(
+                    '${model.price}',
+                    style: TextStyle(
+                      fontSize: 13.0.sp,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
               ),
+              SizedBox(height: 5,),
             ],
           ),
         ),
-        SizedBox(height: 5,),
         Container(
           decoration: BoxDecoration(
             color: defaultColor,
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),
           ),
           width: double.infinity,
-          height: 40,
+          height: 8.h,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -236,7 +225,9 @@ Widget buildFeedsItem(context,Product model)=>InkWell(
                       imageUrl: StoreAppCubit.get(context).findById(model.id).imageUrl);
                 },
                 child:  Icon(StoreAppCubit.get(context)
-                    .carts.any((element) => element.productId== model.id)? MaterialCommunityIcons.check_all : Feather.shopping_cart,),              ),
+                    .carts.any((element) => element.productId== model.id)? MaterialCommunityIcons.check_all : Feather.shopping_cart,size: 8.w,),
+              ),
+
             ],
           ),
         ),

@@ -1,25 +1,15 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
 import 'package:kinda_store/modules/order_screen/orders_screen.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:list_tile_switch/list_tile_switch.dart';
-
-
+import 'package:sizer/sizer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:list_tile_switch/list_tile_switch.dart';
-import 'package:provider/provider.dart';
-
 
 class UserScreen extends StatefulWidget {
   @override
@@ -36,6 +26,7 @@ class _UserInfoState extends State<UserScreen> {
   String _joinedAt;
   String _userImageUrl;
   int _phoneNumber;
+
   @override
   void initState() {
     super.initState();
@@ -113,8 +104,10 @@ class _UserInfoState extends State<UserScreen> {
                                     ],
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      fit: BoxFit.fill ,
-                                      image: NetworkImage(StoreAppCubit.get(context).profileImage ??
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(StoreAppCubit.get(
+                                                  context)
+                                              .profileImage ??
                                           'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
                                     ),
                                   ),
@@ -124,8 +117,13 @@ class _UserInfoState extends State<UserScreen> {
                                 ),
                                 Text(
                                   // 'top.toString()',
-                                  StoreAppCubit.get(context).name == null ? 'ضيف' : StoreAppCubit.get(context).name,
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20),
+                                  StoreAppCubit.get(context).name == null
+                                      ? 'ضيف'
+                                      : StoreAppCubit.get(context).name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(fontSize: 20),
                                 ),
                               ],
                             ),
@@ -133,7 +131,8 @@ class _UserInfoState extends State<UserScreen> {
                         ],
                       ),
                       background: Image(
-                        image: NetworkImage(StoreAppCubit.get(context).profileImage ??
+                        image: NetworkImage(StoreAppCubit.get(context)
+                                .profileImage ??
                             'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
                         fit: BoxFit.fill,
                       ),
@@ -146,17 +145,21 @@ class _UserInfoState extends State<UserScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    SizedBox(height: 40,),
+                    SizedBox(
+                      height: 8.h,
+                    ),
                     userTitle('حقيبه المستخدم'),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           navigateTo(context, WishListScreen());
                         },
                         splashColor: Theme.of(context).splashColor,
@@ -168,7 +171,8 @@ class _UserInfoState extends State<UserScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Icon(
-                                  Icons.arrow_back_ios_outlined,size: 18,
+                                  Icons.arrow_back_ios_outlined,
+                                  size: 5.w,
                                 ),
                               ),
                               Spacer(),
@@ -176,17 +180,22 @@ class _UserInfoState extends State<UserScreen> {
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Text(
                                   'المفضله',
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(fontSize: 14.sp),
                                 ),
                               ),
-                              SizedBox(width: 20,),
+                              SizedBox(
+                                width: 10.w,
+                              ),
                               Container(
-                                width: 60,
-                                height: 60,
+                                width: 12.w,
+                                height: 12.h,
                                 decoration: BoxDecoration(
-                                  image:DecorationImage(
-                                      image:   AssetImage('assets/images/wishlist.png')
-                                  ),
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/wishlist.png')),
                                 ),
                               ),
                             ],
@@ -194,23 +203,26 @@ class _UserInfoState extends State<UserScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 2.h,
+                    ),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           navigateTo(context, CartScreen());
                         },
                         splashColor: Theme.of(context).splashColor,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0,right: 22),
+                          padding: const EdgeInsets.only(left: 15.0, right: 22),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Icon(
-                                  Icons.arrow_back_ios_outlined,size: 18,
+                                  Icons.arrow_back_ios_outlined,
+                                  size: 5.w,
                                 ),
                               ),
                               Spacer(),
@@ -218,17 +230,22 @@ class _UserInfoState extends State<UserScreen> {
                                 padding: const EdgeInsets.only(top: 0.0),
                                 child: Text(
                                   'العربه',
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(fontSize: 14.sp),
                                 ),
                               ),
-                              SizedBox(width: 33,),
+                              SizedBox(
+                                width: 10.w,
+                              ),
                               Container(
-                                width: 42,
-                                height: 42,
+                                width: 10.w,
+                                height: 10.h,
                                 decoration: BoxDecoration(
-                                  image:DecorationImage(
-                                      image:   AssetImage('assets/images/cart.png')
-                                  ),
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage('assets/images/cart.png')),
                                 ),
                               ),
                             ],
@@ -236,43 +253,52 @@ class _UserInfoState extends State<UserScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 2.h,
+                    ),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           navigateTo(context, OrderScreen());
                         },
                         splashColor: Theme.of(context).splashColor,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0,right: 22),
+                          padding: const EdgeInsets.only(left: 15.0, right: 22),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Icon(
-                                  Icons.arrow_back_ios_outlined,size: 18,
+                                  Icons.arrow_back_ios_outlined,
+                                  size: 5.w,
                                 ),
                               ),
                               Spacer(),
                               Padding(
-                                padding: const EdgeInsets.only(top: 8.0,right: 15),
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, right: 15),
                                 child: Text(
                                   'الطلبات',
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(fontSize: 14.sp),
                                 ),
                               ),
-                              SizedBox(width: 33,),
+                              SizedBox(
+                                width: 10.w,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 10.0),
                                 child: Container(
-                                  width: 42,
-                                  height: 42,
+                                  width: 10.w,
+                                  height: 10.h,
                                   decoration: BoxDecoration(
-                                    image:DecorationImage(
-                                        image:   AssetImage('assets/images/order.png')
-                                    ),
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/order.png')),
                                   ),
                                 ),
                               ),
@@ -281,7 +307,9 @@ class _UserInfoState extends State<UserScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: userTitle('معلومات المستخدم')),
@@ -289,7 +317,9 @@ class _UserInfoState extends State<UserScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 23.0),
                       child: Column(
@@ -307,14 +337,20 @@ class _UserInfoState extends State<UserScreen> {
                                   children: [
                                     Text(
                                       'اسم المستخدم',
-                                      style:
-                                      Theme.of(context).textTheme.subtitle1,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
-                                      '${ StoreAppCubit.get(context).name}',
-                                      style:
-                                      Theme.of(context).textTheme.caption,
+                                      '${StoreAppCubit.get(context).name}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .copyWith(fontSize: 10.sp),
                                     ),
                                   ],
                                 ),
@@ -334,20 +370,27 @@ class _UserInfoState extends State<UserScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0,),
+                                  horizontal: 20.0,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
                                       'البريد الالكتروني',
-                                      style:
-                                      Theme.of(context).textTheme.subtitle1,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
-                                      '${ StoreAppCubit.get(context).email}',
-                                      style:
-                                      Theme.of(context).textTheme.caption,
+                                      '${StoreAppCubit.get(context).email}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .copyWith(fontSize: 10.sp),
                                     ),
                                   ],
                                 ),
@@ -373,14 +416,20 @@ class _UserInfoState extends State<UserScreen> {
                                   children: [
                                     Text(
                                       'رقم الهاتف',
-                                      style:
-                                      Theme.of(context).textTheme.subtitle1,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
-                                      '${ StoreAppCubit.get(context).phone}',
-                                      style:
-                                      Theme.of(context).textTheme.caption,
+                                      '${StoreAppCubit.get(context).phone}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .copyWith(fontSize: 10.sp),
                                     ),
                                   ],
                                 ),
@@ -406,14 +455,20 @@ class _UserInfoState extends State<UserScreen> {
                                   children: [
                                     Text(
                                       'عنوان المستخدم',
-                                      style:
-                                      Theme.of(context).textTheme.subtitle1,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
-                                      '${ StoreAppCubit.get(context).address}',
-                                      style:
-                                      Theme.of(context).textTheme.caption,
+                                      '${StoreAppCubit.get(context).address}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .copyWith(fontSize: 10.sp),
                                     ),
                                   ],
                                 ),
@@ -439,14 +494,20 @@ class _UserInfoState extends State<UserScreen> {
                                   children: [
                                     Text(
                                       'تاريخ الانضمام',
-                                      style:
-                                      Theme.of(context).textTheme.subtitle1,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          .copyWith(fontSize: 12.sp),
                                     ),
-                                    SizedBox(height: 5,),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
-                                      '${ StoreAppCubit.get(context).joinedAt}',
-                                      style:
-                                      Theme.of(context).textTheme.caption,
+                                      '${StoreAppCubit.get(context).joinedAt}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .copyWith(fontSize: 10.sp),
                                     ),
                                   ],
                                 ),
@@ -460,7 +521,9 @@ class _UserInfoState extends State<UserScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: userTitle('الاعدادات'),
@@ -469,50 +532,93 @@ class _UserInfoState extends State<UserScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    ListTileSwitch(
-                      contentPadding: EdgeInsets.only(left: 20),
-                      value: StoreAppCubit.get(context).isDark ? true:false,
-                      leading: Padding(
-                        padding: const EdgeInsets.only(right: 35),
-                        child: Icon(Ionicons.md_moon),
-                      ),
-                      onChanged: (value) {
-                        StoreAppCubit.get(context).changeThemeMode();
-                      },
-                      visualDensity: VisualDensity.comfortable,
-                      switchType: SwitchType.cupertino,
-
-                      switchActiveColor: Colors.teal,
-                      title: Text('مظهر داكن ',style: TextStyle(fontSize: 20),),
+                    SizedBox(
+                      height: 2.h,
                     ),
-                    SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'مظهر داكن ',
+                            style: TextStyle(fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          FlutterSwitch(
+                            width: 17.0.w,
+                            height: 5.h,
+                            toggleSize: 45.0,
+                            value: StoreAppCubit.get(context).isDark ? true : false,
+                            borderRadius: 30.0,
+                            padding: 3.0,
+                            activeToggleColor: Colors.black,
+                            inactiveToggleColor: Colors.black,
+                            activeColor: Colors.black,
+                            inactiveColor: Colors.grey[300],
+                            activeIcon: Image.network(
+                              "https://cdn-icons-png.flaticon.com/512/740/740878.png",
+                            ),
+                            inactiveIcon: Image.network(
+                              "https://cdn-icons-png.flaticon.com/512/2698/2698194.png",
+                            ),
+                            onToggle: (value) {
+                              StoreAppCubit.get(context).changeThemeMode();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           showDialogg(context, 'تسجيل الخروج',
                               'هل تريد حقا تسجيل الخروج', () {
-                                StoreAppCubit.get(context).signOut(context);
-                              });
+                            StoreAppCubit.get(context).signOut(context);
+                          });
                         },
                         splashColor: Theme.of(context).splashColor,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0,right: 22),
+                          padding: const EdgeInsets.only(left: 15.0, right: 22),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Icon(
-                                  Icons.arrow_back_ios_outlined,size: 18,
+                                  Icons.arrow_back_ios_outlined,
+                                  size: 5.w,
                                 ),
                               ),
                               Spacer(),
                               Padding(
-                                padding: const EdgeInsets.only(top: 0.0),
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, right: 15),
                                 child: Text(
                                   'تسجيل الخروج',
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(fontSize: 15.sp),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Container(
+                                width: 11.w,
+                                height: 11.h,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://image.flaticon.com/icons/png/128/1828/1828304.png')),
                                 ),
                               ),
                             ],
@@ -520,7 +626,9 @@ class _UserInfoState extends State<UserScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
                   ],
                 ),
               )
@@ -571,12 +679,14 @@ class _UserInfoState extends State<UserScreen> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text(
-                      'اختر طريقه',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: ColorsConsts
-                              .gradiendLStart),
+                    title: Center(
+                      child: Text(
+                        'اختر طريقه',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: defaultColor,
+                            fontSize: 13.sp),
+                      ),
                     ),
                     content: SingleChildScrollView(
                       child: ListBody(
@@ -586,28 +696,23 @@ class _UserInfoState extends State<UserScreen> {
                               StoreAppCubit.get(context).pickImageCamera();
                               Navigator.pop(context);
                             },
-                            splashColor: Colors
-                                .teal,
+                            splashColor: defaultColor,
                             child: Row(
                               children: [
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.all(
-                                      8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.camera,
-                                    color: Colors
-                                        .yellow[700],
+                                    color: Colors.yellow[700],
+                                    size: 7.w,
                                   ),
                                 ),
                                 Text(
                                   'الكاميرا',
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight:
-                                      FontWeight.w500,
-                                      color:
-                                      ColorsConsts.title),
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: ColorsConsts.title),
                                 )
                               ],
                             ),
@@ -617,28 +722,23 @@ class _UserInfoState extends State<UserScreen> {
                               StoreAppCubit.get(context).getProfileImage();
                               Navigator.pop(context);
                             },
-                            splashColor: Colors
-                                .teal,
+                            splashColor: defaultColor,
                             child: Row(
                               children: [
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.all(
-                                      8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.image,
-                                    color: Colors
-                                        .yellow[700],
+                                    size: 7.w,
+                                    color: Colors.yellow[700],
                                   ),
                                 ),
                                 Text(
                                   'المعرض',
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight:
-                                      FontWeight.w500,
-                                      color:
-                                      ColorsConsts.title),
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: ColorsConsts.title),
                                 )
                               ],
                             ),
@@ -648,25 +748,22 @@ class _UserInfoState extends State<UserScreen> {
                               StoreAppCubit.get(context).remove();
                               Navigator.pop(context);
                             },
-                            splashColor: Colors
-                                .teal,
+                            splashColor: defaultColor,
                             child: Row(
                               children: [
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.all(
-                                      8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     Icons.remove_circle,
                                     color: Colors.red,
+                                    size: 7.w,
                                   ),
                                 ),
                                 Text(
                                   'حذف',
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight:
-                                      FontWeight.w500,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: Colors.red),
                                 )
                               ],
@@ -677,8 +774,10 @@ class _UserInfoState extends State<UserScreen> {
                     ),
                   );
                 });
-            },
-          child: Icon(Icons.camera_alt_outlined),
+          },
+          child: Icon(
+            Icons.camera_alt_outlined,
+          ),
         ),
       ),
     );
@@ -710,13 +809,11 @@ class _UserInfoState extends State<UserScreen> {
 
   Widget userTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.all(14.0),
+      padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 2.h),
       child: Text(
         title,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            .copyWith(fontSize: 18),
+        textAlign: TextAlign.right,
+        style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 15.sp),
       ),
     );
   }

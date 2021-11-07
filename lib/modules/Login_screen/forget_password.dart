@@ -7,7 +7,7 @@ import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/layout/store_layout.dart';
 import 'package:kinda_store/shared/components/components.dart';
-import 'package:kinda_store/shared/network/local/cache_helper.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store/widget/fade_animation.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -36,7 +36,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 1.0,
+                  height: MediaQuery.of(context).size.height * 1,
                   child: RotatedBox(
                     quarterTurns: 4,
                     child: WaveWidget(
@@ -63,21 +63,22 @@ class ForgetPasswordScreen extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       SizedBox(
-                        height: 50,
+                        height: 8.h,
                       ),
                       FadeAnimation(0.9,Center(
                         child: Container(
-                          height: 100,
-                          width: 100,
+                          height: 17.h,
+                          width: 35.w,
                           child: Image(
                             image: AssetImage('assets/images/login.png'),
                           ),
                         ),
                       ),),
                       SizedBox(
-                        height: 20,
+                        height: 8.h,
                       ),
                       Center(
                         child: FadeAnimation(
@@ -88,12 +89,12 @@ class ForgetPasswordScreen extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6
-                                .copyWith(fontWeight: FontWeight.bold,fontSize: 30),
+                                .copyWith(fontWeight: FontWeight.bold,fontSize: 25.sp),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 10.h,
                       ),
                       FadeAnimation(
                           1.5,
@@ -128,13 +129,13 @@ class ForgetPasswordScreen extends StatelessWidget {
                             ),
                           )),
                       SizedBox(
-                        height: 20,
+                        height: 3.h,
                       ),
                       FadeAnimation(
-                          2.1,
+                          1.8,
                           Center(
                             child:  ConditionalBuilder(
-                              condition: state is! ForgetPasswordLoadingState,
+                              condition: state is! LoginLoadingState,
                               builder: (context) {
                                 return InkWell(
                                   onTap: () {
@@ -146,7 +147,8 @@ class ForgetPasswordScreen extends StatelessWidget {
 
                                   },
                                   child: Container(
-                                    width: 140,
+                                    width: 32.w,
+                                    height: 11.h,
                                     padding: EdgeInsets.all(15),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
@@ -154,9 +156,8 @@ class ForgetPasswordScreen extends StatelessWidget {
                                     child: Center(
                                         child: Text(
                                           "اعاده تعيين",
-                                          textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                              color: Colors.black,fontWeight: FontWeight.bold,fontSize: 14.sp),
                                         )),
                                   ),
                                 );
@@ -165,7 +166,6 @@ class ForgetPasswordScreen extends StatelessWidget {
                                   Center(child: CircularProgressIndicator()),
                             ),
                           )),
-
                     ],
                   ),
                 ),

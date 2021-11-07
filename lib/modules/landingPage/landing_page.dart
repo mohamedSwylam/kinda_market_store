@@ -11,7 +11,7 @@ import 'package:kinda_store/modules/sign_up_screen/cubit/cubit.dart';
 import 'package:kinda_store/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:sizer/sizer.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -45,7 +45,6 @@ class _LandingPageState extends State<LandingPage>
               _animationController.reset();
               _animationController.forward();
             }
-
           });
     _animationController.forward();
   }
@@ -76,7 +75,7 @@ class _LandingPageState extends State<LandingPage>
             Text(
               'مرحبا',
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -86,7 +85,7 @@ class _LandingPageState extends State<LandingPage>
                 '   مرحبا بكم في كنده تشيز',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20.sp,
                   color: Colors.grey,
                   fontWeight: FontWeight.w600,
                 ),
@@ -120,19 +119,19 @@ class _LandingPageState extends State<LandingPage>
                         Text(
                           'دخول',
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 17),
+                              fontWeight: FontWeight.w500, fontSize: 15.sp),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 4.w,
                         ),
                         Icon(
                           Feather.user,
-                          size: 18,
+                          size: 6.w,
                         )
                       ],
                     )),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 4.w),
               Expanded(
                 child: ElevatedButton(
                     style: ButtonStyle(
@@ -155,14 +154,14 @@ class _LandingPageState extends State<LandingPage>
                         Text(
                           'انشاء حساب',
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 15),
+                              fontWeight: FontWeight.w500, fontSize: 13.sp),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 5.w,
                         ),
                         Icon(
                           Feather.user_plus,
-                          size: 18,
+                          size: 6.w,
                         )
                       ],
                     )),
@@ -171,7 +170,7 @@ class _LandingPageState extends State<LandingPage>
             ],
           ),
           SizedBox(
-            height: 50,
+            height: 6.h,
           ),
           Row(
             children: [
@@ -185,8 +184,8 @@ class _LandingPageState extends State<LandingPage>
                 ),
               ),
               Container(
-                height: 40,
-                width: 160,
+                height: 7.h,
+                width: 40.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.black.withOpacity(0.7),
@@ -194,7 +193,7 @@ class _LandingPageState extends State<LandingPage>
                 child: Center(
                   child: Text(
                     'او يمكنك استخدام',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                    style: TextStyle(color: Colors.white, fontSize: 13.sp),
                   ),
                 ),
               ),
@@ -210,17 +209,17 @@ class _LandingPageState extends State<LandingPage>
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 6.h,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
                 onPressed: (){
                   StoreAppCubit.get(context).logInWithFacebook(context);
                 },
                 color: Colors.blue[900],
-                iconSize: 40,
+                iconSize: 11.w,
                 icon: Icon(
                   FontAwesome.facebook_square,
                 ),
@@ -230,7 +229,7 @@ class _LandingPageState extends State<LandingPage>
                   StoreAppCubit.get(context).googleSignIn(context);
                 },
                 color: Colors.redAccent,
-                iconSize: 45,
+                iconSize: 12.w,
                 icon: Icon(
                   FontAwesome.google_plus_official,
                 ),
@@ -243,8 +242,8 @@ class _LandingPageState extends State<LandingPage>
                   StoreAppCubit.get(context).userLoginAnonymous(context);
                 },
                 child: Container(
-                  height: 40,
-                  width: 130,
+                  height: 7.h,
+                  width: 33.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     color: Colors.black.withOpacity(0.7),
@@ -252,7 +251,7 @@ class _LandingPageState extends State<LandingPage>
                   child: Center(
                     child: Text(
                       'الدخول كذائر',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                      style: TextStyle(color: Colors.white, fontSize: 13.sp),
                     ),
                   ),
                 ),
@@ -260,7 +259,7 @@ class _LandingPageState extends State<LandingPage>
             ],
           ),
           SizedBox(
-            height: 40,
+            height: 6.h,
           ),
         ],
       ),

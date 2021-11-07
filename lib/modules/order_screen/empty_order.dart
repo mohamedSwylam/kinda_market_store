@@ -1,53 +1,48 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-
+import 'package:sizer/sizer.dart';
 
 class EmptyOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        leading: Text(''),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        leading: Text(''),
         elevation: 0.0,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             margin: EdgeInsets.only(top: 20),
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.25,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Empty.png'),
               ),
             ),
           ),
-          SizedBox(height: 20,),
           Text(
-            'سله الطلبات فارغه',
+            'سله الطلبات فارغه ',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textSelectionColor,
-                fontSize: 33,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w600),
-          ),
-          SizedBox(
-            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-              'يبدو انك لم تقم بطلب شراء حتي الان',
+              'يبدو انك لم تقم باي طلب حتي الان',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 14.sp),
             ),),
-          SizedBox(
-            height: 40,
-          ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height * 0.06,
@@ -69,6 +64,9 @@ class EmptyOrder extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
             ),
+          ),
+          SizedBox(
+            height: 8.h,
           ),
         ],
       ),

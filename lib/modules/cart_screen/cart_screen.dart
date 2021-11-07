@@ -16,6 +16,7 @@ import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
+import 'package:sizer/sizer.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,107 +32,89 @@ class CartScreen extends StatelessWidget {
               ? Scaffold(
             body: EmptyCart(),
           )
-              :Scaffold(
-            body: Center(
-              child: BackdropScaffold(
-                headerHeight: MediaQuery.of(context).size.height * .25,
-                appBar: BackdropAppBar(
-                  leading: BackdropToggleButton(
-                    icon: AnimatedIcons.home_menu,
-                    color: Theme.of(context).splashColor,
-                  ),
-                  title: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Badge(
-                          badgeColor: defaultColor,
-                          animationType: BadgeAnimationType.slide,
-                          toAnimate: true,
-                          position: BadgePosition.topEnd(top: -6, end: -5),
-                          badgeContent: Text(StoreAppCubit
-                              .get(context)
-                              .carts
-                              .length
-                              .toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 18),),
-                          child: IconButton(
-                            onPressed: () {
-                              StoreAppCubit.get(context).selectedCart();
-                            },
-                            icon: Icon(
-                              Feather.shopping_cart,
-                              size: 25,
-                              color: Theme.of(context).splashColor,
-                            ),
-                          ),
-                        ),
+              : Scaffold(
+            appBar: AppBar(
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18.0),
+                    child: Badge(
+                      badgeColor: defaultColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: -6, end: -5),
+                      badgeContent: Text(
+                        StoreAppCubit.get(context).carts.length.toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      SizedBox(width: 5,),
-                      Badge(
-                        badgeColor: defaultColor,
-                        animationType: BadgeAnimationType.slide,
-                        toAnimate: true,
-                        position: BadgePosition.topEnd(top: -5, end: -3),
-                        badgeContent: Text(StoreAppCubit
-                            .get(context)
-                            .wishList
-                            .length
-                            .toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 18),),
-                        child: IconButton(
-                          onPressed: () {
-                            navigateTo(context, WishListScreen());
-                          },
-                          icon: Icon(
-                            Icons.favorite_border,
-                            size: 28,
-                            color: Colors.redAccent,
-                          ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Feather.shopping_cart,
+                          size: 25,
+                          color: Theme.of(context).splashColor,
                         ),
-                      ),
-                    ],
-                  ),
-                  elevation: 0.0,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  actions: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 10),
-                      child: Text(
-                        "العربه (${StoreAppCubit.get(context).carts.length})",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                       ),
                     ),
-                  ],
+                  ),
+                  SizedBox(width: 3.w,),
+                  Badge(
+                    badgeColor: defaultColor,
+                    animationType: BadgeAnimationType.slide,
+                    toAnimate: true,
+                    position: BadgePosition.topEnd(top: -5, end: -3),
+                    badgeContent: Text(
+                      StoreAppCubit.get(context).wishList.length.toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        navigateTo(context, WishListScreen());
+                      },
+                      icon: Icon(
+                        Icons.favorite_border,
+                        size: 28,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              elevation: 0.0,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 10),
+                  child: Text(
+                    "العربه (${StoreAppCubit.get(context).carts.length})",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                  ),
                 ),
-                backLayer: BackLayer(),
-                frontLayer: Scaffold(
-                  body: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0.0),
-                      child: ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var list=StoreAppCubit.get(context).carts;
-                          return buildCartItem(list[index],context);
-                        },
-                        separatorBuilder: (context, index) => Container(
-                          height: 8,
-                        ),
-                        itemCount: StoreAppCubit.get(context).carts.length,
-                      ),
-                    ),
+              ],
+            ),
+            body: Container(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 0.0),
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    var list=StoreAppCubit.get(context).carts;
+                    return buildCartItem(list[index],context);
+                  },
+                  separatorBuilder: (context, index) => Container(
+                    height: 4.w,
                   ),
-                  // bottomSheet: bottomSheet(context),
+                  itemCount: StoreAppCubit.get(context).carts.length,
                 ),
               ),
             ),
+            // bottomSheet: bottomSheet(context),
           );
         });
   }
@@ -147,13 +130,14 @@ Widget buildCartItem(CartModel model,context) => InkWell(
   child: Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10.0),
     child: Container(
-      height: MediaQuery.of(context).size.height*.57,
-      width: MediaQuery.of(context).size.width*80,
+      height: 60.h,
+      width: 80.w,
       child: Stack(
         children: [
           Container(
             child: Column(
               children: [
+                SizedBox(height: 1.5.h),
                 Row(
                   children: [
                     Expanded(
@@ -161,7 +145,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           SizedBox(
-                            height: 18,
+                            height: 3.h,
                           ),
                           Text(
                             '${model.title}',
@@ -171,7 +155,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
-                                .copyWith(fontSize: 15),
+                                .copyWith(fontSize: 14.sp),
                           ),
                           SizedBox(
                             height: 20,
@@ -188,17 +172,17 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                                   Text(
                                     'ج.م',
                                     style: TextStyle(
-                                      fontSize: 12.0,
+                                      fontSize: 10.0.sp,
                                       color: Colors.grey,
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 5,
+                                    width: 1.w,
                                   ),
                                   Text(
                                     '${model.price.toStringAsFixed(0)}',
                                     style: TextStyle(
-                                      fontSize: 12.0,
+                                      fontSize: 12.0.sp,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -207,14 +191,14 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                               Text(
                                 '  :  السعر',
                                 style: TextStyle(
-                                  fontSize: 12.0,
+                                  fontSize: 10.0.sp,
                                   color: Colors.black,
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 4.h,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -228,17 +212,17 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                                   Text(
                                     'ج.م',
                                     style: TextStyle(
-                                      fontSize: 12.0,
+                                      fontSize: 10.0.sp,
                                       color: Colors.grey,
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 5,
+                                    width: 1.w,
                                   ),
                                   Text(
                                     '${(model.price*model.quantity).toStringAsFixed(0)}',
                                     style: TextStyle(
-                                      fontSize: 12.0,
+                                      fontSize: 10.0.sp,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -247,7 +231,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                               Text(
                                 '  : السعر الكلي ',
                                 style: TextStyle(
-                                  fontSize: 12.0,
+                                  fontSize: 10.0.sp,
                                   color: Colors.black,
                                 ),
                               ),
@@ -265,7 +249,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10.0,right: 10),
                         child: Container(
-                          height: 120,
+                          height: 22.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
@@ -282,7 +266,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                   crossAxisAlignment: CrossAxisAlignment.start,
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 4.h,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -293,10 +277,12 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                         child: InkWell(
                           child: Container(
                             child: CircleAvatar(
+                              radius: 5.w,
                               backgroundColor: defaultColor,
                               child: Icon(
                                 Icons.arrow_downward_rounded,
                                 color: Colors.black,
+                                size: 7.w,
                               ),
                             ),
                           ),
@@ -325,7 +311,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(color: Colors.black),
+                                    .copyWith(color: Colors.black,fontSize: 18.sp),
                               )),
 
                         ),
@@ -335,10 +321,12 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                         child: InkWell(
                           child: Container(
                             child: CircleAvatar(
+                              radius: 5.w,
                               backgroundColor: defaultColor,
                               child: Icon(
                                 Icons.arrow_upward_rounded,
                                 color: Colors.black,
+                                size: 7.w,
                               ),
                             ),
                           ),
@@ -362,7 +350,7 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                           '  : الكميه ',
                           textAlign: TextAlign.right,
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 18.0.sp,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -378,8 +366,8 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                         height: 20,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: 80.w,
+                        height: 6.h,
                         child: RaisedButton(
                           onPressed: StoreAppCubit.get(context)
                               .orders.any((element) => element.productId==model.productId)
@@ -414,16 +402,16 @@ Widget buildCartItem(CartModel model,context) => InkWell(
                           ),
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      SizedBox(height: 2.h,),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: 79.w,
+                        height:6.h,
                         child: Row(
                           children: [
                             Expanded(
                               flex: 1,
                               child: InkWell(
-                                child: Icon(FontAwesome.whatsapp,color: Colors.green[700],size: 38,),
+                                child: Icon(FontAwesome.whatsapp,color: Colors.green[700],size: 10.w,),
                                 onTap: ()=>StoreAppCubit.get(context).openWattsAppChat(),
                               ),
                             ),
@@ -472,19 +460,19 @@ Widget buildCartItem(CartModel model,context) => InkWell(
           ),
           Positioned(
             child: Container(
-              height: 30,
-              width: 30,
+              height: 10.w,
+              width: 10.w,
               child: MaterialButton(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
+                    borderRadius: BorderRadius.circular(10.0.w)),
                 padding: EdgeInsets.symmetric(horizontal: 0.0),
-                color: Colors.redAccent,
+                color: Colors.white,
                 child: CircleAvatar(
-                  radius: 18.0,
+                  radius: 10.0.w,
                   backgroundColor: Colors.white,
                   child: Icon(
                     Icons.close,
-                    size: 20.0,
+                    size: 7.0.w,
                     color: Colors.red,
                   ),
                 ),

@@ -10,10 +10,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
+import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
-
+import 'package:sizer/sizer.dart';
 import 'empty_wishlist.dart';
 
 class WishListScreen extends StatelessWidget {
@@ -47,12 +48,10 @@ class WishListScreen extends StatelessWidget {
                           animationType: BadgeAnimationType.slide,
                           toAnimate: true,
                           position: BadgePosition.topEnd(top: -6, end: -5),
-                          badgeContent: Text(StoreAppCubit
-                              .get(context)
-                              .carts
-                              .length
-                              .toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 18),),
+                          badgeContent: Text(
+                            StoreAppCubit.get(context).carts.length.toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
                           child: IconButton(
                             onPressed: () {
                               StoreAppCubit.get(context).selectedCart();
@@ -65,22 +64,18 @@ class WishListScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 5,),
+                      SizedBox(width: 3.w,),
                       Badge(
                         badgeColor: defaultColor,
                         animationType: BadgeAnimationType.slide,
                         toAnimate: true,
                         position: BadgePosition.topEnd(top: -5, end: -3),
-                        badgeContent: Text(StoreAppCubit
-                            .get(context)
-                            .wishList
-                            .length
-                            .toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 18),),
+                        badgeContent: Text(
+                          StoreAppCubit.get(context).wishList.length.toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
                         child: IconButton(
-                          onPressed: () {
-                            navigateTo(context, WishListScreen());
-                          },
+                          onPressed: () {},
                           icon: Icon(
                             Icons.favorite_border,
                             size: 28,
@@ -132,13 +127,13 @@ class WishListScreen extends StatelessWidget {
 
 Widget buildWishListItem(WishListModel model,context)=>InkWell(
   onTap: (){
-    //navigateTo(context, ProductDetailsScreen(productId: model.productId,));
+    navigateTo(context, ProductDetailsScreen(productId: model.productId,));
   },
   child: Stack(
     children: [
       Container(
-        height: 130,
-        child: Row(
+        height: 23.h,
+        child:  Row(
           children: [
             Expanded(
               child: Column(
@@ -147,30 +142,54 @@ Widget buildWishListItem(WishListModel model,context)=>InkWell(
                 children: [
                   Text(
                     '${model.title}',
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontSize: 15.sp),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 2.h,
                   ),
-                  Text(
-                    '${model.price}',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.grey,
-                    ),
+                  Row(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.end,
+                    mainAxisAlignment:
+                    MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'ج.م',
+                        style: TextStyle(
+                          fontSize: 13.0.sp,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      Text(
+                        '${model.price}',
+                        style: TextStyle(
+                          fontSize:13.0.sp,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 4.h,
                   ),
                 ],
               ),
             ),
             SizedBox(
-              width: 15.0,
+              width: 6.w,
             ),
             Container(
-              width: 120,
-              height: 165,
+              width: 35.w,
+              height: 27.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
@@ -179,7 +198,8 @@ Widget buildWishListItem(WishListModel model,context)=>InkWell(
                   ),
                 ),
               ),
-            ),],
+            ),
+          ],
         ),
         margin: const EdgeInsets.only(
           left: 20,
@@ -198,8 +218,8 @@ Widget buildWishListItem(WishListModel model,context)=>InkWell(
         top: 20,
         left: 10,
         child: Container(
-          height: 30,
-          width: 30,
+          height: 5.h,
+          width: 8.w,
           child: MaterialButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
               padding: EdgeInsets.symmetric(horizontal: 0.0),
@@ -207,9 +227,10 @@ Widget buildWishListItem(WishListModel model,context)=>InkWell(
               child: Icon(
                 Icons.clear,
                 color: Colors.white,
+                size: 6.w,
               ),
               onPressed:(){
-               showDialogg(context, 'حذف المنتج من المفضله', 'هل تريد حقا حذف المنتج من التفضيلات', (){ StoreAppCubit.get(context).removeFromWishList(model.wishListId);});
+               showDialogg(context, 'حذف المنتج', 'هل تريد حقا حذف المنتج من التفضيلات', (){ StoreAppCubit.get(context).removeFromWishList(model.wishListId);});
               }
           ),
         ),
