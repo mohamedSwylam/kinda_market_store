@@ -11,6 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kinda_store/layout/store_layout.dart';
 import 'package:kinda_store/models/banner_model.dart';
+import 'package:kinda_store/models/comment_model.dart';
 import 'package:kinda_store/models/user_model.dart';
 import 'package:kinda_store/modules/search/search_screen.dart';
 import 'package:kinda_store/modules/sign_up_screen/cubit/states.dart';
@@ -90,6 +91,61 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   void openWattsAppChat() async {
     await launch('http://wa.me/01093717500?text=مرحبا بكم في كنده تشيز ');
+  }
+  ///////////////write comment
+
+  void writeComment({
+    @required String dateTime,
+    @ required String text,
+    @ required String productId,
+  }) {
+    final commentId = uuid.v4();
+    emit(WriteCommentLoadingState());
+    CommentModel model = CommentModel(
+      userId: uId,
+      imageUrl: profileImage??"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+      dateTime: dateTime,
+      productId: productId,
+      commentId: commentId,
+      username: name,
+      text: text,
+    );
+    FirebaseFirestore.instance
+        .collection('comments').doc(commentId)
+        .set(model.toMap())
+        .then((value) {
+      emit(WriteCommentSuccessState());
+    }).catchError((error) {
+      emit(WriteCommentErrorState());
+    });
+  }
+  List<CommentModel> comments = [];
+  void getComments() async {
+    emit(GetCommentsLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('comments').where('productId', isEqualTo: uId)
+        .get()
+        .then((QuerySnapshot commentsSnapshot) {
+      comments.clear();
+      commentsSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        comments.insert(
+          0,
+          CommentModel(
+            userId: element.get('userId'),
+            dateTime: element.get('dateTime'),
+            commentId: element.get('commentId'),
+            imageUrl: element.get('imageUrl'),
+            username: element.get('username'),
+            productId: element.get('productId'),
+            text: element.get('text'),
+          ),
+        );
+      });
+      emit(GetCommentsSuccessStates());
+    }).catchError((error) {
+      emit(GetCommentsErrorStates());
+    });
   }
 
   ///////////////////////////SignUp
@@ -345,7 +401,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String name;
   String phone;
-
   String email;
   String uId;
   String profileImage;

@@ -91,6 +91,7 @@ class GetBannersErrorStates extends StoreAppStates {
 
   GetBannersErrorStates(this.error);
 }
+
 /////////////////////////faceBook
 class LoginWithFacebookLoadingStates extends StoreAppStates {}
 
@@ -122,13 +123,11 @@ class LoginErrorState extends StoreAppStates {
   final String error;
 
   LoginErrorState(this.error);
-
 }
+
 class ForgetPasswordLoadingState extends StoreAppStates {}
 
-class ForgetPasswordSuccessState extends StoreAppStates {
-
-}
+class ForgetPasswordSuccessState extends StoreAppStates {}
 
 class ForgetPasswordErrorState extends StoreAppStates {
   final String error;
@@ -145,6 +144,7 @@ class LoginAnonymousErrorState extends StoreAppStates {
 
   LoginAnonymousErrorState(this.error);
 }
+
 class LoginWithFacebookLoadingState extends StoreAppStates {}
 
 class LoginWithFacebookSuccessState extends StoreAppStates {}
@@ -218,7 +218,6 @@ class UpdateErrorState extends StoreAppStates {
 
 class UpdateLoadingState extends StoreAppStates {}
 
-
 /////signUp
 
 class SignUpInitialState extends StoreAppStates {}
@@ -255,8 +254,17 @@ class UploadPickedProfileImageErrorState extends StoreAppStates {}
 
 class SignUpPickedProfileImageCameraSuccessState extends StoreAppStates {}
 
-
 class SignUpRemoveProfileImageSuccessState extends StoreAppStates {}
 
+//////////write comment
+class WriteCommentLoadingState extends StoreAppStates {}
 
+class WriteCommentSuccessState extends StoreAppStates {}
 
+class WriteCommentErrorState extends StoreAppStates {}
+
+class GetCommentsLoadingStates extends StoreAppStates {}
+
+class GetCommentsSuccessStates extends StoreAppStates {}
+
+class GetCommentsErrorStates extends StoreAppStates {}

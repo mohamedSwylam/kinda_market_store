@@ -117,6 +117,7 @@ class LoginScreen extends StatelessWidget {
                                                 color: Colors.grey[300]))),
                                     child: defaultFormFiled(
                                         type: TextInputType.emailAddress,
+                                        onSubmit: (){},
                                         controller: emailController,
                                         validate: (String value) {
                                           if (value.isEmpty ||
@@ -126,12 +127,14 @@ class LoginScreen extends StatelessWidget {
                                           return null;
                                         },
                                         hint: 'ادخل البريد الالكتروني'),
+
                                   ),
                                   Container(
                                     decoration: BoxDecoration(),
                                     child: defaultFormFiled(
                                         type: TextInputType.visiblePassword,
                                         controller: passwordController,
+                                        onSubmit: (){},
                                         validate: (String value) {
                                           if (value.isEmpty || value.length < 7) {
                                             return 'كلمه المرور غير صالحه';
@@ -184,7 +187,7 @@ class LoginScreen extends StatelessWidget {
                                     }
                                   },
                                   child: Container(
-                                    width: 26.w,
+                                    width: 30 .w,
                                     height: 11.h,
                                     padding: EdgeInsets.all(15),
                                     decoration: BoxDecoration(

@@ -560,10 +560,10 @@ class _UserInfoState extends State<UserScreen> {
                             activeColor: Colors.black,
                             inactiveColor: Colors.grey[300],
                             activeIcon: Image.network(
-                              "https://cdn-icons-png.flaticon.com/512/740/740878.png",
+                              "https://cdn-icons-png.flaticon.com/512/2698/2698194.png",
                             ),
                             inactiveIcon: Image.network(
-                              "https://cdn-icons-png.flaticon.com/512/2698/2698194.png",
+                              "https://cdn-icons-png.flaticon.com/512/740/740878.png",
                             ),
                             onToggle: (value) {
                               StoreAppCubit.get(context).changeThemeMode();

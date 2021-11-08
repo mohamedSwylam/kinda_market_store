@@ -463,7 +463,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                   hint: 'تفاصيل اكثر عن العنوان '
                               ),
                               SizedBox(
-                                height: 15,
+                                height: 2.5.h,
                               ),
                             ],
                           ),
