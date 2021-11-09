@@ -268,3 +268,5 @@ class GetCommentsLoadingStates extends StoreAppStates {}
 class GetCommentsSuccessStates extends StoreAppStates {}
 
 class GetCommentsErrorStates extends StoreAppStates {}
+
+class ChangeRateSuccessStates extends StoreAppStates {}

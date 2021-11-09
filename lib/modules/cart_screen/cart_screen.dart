@@ -1,7 +1,3 @@
-
-import 'package:backdrop/app_bar.dart';
-import 'package:backdrop/button.dart';
-import 'package:backdrop/scaffold.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +11,6 @@ import 'package:kinda_store/modules/order_screen/order_details_screen.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:kinda_store/widget/backlayer.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:url_launcher/url_launcher.dart';

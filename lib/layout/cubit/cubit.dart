@@ -97,6 +97,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void writeComment({
     @required String dateTime,
     @ required String text,
+    @ required String rateDescription,
+    @ required double rate,
     @ required String productId,
   }) {
     final commentId = uuid.v4();
@@ -106,13 +108,17 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       imageUrl: profileImage??"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
       dateTime: dateTime,
       productId: productId,
+      rate: rate??3,
+      rateDescription: rateDescription??'جيد',
       commentId: commentId,
-      username: name,
+      username: name??"زائر",
       text: text,
     );
     FirebaseFirestore.instance
-        .collection('comments').doc(commentId)
-        .set(model.toMap())
+        .collection('products')
+        .doc(productId)
+        .collection('comments')
+        .add(model.toMap())
         .then((value) {
       emit(WriteCommentSuccessState());
     }).catchError((error) {
@@ -120,11 +126,13 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
   List<CommentModel> comments = [];
-  void getComments() async {
+  void getComments(
+      @required String productId,
+      ) async {
     emit(GetCommentsLoadingStates());
     await FirebaseFirestore.instance
-        .collection('comments').where('productId', isEqualTo: uId)
-        .get()
+        .collection('products').doc(productId).collection('comments').
+        get()
         .then((QuerySnapshot commentsSnapshot) {
       comments.clear();
       commentsSnapshot.docs.forEach((element) {
@@ -137,6 +145,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             commentId: element.get('commentId'),
             imageUrl: element.get('imageUrl'),
             username: element.get('username'),
+            rate: element.get('rate'),
+            rateDescription: element.get('rateDescription'),
             productId: element.get('productId'),
             text: element.get('text'),
           ),
@@ -146,6 +156,32 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     }).catchError((error) {
       emit(GetCommentsErrorStates());
     });
+  }
+  double rate =3.0;
+  String rateDescription="جيد";
+  void changeRating(rating) {
+    rate=rating;
+    if (rating > 0 && rating <= 1){
+      rateDescription ='سئ';
+    }
+    else if (rating > 1 && rating <= 2){
+      rateDescription ='لم يعجبني';
+    }
+    else if (rating > 2 && rating <=3){
+      rateDescription ='جيد';
+    }
+    else if (rating > 3 && rating <= 4){
+      rateDescription ='ممتاز';
+    }
+    else if (rating > 4 && rating <= 5){
+      rateDescription ='رائع';
+    }
+    else{
+      rate =3.0;
+      rateDescription="جيد";
+    }
+    print(rating);
+    emit(ChangeRateSuccessStates());
   }
 
   ///////////////////////////SignUp

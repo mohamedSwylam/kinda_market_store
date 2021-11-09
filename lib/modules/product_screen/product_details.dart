@@ -10,6 +10,7 @@ import 'package:kinda_store/layout/store_layout.dart';
 import 'package:kinda_store/models/comment_model.dart';
 import 'package:kinda_store/models/product_model.dart';
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
+import 'package:kinda_store/modules/product_screen/review_product_dialog.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
@@ -17,7 +18,6 @@ import 'package:sizer/sizer.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
-
   const ProductDetailsScreen({this.productId});
 
   @override
@@ -26,8 +26,13 @@ class ProductDetailsScreen extends StatelessWidget {
     var date = DateTime.now().toString();
     var dateparse = DateTime.parse(date);
     var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+    StoreAppCubit.get(context).getComments(productId);
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is WriteCommentSuccessState) {
+          StoreAppCubit.get(context).getComments(productId);
+        }
+      },
       builder: (context, state) {
         var productAttr = StoreAppCubit.get(context).findById(productId);
         return Scaffold(
@@ -200,86 +205,27 @@ class ProductDetailsScreen extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  RatingBar.builder(
-                                    initialRating: 3,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    textDirection: TextDirection.rtl,
-                                    itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 12.0),
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.yellow[700],
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      print(rating);
-                                    },
-                                  ),
                                   SizedBox(
                                     height: 2.h,
                                   ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        'رائع',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        'ممتاز',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        'جيد',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        'لم يعجبني',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        'سئ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
+                                  Text(
+                                    'تعليقات العملاء',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.sp),
+                                  ),
+                                  SizedBox(
+                                    height: 1.h,
                                   ),
                                   Container(
                                     width: double.infinity,
                                     height: 40.h,
                                     child: ListView.separated(
-                                        shrinkWrap: true,
                                         physics: BouncingScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           var list = StoreAppCubit.get(context)
@@ -292,57 +238,44 @@ class ProductDetailsScreen extends StatelessWidget {
                                         separatorBuilder: (context, index) =>
                                             myDivider(),
                                         itemCount: StoreAppCubit.get(context)
-                                            .comments.length),
+                                            .comments
+                                            .length),
                                   ),
                                   SizedBox(
                                     height: 4.h,
                                   ),
                                   Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.yellow[700],
-                                        width: 1.0,
+                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    height: MediaQuery.of(context).size.height * 0.06,
+                                    child: RaisedButton(
+                                      onPressed:  () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>  ReviewProductDialog(productId: productId,),
+                                        );
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        side: BorderSide(color: defaultColor),
                                       ),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          height: 50.0,
-                                          color: defaultColor,
-                                          child: MaterialButton(
-                                            minWidth: 1.0,
-                                            onPressed: () {
-                                              StoreAppCubit.get(context)
-                                                  .writeComment(
-                                                      dateTime: formattedDate,
-                                                      text: commentController
-                                                          .text,
-                                                      productId: productId);
-                                            },
-                                            child: Icon(
-                                              Feather.send,
-                                              size: 16,
-                                              color: Colors.white,
-                                            ),
+                                      color: defaultColor,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'اضف تقييمك',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Theme.of(context).textSelectionColor,
+                                                fontSize: 13.sp,
+                                                fontWeight: FontWeight.w600),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15.0),
-                                            child: TextFormField(
-                                              controller: commentController,
-                                              textAlign: TextAlign.end,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'اكتب تعليقك ...',
-                                              ),
-                                            ),
+                                          SizedBox(
+                                            width: 2.w,
                                           ),
-                                        ),
-                                      ],
+                                          Icon(Feather.plus,size: 5.w,),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -691,7 +624,7 @@ Widget buildCommentItem(context, CommentModel model) => Padding(
                 bottomRight: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
                 topLeft: Radius.circular(20),
-                topRight:Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
             ),
             child: Column(
@@ -709,7 +642,36 @@ Widget buildCommentItem(context, CommentModel model) => Padding(
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1
-                        .copyWith(fontSize: 12.sp),
+                        .copyWith(fontSize: 14.sp),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${model.rateDescription}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            .copyWith(fontSize: 12.sp),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${model.rate}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(fontSize: 12.sp),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 Container(
