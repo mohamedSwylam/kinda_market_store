@@ -555,10 +555,10 @@ class _UserInfoState extends State<UserScreen> {
                             value: StoreAppCubit.get(context).isDark ? true : false,
                             borderRadius: 30.0,
                             padding: 3.0,
-                            activeToggleColor: Colors.black,
-                            inactiveToggleColor: Colors.black,
-                            activeColor: Colors.black,
-                            inactiveColor: Colors.grey[300],
+                            activeToggleColor: Theme.of(context).splashColor,
+                            inactiveToggleColor: Theme.of(context).splashColor,
+                            activeColor: Theme.of(context).scaffoldBackgroundColor,
+                            inactiveColor: Theme.of(context).scaffoldBackgroundColor,
                             activeIcon: Image.network(
                               "https://cdn-icons-png.flaticon.com/512/2698/2698194.png",
                             ),
@@ -567,6 +567,47 @@ class _UserInfoState extends State<UserScreen> {
                             ),
                             onToggle: (value) {
                               StoreAppCubit.get(context).changeThemeMode();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'لغه الاستخدام',
+                            style: TextStyle(fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          FlutterSwitch(
+                            width: 17.0.w,
+                            height: 5.h,
+                            toggleSize: 45.0,
+                            value: StoreAppCubit.get(context).isEn ? true : false,
+                            borderRadius: 30.0,
+                            padding: 3.0,
+                            activeToggleColor: Theme.of(context).splashColor,
+                            inactiveToggleColor: Theme.of(context).splashColor,
+                            activeColor: Theme.of(context).scaffoldBackgroundColor,
+                            inactiveColor: Theme.of(context).scaffoldBackgroundColor,
+                            activeIcon: Image.network(
+                              "https://cdn-icons-png.flaticon.com/512/323/323324.png",
+                            ),
+                            inactiveIcon: Image.network(
+                              "https://cdn-icons-png.flaticon.com/512/1377/1377975.png",
+                            ),
+                            onToggle: (value) {
+                              StoreAppCubit.get(context).changeLanguage();
+                              StoreAppCubit.get(context).getLan();
                             },
                           ),
                         ],

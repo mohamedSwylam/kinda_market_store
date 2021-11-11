@@ -203,232 +203,234 @@ class ProductDetailsScreen extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
-                                  Text(
-                                    'تعليقات العملاء',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14.sp),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    height: 40.h,
-                                    child: ListView.separated(
-                                        physics: BouncingScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          var list = StoreAppCubit.get(context)
-                                              .comments;
-                                          return buildCommentItem(
-                                            context,
-                                            list[index],
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) =>
-                                            myDivider(),
-                                        itemCount: StoreAppCubit.get(context)
-                                            .comments
-                                            .length),
-                                  ),
-                                  SizedBox(
-                                    height: 4.h,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.4,
-                                    height: MediaQuery.of(context).size.height * 0.06,
-                                    child: RaisedButton(
-                                      onPressed:  () async {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>  ReviewProductDialog(productId: productId,),
-                                        );
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        side: BorderSide(color: defaultColor),
-                                      ),
-                                      color: defaultColor,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    Text(
+                                      'تقييم المنتج ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    StoreAppCubit.get(context).comments.length == 0 ? Container(
+                                      width: double.infinity,
+                                      height: 15.h,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
                                           Text(
-                                            'اضف تقييمك',
+                                            'بدون تقييم حتي الان',
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1
+                                                .copyWith(
+                                                color: Colors.black,
+                                                fontSize: 17.sp),
+                                          ),
+                                          Text(
+                                            'كن اول من يقيم',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: Theme.of(context).textSelectionColor,
-                                                fontSize: 13.sp,
-                                                fontWeight: FontWeight.w600),
+                                              color: Colors.grey,
+                                              fontSize: 15.sp,
+                                            ),
                                           ),
-                                          SizedBox(
-                                            width: 2.w,
-                                          ),
-                                          Icon(Feather.plus,size: 5.w,),
                                         ],
                                       ),
+                                    ) : Container(
+                                      width: double.infinity,
+                                      height: 40.h,
+                                      child: ListView.separated(
+                                          physics: BouncingScrollPhysics(),
+                                          itemBuilder: (context, index) {
+                                            var list = StoreAppCubit.get(context)
+                                                .comments;
+                                            return buildCommentItem(
+                                              context,
+                                              list[index],
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(height: 0.h,),
+                                          itemCount: StoreAppCubit.get(context)
+                                              .comments
+                                              .length),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 4.h,
-                                  ),
-                                  /* Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        '0 %',
-                                        style: Theme.of(context).textTheme.subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(height: 18),
-                                      Text(
-                                        '0 %',
-                                        style:  Theme.of(context).textTheme.subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(height: 16),
-                                      Text(
-                                        '0 %',
-                                        style:  Theme.of(context).textTheme.subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(height: 17),
-                                      Text(
-                                        '0 %',
-                                        style:  Theme.of(context).textTheme.subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      SizedBox(height: 16),
-                                      Text(
-                                        '0 %',
-                                        style:  Theme.of(context).textTheme.subtitle2,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Container(
-                                        width: 160,
-                                        height: 15.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(6),
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.4,
+                                      height: MediaQuery.of(context).size.height * 0.06,
+                                      child: RaisedButton(
+                                        onPressed:  () async {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>  ReviewProductDialog(productId: productId,),
+                                          );
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(16),
+                                          side: BorderSide(color: defaultColor),
+                                        ),
+                                        color: defaultColor,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'اضف تقييمك',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Theme.of(context).textSelectionColor,
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            SizedBox(
+                                              width: 2.w,
+                                            ),
+                                            Icon(Feather.plus,size: 5.w,),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(height: 25),
-                                      Container(
-                                        width: 160,
-                                        height: 15.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(6),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    /* Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
                                         ),
-                                      ),
-                                      SizedBox(height: 26),
-                                      Container(
-                                        width: 160,
-                                        height: 15.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(6),
+                                        Text(
+                                          '0 %',
+                                          style: Theme.of(context).textTheme.subtitle2,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                      SizedBox(height: 28),
-                                      Container(
-                                        width: 160,
-                                        height: 15.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(6),
+                                        SizedBox(height: 18),
+                                        Text(
+                                          '0 %',
+                                          style:  Theme.of(context).textTheme.subtitle2,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                      SizedBox(height: 25),
-                                      Container(
-                                        width: 160,
-                                        height: 15.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(6),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          '0 %',
+                                          style:  Theme.of(context).textTheme.subtitle2,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),*/
-                                ],
+                                        SizedBox(height: 17),
+                                        Text(
+                                          '0 %',
+                                          style:  Theme.of(context).textTheme.subtitle2,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(height: 16),
+                                        Text(
+                                          '0 %',
+                                          style:  Theme.of(context).textTheme.subtitle2,
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Container(
+                                          width: 160,
+                                          height: 15.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        ),
+                                        SizedBox(height: 25),
+                                        Container(
+                                          width: 160,
+                                          height: 15.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        ),
+                                        SizedBox(height: 26),
+                                        Container(
+                                          width: 160,
+                                          height: 15.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        ),
+                                        SizedBox(height: 28),
+                                        Container(
+                                          width: 160,
+                                          height: 15.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        ),
+                                        SizedBox(height: 25),
+                                        Container(
+                                          width: 160,
+                                          height: 15.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),*/
+                                  ],
+                                ),
                               ),
                             ),
-                            myDivider(),
-                            Container(
-                              color: Colors.white,
-                              width: double.infinity,
-                              height: 85,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
-                                  Text(
-                                    'بدون تقييم حتي الان',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        .copyWith(
-                                            color: Colors.black,
-                                            fontSize: 17.sp),
-                                  ),
-                                  Text(
-                                    'كن اول من يقيم',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 15.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            myDivider(),
                             SizedBox(
-                              height: 2.h,
+                              height: 4.h,
                             ),
                             Padding(
                               padding:
@@ -610,92 +612,129 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 }
 
-Widget buildCommentItem(context, CommentModel model) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 60.w,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 2.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Text(
-                    '${model.username}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(fontSize: 14.sp),
+Widget buildCommentItem(context, CommentModel model) => Stack(
+  children: [
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 60.w,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        '${model.rateDescription}',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        '${model.username}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1
-                            .copyWith(fontSize: 12.sp),
+                            .copyWith(fontSize: 14.sp),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            '${model.rate}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .copyWith(fontSize: 12.sp),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      '${model.text} ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .copyWith(fontSize: 12.sp, color: defaultColor),
                     ),
-                  ),
+                    SizedBox(height: 1.h,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 18.w,
+                          height: 6.7.h,
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.yellow[700],
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "${model.rate}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 0.w),
+                              Icon(
+                                Icons.star,
+                                color: Colors.white,
+                                size: 5.w,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              '${model.rateDescription} ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(fontSize: 12.sp, color: defaultColor),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              'منتج',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(fontSize: 12.sp, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 1.h,),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          '${model.text} ',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              .copyWith(fontSize: 12.sp, color: defaultColor),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              CircleAvatar(
+                radius: 8.w,
+                backgroundImage: NetworkImage('${model.imageUrl}'),
+              ),
+            ],
           ),
-          CircleAvatar(
-            radius: 8.w,
-            backgroundImage: NetworkImage('${model.imageUrl}'),
-          ),
-        ],
-      ),
-    );
+        ),
+  ],
+);
 
 Widget buildSuggestProduct(context, Product model) => InkWell(
       onTap: () {

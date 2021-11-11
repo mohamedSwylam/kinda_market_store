@@ -17,76 +17,80 @@ class ForgotPasswordDialog extends StatelessWidget {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          child: SingleChildScrollView(
-            child: Column(children: [
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 5.h,),
-                    Image.asset(
-                      'assets/images/ok.png',
-                    ),
-                    SizedBox(height: 4.h,),
-                    Text(
-                      'تم ارسال رابط اعاده تعيين كلمه المرور بنجاح',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(fontWeight: FontWeight.w600,fontSize: 15.sp),),
-                    SizedBox(height: 4.h,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                      child: Text(
-                        'برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم ',
+        var cubit = StoreAppCubit.get(context);
+        return Directionality(
+          textDirection: cubit.isEn? TextDirection.ltr :TextDirection.rtl,
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            child: SingleChildScrollView(
+              child: Column(children: [
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 5.h,),
+                      Image.asset(
+                        'assets/images/ok.png',
+                      ),
+                      SizedBox(height: 4.h,),
+                      Text(
+                        cubit.getTexts('forgetPassDialog1'),
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
                             .headline6
-                            .copyWith(fontWeight: FontWeight.w600,fontSize: 12.sp),),
-                    ),
-
-                    SizedBox(height: 4.h,),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: RaisedButton(
-                        onPressed:  ()  {
-                          StoreAppCubit.get(context).selectedHome();
-                          navigateTo(context, LoginScreen()
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: BorderSide(color: defaultColor),
-                        ),
-                        color: defaultColor,
+                            .copyWith(fontWeight: FontWeight.w600,fontSize: 15.sp),),
+                      SizedBox(height: 4.h,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50.0),
                         child: Text(
-                          'عوده',
+                          cubit.getTexts('forgetPassDialog2'),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).textSelectionColor,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(fontWeight: FontWeight.w600,fontSize: 12.sp),),
+                      ),
+
+                      SizedBox(height: 4.h,),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.06,
+                        child: RaisedButton(
+                          onPressed:  ()  {
+                            StoreAppCubit.get(context).selectedHome();
+                            navigateTo(context, LoginScreen()
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: BorderSide(color: defaultColor),
+                          ),
+                          color: defaultColor,
+                          child: Text(
+                            cubit.getTexts('forgetPassDialog3'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Theme.of(context).textSelectionColor,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 5.h,),
-                  ],
+                      SizedBox(height: 5.h,),
+                    ],
+                  ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
           ),
         );
       },

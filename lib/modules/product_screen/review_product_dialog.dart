@@ -7,8 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:sizer/sizer.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
-import 'package:kinda_store/layout/store_layout.dart';
-import 'package:kinda_store/shared/components/components.dart';
+
 import 'package:kinda_store/shared/styles/color.dart';
 
 

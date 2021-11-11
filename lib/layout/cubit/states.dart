@@ -16,6 +16,10 @@ class StoreAppBottomBarCartState extends StoreAppStates {}
 
 class StoreAppChangeThemeModeState extends StoreAppStates {}
 
+class StoreAppChangeLanguageState extends StoreAppStates {}
+
+class StoreAppGetLanguageState extends StoreAppStates {}
+
 class StoreAppAddToCartSuccessState extends StoreAppStates {}
 
 class StoreAppReduceCartItemByOneSuccessState extends StoreAppStates {}

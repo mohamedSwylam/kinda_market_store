@@ -278,7 +278,7 @@ class HomeScreen extends StatelessWidget {
                     return buildProductItem(context, list[index]);
                   },
                   separatorBuilder: (context, index) => SizedBox(),
-                  itemCount: 10,
+                  itemCount: StoreAppCubit.get(context).products.length,
                   scrollDirection: Axis.horizontal,
                 ),
               ),

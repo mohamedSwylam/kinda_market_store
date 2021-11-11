@@ -14,7 +14,6 @@ import 'package:kinda_store/models/banner_model.dart';
 import 'package:kinda_store/models/comment_model.dart';
 import 'package:kinda_store/models/user_model.dart';
 import 'package:kinda_store/modules/search/search_screen.dart';
-import 'package:kinda_store/modules/sign_up_screen/cubit/states.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/cart_model.dart';
@@ -23,12 +22,12 @@ import 'package:kinda_store/models/order_model.dart';
 import 'package:kinda_store/models/product_model.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
-import 'package:kinda_store/modules/categories_screen/categoties_feed_screen.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/modules/home_screen/home_screen.dart';
 import 'package:kinda_store/modules/landingPage/landing_page.dart';
 import 'package:kinda_store/modules/user_screen/user_screen.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -157,8 +156,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetCommentsErrorStates());
     });
   }
-  double rate =3.0;
-  String rateDescription="جيد";
+  double rate ;
+  String rateDescription;
   void changeRating(rating) {
     rate=rating;
     if (rating > 0 && rating <= 1){
@@ -181,7 +180,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       rateDescription="جيد";
     }
     print(rating);
-    emit(ChangeRateSuccessStates());
+   // emit(ChangeRateSuccessStates());
   }
 
   ///////////////////////////SignUp
@@ -974,5 +973,117 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg'),
   ];
 
+////////////// languag
+  bool isEn = true;
+  Map<String, Object> textsAr = {
+    "landing1": "مرحبا",
+    "landing2": "مرحبا بك في كنده تشيز",
+    "landing3": "دخول",
+    "landing4": "انشاء حساب",
+    "landing5": "او يمكنك استخدام",
+    "landing6": "الدخول كزائر",
+    "login1": "كنده تشيز",
+    "login2": "البريد الالكتروني",
+    "login3": "كلمه المرور",
+    "login4": "نسيت كلمه المرور",
+    "login5": "دخول",
+    "login6": "كلمه المرور غير صالحه",
+    "login7": "بريد الكتروني غير صالح",
+    "forgetPass1": "كنده تشيز",
+    "forgetPass2": "البريد الالكتروني",
+    "forgetPass3": "اعاده تعيين",
+    "forgetPass4": "بريد الكتروني غير صالح",
+    "forgetPassDialog1": "'تم ارسال رابط اعاده تعيين كلمه المرور بنجاح",
+    "forgetPassDialog2": "برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم",
+    "forgetPassDialog3": "موافق",
+    "signUp1": "اختر",
+    "signUp2": "الكاميرا",
+    "signUp3": "المعرض",
+    "signUp4": "حذف",
+    "signUp5": "الاسم الذي ادخلته غير صالح",
+    "signUp6": "ادخل اسمك",
+    "signUp7": "بريد الكتروني غير صالح",
+    "signUp8": "ادخل البريد الالكتروني",
+    "signUp9": "رقم هاتف غير صالح",
+    "signUp10": "ادخل رقم هاتفك",
+    "signUp11": "عنوان غير صالح",
+    "signUp12": "اكتب عنوان منزلك",
+    "signUp13": "كلمه المرور غير صالحه",
+    "signUp14": "ادخل كلمه المرور",
+    "signUp15": "تسجيل",
+    "cart1": "العربه",
+    "cart2": "ج.م",
+    "cart3": "  :  السعر",
+    "cart4": "  :  السعر الكلي",
+    "cart5": "  :  الكميه",
+    "cart6": "تم تأكيد الطلب",
+    "cart7": "تأكيد الطلب",
+    "cart8": "الاتصال للطلب",
+  };
+  Map<String, Object> textsEn = {
+    "landing1": "Welcome",
+    "landing2": "Welcome to kinda cheese",
+    "landing3": "Login",
+    "landing4": "Sign up",
+    "landing5": "Or can use",
+    "landing6": "As a gust",
+    "login1": "Kinda Cheese",
+    "login2": "Email address",
+    "login3": "password",
+    "login4": "Forget password ?",
+    "login5": "Login",
+    "login6": "Invalid password",
+    "login7": "Invalid email address",
+    "forgetPass1": "Kinda Cheese",
+    "forgetPass2": "Email address",
+    "forgetPass3": "Reset",
+    "forgetPass4": "Invalid email address",
+    "forgetPassDialog1": "Password reset link sent successfully",
+    "forgetPassDialog2": "Please check your email inbox to reset your password",
+    "forgetPassDialog3": "Ok",
+    "signUp1": "Choose",
+    "signUp2": "Camera",
+    "signUp3": "Gallery",
+    "signUp4": "Delete",
+    "signUp5": "Invalid userName",
+    "signUp6": "UserName",
+    "signUp7": "Invalid email address",
+    "signUp8": "Email address",
+    "signUp9": "Invalid phone number",
+    "signUp10": "Phone number",
+    "signUp11": "Invalid address",
+    "signUp12": "Home address",
+    "signUp13": "Invalid password",
+    "signUp14": "Password",
+    "signUp15": "Sign Up",
+    "cart1": "Cart",
+    "cart2": "P",
+    "cart3": "  :  Price",
+    "cart4": "  :  Total Price",
+    "cart5": "  :  Quantity",
+    "cart6": "Order confirmed",
+    "cart7": "Confirm order",
+    "cart8": "Contact to order",
+  };
 
+  void changeLanguage({bool fromShared}) {
+    if (fromShared != null) {
+      isEn = fromShared;
+      emit(StoreAppChangeLanguageState());
+    } else {
+      isEn = !isEn;
+      CacheHelper.putBoolean(key: 'isEn', value: isEn).then((value) {
+        emit(StoreAppChangeLanguageState());
+      });
+    }
+  }
+  getLan() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isEn = prefs.getBool("isEn")?? true;
+    emit(StoreAppGetLanguageState());
+  }
+  Object getTexts(String txt) {
+    if (isEn == true) return textsEn[txt];
+    return textsAr[txt];
+  }
 }

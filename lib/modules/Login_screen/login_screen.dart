@@ -34,182 +34,187 @@ class LoginScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          body: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 1,
-                  child: RotatedBox(
-                    quarterTurns: 4,
-                    child: WaveWidget(
-                      config: CustomConfig(
-                        gradients: [
-                          [Colors.amber, Colors.teal],
-                          [Colors.amberAccent, Colors.green[100]],
-                        ],
-                        durations: [19440, 10800],
-                        heightPercentages: [0.20, 0.25],
-                        blur: MaskFilter.blur(BlurStyle.solid, 10),
-                        gradientBegin: Alignment.bottomLeft,
-                        gradientEnd: Alignment.topRight,
-                      ),
-                      waveAmplitude: 0,
-                      size: Size(
-                        double.infinity,
-                        double.infinity,
+        var cubit=StoreAppCubit.get(context);
+        return Directionality(
+          textDirection: cubit.isEn? TextDirection.ltr :TextDirection.rtl,
+          child: Scaffold(
+            body: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 1,
+                    child: RotatedBox(
+                      quarterTurns: 4,
+                      child: WaveWidget(
+                        config: CustomConfig(
+                          gradients: [
+                            [Colors.amber, Colors.teal],
+                            [Colors.amberAccent, Colors.green[100]],
+                          ],
+                          durations: [19440, 10800],
+                          heightPercentages: [0.20, 0.25],
+                          blur: MaskFilter.blur(BlurStyle.solid, 10),
+                          gradientBegin: Alignment.bottomLeft,
+                          gradientEnd: Alignment.topRight,
+                        ),
+                        waveAmplitude: 0,
+                        size: Size(
+                          double.infinity,
+                          double.infinity,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      FadeAnimation(0.9,Center(
-                        child: Container(
-                          height: 17.h,
-                          width: 35.w,
-                          child: Image(
-                            image: AssetImage('assets/images/login.png'),
-                          ),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 8.h,
                         ),
-                      ),),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Center(
-                        child: FadeAnimation(
-                          1.2,
-                          Text(
-                            'Kinda Cheese',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(fontWeight: FontWeight.bold,fontSize: 25.sp),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      FadeAnimation(
-                          1.5,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey[300]))),
-                                    child: defaultFormFiled(
-                                        type: TextInputType.emailAddress,
-                                        onSubmit: (){},
-                                        controller: emailController,
-                                        validate: (String value) {
-                                          if (value.isEmpty ||
-                                              !value.contains('@')) {
-                                            return 'بريد الكتروني غير صالح';
-                                          }
-                                          return null;
-                                        },
-                                        hint: 'ادخل البريد الالكتروني'),
-
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(),
-                                    child: defaultFormFiled(
-                                        type: TextInputType.visiblePassword,
-                                        controller: passwordController,
-                                        onSubmit: (){},
-                                        validate: (String value) {
-                                          if (value.isEmpty || value.length < 7) {
-                                            return 'كلمه المرور غير صالحه';
-                                          }
-                                          return null;
-                                        },
-                                        isPassword: StoreAppCubit.get(context).isPasswordShown,
-                                        suffixPressed: () {
-                                          StoreAppCubit.get(context)
-                                              .changePasswordVisibility();
-                                        },
-                                        prefix: StoreAppCubit.get(context).prefix,
-                                        hint: 'ادخل كلمه المرور'
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        FadeAnimation(0.9,Center(
+                          child: Container(
+                            height: 17.h,
+                            width: 35.w,
+                            child: Image(
+                              image: AssetImage('assets/images/login.png'),
                             ),
-                          )),
-                  FadeAnimation(1.8, Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                        child: Container(
-                            alignment: Alignment.bottomRight,
-                            child: TextButton(
-                              onPressed: () {
-                                navigateTo(context,ForgetPasswordScreen());
-                              },
-                              child: Text(
-                                'نسيت كلمه المرور ؟',
-                                style: TextStyle(color: Colors.black,fontSize: 13.sp),
+                          ),
+                        ),),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Center(
+                          child: FadeAnimation(
+                            1.2,
+                            Text(
+                              cubit.getTexts('login1'),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  .copyWith(fontWeight: FontWeight.bold,fontSize: 25.sp),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        FadeAnimation(
+                            1.5,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey[300]))),
+                                      child: defaultFormFiled(
+                                          type: TextInputType.emailAddress,
+                                          onSubmit: (){},
+                                          controller: emailController,
+                                          validate: (String value) {
+                                            if (value.isEmpty ||
+                                                !value.contains('@')) {
+                                              return '${cubit.getTexts('login6')}';
+                                            }
+                                            return null;
+                                          },
+                                           hint: cubit.getTexts('login2'),
+                                      ),
+
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(),
+                                      child: defaultFormFiled(
+                                          type: TextInputType.visiblePassword,
+                                          controller: passwordController,
+                                          onSubmit: (){},
+                                          validate: (String value) {
+                                            if (value.isEmpty || value.length < 7) {
+                                              return '${cubit.getTexts('login7')}';
+                                            }
+                                            return null;
+                                          },
+                                          isPassword: StoreAppCubit.get(context).isPasswordShown,
+                                          suffixPressed: () {
+                                            StoreAppCubit.get(context)
+                                                .changePasswordVisibility();
+                                          },
+                                          prefix: StoreAppCubit.get(context).prefix,
+                                        hint: cubit.getTexts('login3'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             )),
-                      ),),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      FadeAnimation(
-                          2.1,
-                          Center(
-                            child:  ConditionalBuilder(
-                              condition: state is! LoginLoadingState,
-                              builder: (context) {
-                                return InkWell(
-                                  onTap: () {
-                                    if (formKey.currentState.validate()) {
-                                      StoreAppCubit.get(context).userLogin(
-                                        password: passwordController.text,
-                                        email: emailController.text,
-                                      );
-                                    }
-                                  },
-                                  child: Container(
-                                    width: 30 .w,
-                                    height: 11.h,
-                                    padding: EdgeInsets.all(15),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.yellow[700]),
-                                    child: Center(
-                                        child: Text(
-                                          "دخول",
-                                          style: TextStyle(
-                                              color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15.sp),
-                                        )),
-                                  ),
-                                );
-                              },
-                              fallback: (context) =>
-                                  Center(child: CircularProgressIndicator()),
-                            ),
-                          )),
-                    ],
+                    FadeAnimation(1.8, Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                          child: Container(
+                              alignment: Alignment.bottomRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  navigateTo(context,ForgetPasswordScreen());
+                                },
+                                child: Text(
+                                  cubit.getTexts('login4'),
+                                  style: TextStyle(color: Colors.black,fontSize: 13.sp),
+                                ),
+                              )),
+                        ),),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        FadeAnimation(
+                            2.1,
+                            Center(
+                              child:  ConditionalBuilder(
+                                condition: state is! LoginLoadingState,
+                                builder: (context) {
+                                  return InkWell(
+                                    onTap: () {
+                                      if (formKey.currentState.validate()) {
+                                        StoreAppCubit.get(context).userLogin(
+                                          password: passwordController.text,
+                                          email: emailController.text,
+                                        );
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 30 .w,
+                                      height: 11.h,
+                                      padding: EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.yellow[700]),
+                                      child: Center(
+                                          child: Text(
+                                            cubit.getTexts('login5'),
+                                            style: TextStyle(
+                                                color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15.sp),
+                                          )),
+                                    ),
+                                  );
+                                },
+                                fallback: (context) =>
+                                    Center(child: CircularProgressIndicator()),
+                              ),
+                            )),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
