@@ -62,8 +62,11 @@ class _UserInfoState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    var cubit = StoreAppCubit.get(context);
+    return Directionality(
+        textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+        child: Scaffold(
+        body: Stack(
         children: [
           CustomScrollView(
             controller: _scrollController,
@@ -78,7 +81,7 @@ class _UserInfoState extends State<UserScreen> {
                   top = constraints.biggest.height;
                   return Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color: Colors.white,
                     ),
                     child: FlexibleSpaceBar(
                       collapseMode: CollapseMode.parallax,
@@ -118,8 +121,8 @@ class _UserInfoState extends State<UserScreen> {
                                 Text(
                                   // 'top.toString()',
                                   StoreAppCubit.get(context).name == null
-                                      ? 'ضيف'
-                                      : StoreAppCubit.get(context).name,
+                                      ?  cubit.getTexts('user1')
+                                    : StoreAppCubit.get(context).name,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -130,6 +133,7 @@ class _UserInfoState extends State<UserScreen> {
                           ),
                         ],
                       ),
+
                       background: Image(
                         image: NetworkImage(StoreAppCubit.get(context)
                                 .profileImage ??
@@ -148,7 +152,7 @@ class _UserInfoState extends State<UserScreen> {
                     SizedBox(
                       height: 8.h,
                     ),
-                    userTitle('حقيبه المستخدم'),
+                    userTitle(cubit.getTexts('user2'),),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
@@ -179,7 +183,7 @@ class _UserInfoState extends State<UserScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Text(
-                                  'المفضله',
+                                  cubit.getTexts('user3'),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -229,7 +233,7 @@ class _UserInfoState extends State<UserScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 0.0),
                                 child: Text(
-                                  'العربه',
+                                  cubit.getTexts('user4'),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -280,8 +284,7 @@ class _UserInfoState extends State<UserScreen> {
                                 padding:
                                     const EdgeInsets.only(top: 8.0, right: 15),
                                 child: Text(
-                                  'الطلبات',
-                                  style: Theme.of(context)
+                                  cubit.getTexts('user5'),                                  style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
                                       .copyWith(fontSize: 14.sp),
@@ -312,7 +315,7 @@ class _UserInfoState extends State<UserScreen> {
                     ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: userTitle('معلومات المستخدم')),
+                        child: userTitle(cubit.getTexts('user6'),),),
                     Divider(
                       thickness: 1,
                       color: Colors.grey,
@@ -336,7 +339,7 @@ class _UserInfoState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'اسم المستخدم',
+                                      cubit.getTexts('user7'),
                                       style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
@@ -376,7 +379,7 @@ class _UserInfoState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'البريد الالكتروني',
+                                      cubit.getTexts('user8'),
                                       style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
@@ -415,7 +418,7 @@ class _UserInfoState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'رقم الهاتف',
+                                      cubit.getTexts('user9'),
                                       style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
@@ -454,8 +457,7 @@ class _UserInfoState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'عنوان المستخدم',
-                                      style: Theme.of(context)
+                                      cubit.getTexts('user10'),                                      style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
                                           .copyWith(fontSize: 12.sp),
@@ -493,7 +495,7 @@ class _UserInfoState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      'تاريخ الانضمام',
+                                      cubit.getTexts('user11'),
                                       style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
@@ -526,7 +528,7 @@ class _UserInfoState extends State<UserScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: userTitle('الاعدادات'),
+                      child: userTitle(cubit.getTexts('user12'),),
                     ),
                     Divider(
                       thickness: 1,
@@ -542,29 +544,23 @@ class _UserInfoState extends State<UserScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'مظهر داكن ',
+                            cubit.getTexts('user13'),
                             style: TextStyle(fontSize: 15.sp),
                           ),
                           SizedBox(
                             width: 10.w,
                           ),
                           FlutterSwitch(
-                            width: 17.0.w,
-                            height: 5.h,
-                            toggleSize: 45.0,
+                            width: 13.0.w,
+                            height: 4.h,
+                            toggleSize: 20.0,
                             value: StoreAppCubit.get(context).isDark ? true : false,
                             borderRadius: 30.0,
-                            padding: 3.0,
-                            activeToggleColor: Theme.of(context).splashColor,
-                            inactiveToggleColor: Theme.of(context).splashColor,
-                            activeColor: Theme.of(context).scaffoldBackgroundColor,
-                            inactiveColor: Theme.of(context).scaffoldBackgroundColor,
-                            activeIcon: Image.network(
-                              "https://cdn-icons-png.flaticon.com/512/2698/2698194.png",
-                            ),
-                            inactiveIcon: Image.network(
-                              "https://cdn-icons-png.flaticon.com/512/740/740878.png",
-                            ),
+                            padding: 0.0,
+                            activeToggleColor: Colors.white,
+                            inactiveToggleColor: Colors.white,
+                            activeColor: Colors.grey,
+                            inactiveColor: Colors.grey,
                             onToggle: (value) {
                               StoreAppCubit.get(context).changeThemeMode();
                             },
@@ -582,29 +578,23 @@ class _UserInfoState extends State<UserScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'لغه الاستخدام',
+                            cubit.getTexts('user14'),
                             style: TextStyle(fontSize: 15.sp),
                           ),
                           SizedBox(
                             width: 10.w,
                           ),
                           FlutterSwitch(
-                            width: 17.0.w,
-                            height: 5.h,
-                            toggleSize: 45.0,
+                            width: 13.0.w,
+                            height: 4.h,
+                            toggleSize: 20.0,
                             value: StoreAppCubit.get(context).isEn ? true : false,
                             borderRadius: 30.0,
-                            padding: 3.0,
-                            activeToggleColor: Theme.of(context).splashColor,
-                            inactiveToggleColor: Theme.of(context).splashColor,
-                            activeColor: Theme.of(context).scaffoldBackgroundColor,
-                            inactiveColor: Theme.of(context).scaffoldBackgroundColor,
-                            activeIcon: Image.network(
-                              "https://cdn-icons-png.flaticon.com/512/323/323324.png",
-                            ),
-                            inactiveIcon: Image.network(
-                              "https://cdn-icons-png.flaticon.com/512/1377/1377975.png",
-                            ),
+                            padding: 0.0,
+                            activeToggleColor: Colors.white,
+                            inactiveToggleColor: Colors.white,
+                            activeColor: Colors.grey,
+                            inactiveColor: Colors.grey,
                             onToggle: (value) {
                               StoreAppCubit.get(context).changeLanguage();
                               StoreAppCubit.get(context).getLan();
@@ -620,8 +610,8 @@ class _UserInfoState extends State<UserScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          showDialogg(context, 'تسجيل الخروج',
-                              'هل تريد حقا تسجيل الخروج', () {
+                          showDialogg(context, cubit.getTexts('user15'),
+                              cubit.getTexts('user16'), () {
                             StoreAppCubit.get(context).signOut(context);
                           });
                         },
@@ -643,7 +633,7 @@ class _UserInfoState extends State<UserScreen> {
                                 padding:
                                     const EdgeInsets.only(top: 8.0, right: 15),
                                 child: Text(
-                                  'تسجيل الخروج',
+                                    cubit.getTexts('user15'),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -678,7 +668,7 @@ class _UserInfoState extends State<UserScreen> {
           _buildFab()
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildFab() {
@@ -705,119 +695,122 @@ class _UserInfoState extends State<UserScreen> {
         scale = 0.0;
       }
     }
-
-    return Positioned(
-      top: top,
-      right: 18.0,
-      child: Transform(
-        transform: Matrix4.identity()..scale(scale),
-        alignment: Alignment.center,
-        child: FloatingActionButton(
-          backgroundColor: Colors.yellow[700],
-          heroTag: "btn1",
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Center(
-                      child: Text(
-                        'اختر طريقه',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: defaultColor,
-                            fontSize: 13.sp),
+    var cubit = StoreAppCubit.get(context);
+    return Directionality(
+      textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+      child: Positioned(
+        top: top,
+        right: 18.0,
+        child: Transform(
+          transform: Matrix4.identity()..scale(scale),
+          alignment: Alignment.center,
+          child: FloatingActionButton(
+            backgroundColor: Colors.yellow[700],
+            heroTag: "btn1",
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Text(
+                          cubit.getTexts('signUp1'),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: defaultColor,
+                              fontSize: 13.sp),
+                        ),
                       ),
-                    ),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              StoreAppCubit.get(context).pickImageCamera();
-                              Navigator.pop(context);
-                            },
-                            splashColor: defaultColor,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.camera,
-                                    color: Colors.yellow[700],
-                                    size: 7.w,
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                StoreAppCubit.get(context).pickImageCamera();
+                                Navigator.pop(context);
+                              },
+                              splashColor: defaultColor,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.camera,
+                                      color: Colors.yellow[700],
+                                      size: 7.w,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'الكاميرا',
-                                  style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: ColorsConsts.title),
-                                )
-                              ],
+                                  Text(
+                                    cubit.getTexts('signUp2'),
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorsConsts.title),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              StoreAppCubit.get(context).getProfileImage();
-                              Navigator.pop(context);
-                            },
-                            splashColor: defaultColor,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.image,
-                                    size: 7.w,
-                                    color: Colors.yellow[700],
+                            InkWell(
+                              onTap: () {
+                                StoreAppCubit.get(context).getProfileImage();
+                                Navigator.pop(context);
+                              },
+                              splashColor: defaultColor,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.image,
+                                      size: 7.w,
+                                      color: Colors.yellow[700],
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'المعرض',
-                                  style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: ColorsConsts.title),
-                                )
-                              ],
+                                  Text(
+                                    cubit.getTexts('signUp3'),
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: ColorsConsts.title),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              StoreAppCubit.get(context).remove();
-                              Navigator.pop(context);
-                            },
-                            splashColor: defaultColor,
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.remove_circle,
-                                    color: Colors.red,
-                                    size: 7.w,
+                            InkWell(
+                              onTap: () {
+                                StoreAppCubit.get(context).remove();
+                                Navigator.pop(context);
+                              },
+                              splashColor: defaultColor,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.remove_circle,
+                                      color: Colors.red,
+                                      size: 7.w,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'حذف',
-                                  style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.red),
-                                )
-                              ],
+                                  Text(
+                                    cubit.getTexts('signUp4'),
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.red),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                });
-          },
-          child: Icon(
-            Icons.camera_alt_outlined,
+                    );
+                  });
+            },
+            child: Icon(
+              Icons.camera_alt_outlined,
+            ),
           ),
         ),
       ),

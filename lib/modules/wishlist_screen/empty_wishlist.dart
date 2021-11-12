@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 
@@ -15,7 +16,10 @@ import 'package:sizer/sizer.dart';
 class EmptyWishList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var cubit = StoreAppCubit.get(context);
+    return Directionality(
+        textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+        child: Scaffold(
       appBar:AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: Text(''),
@@ -36,7 +40,7 @@ class EmptyWishList extends StatelessWidget {
             ),
           ),
           Text(
-            'المفضله فارغه',
+            cubit.getTexts('wishListEmpty1'),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textSelectionColor,
@@ -46,7 +50,7 @@ class EmptyWishList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-              'يبدو انك لم تقم باضافه اي تفضيلات حتي الان',
+              cubit.getTexts('wishListEmpty2'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 14.sp),
             ),),
@@ -63,7 +67,7 @@ class EmptyWishList extends StatelessWidget {
               ),
               color: defaultColor,
               child: Text(
-                'تسوق الان',
+                cubit.getTexts('cartEmpty3'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).textSelectionColor,
@@ -77,7 +81,7 @@ class EmptyWishList extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:sizer/sizer.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 
@@ -214,48 +215,53 @@ Widget defaultTextFormFieldField({
 );
 
 Future<void> showDialogg(context,title,subtitle,Function function) async {
+  var cubit=StoreAppCubit.get(context);
   showDialog(
       context: context,
       builder: (BuildContext ctx) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              Padding(
-                padding:
-                const EdgeInsets.only(right: 6.0),
-                child: Image.network(
-                  'https://image.flaticon.com/icons/png/128/1828/1828304.png',
-                  height: 18.h,
-                  width: 18.w,
+        return Directionality(
+          textDirection: StoreAppCubit.get(context).isEn == false? TextDirection.ltr :TextDirection.rtl,
+          child: AlertDialog(
+            title: Row(
+              children: [
+                Padding(
+                  padding:
+                  const EdgeInsets.only(right: 6.0),
+                  child: Image.network(
+                    'https://image.flaticon.com/icons/png/128/1828/1828304.png',
+                    height: 18.h,
+                    width: 18.w,
+                  ),
                 ),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(title,style: TextStyle(fontSize: 15.sp),textAlign: TextAlign.center,),
-              ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(title,style: TextStyle(fontSize: 13.sp),textAlign: TextAlign.center,),
+                ),
+              ],
+            ),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(subtitle,style: TextStyle(fontSize: 11.sp),textAlign: TextAlign.center,maxLines: 2,),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text( cubit.getTexts('dialog'),
+                      style: TextStyle(fontSize: 15.sp),)),
+              TextButton(
+                  onPressed: () async {
+                    function();
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                           cubit.getTexts('forgetPassDialog3'),
+                    style: TextStyle(color: Colors.red,fontSize: 15.sp),
+                  ))
             ],
           ),
-          content: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(subtitle,style: TextStyle(fontSize: 13.sp),textAlign: TextAlign.center,maxLines: 2,),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text('الغاء',style: TextStyle(fontSize: 15.sp),)),
-            TextButton(
-                onPressed: () async {
-                  function();
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'موافق',
-                  style: TextStyle(color: Colors.red,fontSize: 15.sp),
-                ))
-          ],
         );
       });
 }

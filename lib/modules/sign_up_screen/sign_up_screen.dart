@@ -42,7 +42,7 @@ class SignUpScreen extends StatelessWidget {
             .profile;
         var cubit = StoreAppCubit.get(context);
         return Directionality(
-          textDirection: cubit.isEn? TextDirection.ltr :TextDirection.rtl,
+          textDirection: cubit.isEn== false? TextDirection.ltr :TextDirection.rtl,
           child: Scaffold(
             body: SingleChildScrollView(
               child: Stack(

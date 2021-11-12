@@ -31,7 +31,7 @@ class CartScreen extends StatelessWidget {
                 )
               : Directionality(
                   textDirection:
-                      cubit.isEn ? TextDirection.ltr : TextDirection.rtl,
+                      cubit.isEn ==false? TextDirection.ltr : TextDirection.rtl,
                   child: Scaffold(
                     appBar: AppBar(
                       title: Row(
@@ -44,7 +44,7 @@ class CartScreen extends StatelessWidget {
                               badgeColor: defaultColor,
                               animationType: BadgeAnimationType.slide,
                               toAnimate: true,
-                              position: BadgePosition.topEnd(top: -6, end: -5),
+                              position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
                               badgeContent: Text(
                                 StoreAppCubit.get(context)
                                     .carts
@@ -70,7 +70,7 @@ class CartScreen extends StatelessWidget {
                             badgeColor: defaultColor,
                             animationType: BadgeAnimationType.slide,
                             toAnimate: true,
-                            position: BadgePosition.topEnd(top: -5, end: -3),
+                            position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
                             badgeContent: Text(
                               StoreAppCubit.get(context)
                                   .wishList
@@ -136,7 +136,7 @@ class CartScreen extends StatelessWidget {
 Widget buildCartItem(CartModel model, context) {
   var cubit = StoreAppCubit.get(context);
   return Directionality(
-    textDirection: cubit.isEn? TextDirection.ltr :TextDirection.rtl,
+    textDirection: cubit.isEn ==false? TextDirection.ltr :TextDirection.rtl,
     child: InkWell(
       onTap: () {
         navigateTo(
@@ -503,8 +503,8 @@ Widget buildCartItem(CartModel model, context) {
                       ),
                     ),
                     onPressed: () {
-                      showDialogg(context, 'حذف المنتج من العربه',
-                          'هل تريد حقل حذف المنتج من العربه', () {
+                      showDialogg(context,cubit.getTexts('cart9'),
+                          cubit.getTexts('cart10'), () {
                         StoreAppCubit.get(context).removeFromCart(model.cartId);
                       });
                     },

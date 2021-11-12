@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/modules/feeds_screen/feeds_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
@@ -8,7 +9,10 @@ import 'package:sizer/sizer.dart';
 class EmptyOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var cubit = StoreAppCubit.get(context);
+    return Directionality(
+        textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+        child: Scaffold(
       appBar:AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: Text(''),
@@ -29,7 +33,7 @@ class EmptyOrder extends StatelessWidget {
             ),
           ),
           Text(
-            'سله الطلبات فارغه ',
+            cubit.getTexts('orderEmpty1'),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).textSelectionColor,
@@ -39,7 +43,7 @@ class EmptyOrder extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Text(
-              'يبدو انك لم تقم باي طلب حتي الان',
+              cubit.getTexts('orderEmpty2'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 14.sp),
             ),),
@@ -56,7 +60,7 @@ class EmptyOrder extends StatelessWidget {
               ),
               color: defaultColor,
               child: Text(
-                'تسوق الان',
+                cubit.getTexts('cartEmpty3'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).textSelectionColor,
@@ -70,6 +74,6 @@ class EmptyOrder extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

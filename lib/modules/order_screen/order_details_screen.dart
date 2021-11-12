@@ -43,8 +43,11 @@ class OrderDetailsScreen extends StatelessWidget {
       builder: (context, state) {
         var productAttr = StoreAppCubit.get(context).findById(productId);
         double total= ((price*quantity))+10;
-        return Scaffold(
-          appBar: AppBar(
+        var cubit = StoreAppCubit.get(context);
+        return Directionality(
+            textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+            child: Scaffold(
+            appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             elevation:1,
             title: Row(
@@ -57,7 +60,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     badgeColor: defaultColor,
                     animationType: BadgeAnimationType.slide,
                     toAnimate: true,
-                    position: BadgePosition.topEnd(top: -6, end: -5),
+                    position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
                     badgeContent: Text(
                       StoreAppCubit.get(context).carts.length.toString(),
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -79,7 +82,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   badgeColor: defaultColor,
                   animationType: BadgeAnimationType.slide,
                   toAnimate: true,
-                  position: BadgePosition.topEnd(top: -5, end: -3),
+                  position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
                   badgeContent: Text(
                     StoreAppCubit.get(context).wishList.length.toString(),
                     style: TextStyle(color: Colors.white, fontSize: 18),
@@ -102,7 +105,7 @@ class OrderDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: 10.0, vertical: 11),
                 child: Text(
-                  'تفاصيل الطلب',
+                  cubit.getTexts('orderDetails2'),
                   style: Theme.of(context)
                     .textTheme
                     .headline6
@@ -124,7 +127,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 10),
                         child: Text(
-                          'تفاصيل التواصل',
+                          cubit.getTexts('orderDetails3'),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.end,
@@ -228,7 +231,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'ج.م',
+                                          cubit.getTexts('cart2'),
                                           style: TextStyle(
                                             fontSize: 17.0.sp,
                                             color: Colors.grey,
@@ -248,7 +251,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Text(
-                                      'السعر',
+                                      cubit.getTexts('cart3'),
                                       style: TextStyle(
                                         fontSize: 14.0.sp,
                                         color: Colors.black,
@@ -271,7 +274,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         SizedBox(
-                                          width: 13.w
+                                          width: 5.w
                                         ),
                                         Text(
                                           '${quantity}',
@@ -284,7 +287,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Text(
-                                      'الكميه',
+                                      cubit.getTexts('cart5'),
                                       style: TextStyle(
                                         fontSize: 14.0.sp,
                                         color: Colors.black,
@@ -307,7 +310,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'ج.م',
+                                          cubit.getTexts('cart2'),
                                           style: TextStyle(
                                             fontSize: 17.0.sp,
                                             color: Colors.grey,
@@ -327,7 +330,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Text(
-                                      'الاجمالي',
+                                      cubit.getTexts('orderDetails4'),
                                       style: TextStyle(
                                         fontSize: 14.0.sp,
                                         color: Colors.black,
@@ -350,7 +353,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'ج.م',
+                                          cubit.getTexts('cart2'),
                                           style: TextStyle(
                                             fontSize: 17.sp,
                                             color: Colors.grey,
@@ -370,7 +373,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Text(
-                                      'الشحن',
+                                      cubit.getTexts('orderDetails5'),
                                       style: TextStyle(
                                         fontSize: 14.0.sp,
                                         color: Colors.black,
@@ -393,7 +396,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'ج.م',
+                                          cubit.getTexts('cart2'),
                                           style: TextStyle(
                                             fontSize: 17.0.sp,
                                             color: Colors.grey,
@@ -413,7 +416,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Text(
-                                      ' السعر الكلي ',
+                                      cubit.getTexts('cart4'),
                                       style: TextStyle(
                                         fontSize: 14.0.sp,
                                         color: Colors.black,
@@ -456,11 +459,11 @@ class OrderDetailsScreen extends StatelessWidget {
                                   prefix: Icons.location_on,
                                   validate: (String value) {
                                     if (value.isEmpty) {
-                                      return 'العنوان الذي ادخلته غير صالح';
+                                      return '${cubit.getTexts('orderDetails6')}';
                                     }
                                     return null;
                                   },
-                                  hint: 'تفاصيل اكثر عن العنوان '
+                                  hint: cubit.getTexts('orderDetails7'),
                               ),
                               SizedBox(
                                 height: 2.5.h,
@@ -488,11 +491,11 @@ class OrderDetailsScreen extends StatelessWidget {
                                   controller: anotherPhoneController,
                                   validate: (String value) {
                                     if (value.isEmpty) {
-                                      return 'رثم الهاتف الذي ادخلته غير صالح';
+                                      return '${cubit.getTexts('orderDetails8')}';
                                     }
                                     return null;
                                   },
-                                  hint: 'رقم هاتف اخر للتواصل'
+                                  hint: cubit.getTexts('orderDetails9'),
                               ),
                               SizedBox(
                                 height: 15,
@@ -555,8 +558,8 @@ class OrderDetailsScreen extends StatelessWidget {
                       child: Text(
                         StoreAppCubit.get(context)
                             .orders.any((element) => element.productId==productId)
-                            ? 'تم تأكيد الطلب'
-                            : 'تأكيد الطلب',
+                            ? '${cubit.getTexts('cart6')}'
+                            : '${cubit.getTexts('cart7')}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).textSelectionColor,
@@ -581,8 +584,8 @@ class OrderDetailsScreen extends StatelessWidget {
                       child: Text(
                         StoreAppCubit.get(context)
                             .orders.any((element) => element.productId==productId)
-                            ? 'الاستفسار بشأن الطلب'
-                            : 'الاتصال للطلب',
+                            ? '${cubit.getTexts('orderDetails10')}'
+                            : '${cubit.getTexts('cart8')}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).textSelectionColor,
@@ -591,12 +594,12 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 50,),
+                  SizedBox(height: 10.h,),
                 ],
               ),
             ),
           ),
-        );
+        ));
       },
     );
   }

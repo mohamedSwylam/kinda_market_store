@@ -33,7 +33,7 @@ class ForgetPasswordScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = StoreAppCubit.get(context);
         return Directionality(
-          textDirection: cubit.isEn? TextDirection.ltr :TextDirection.rtl,
+          textDirection: cubit.isEn== false? TextDirection.ltr :TextDirection.rtl,
           child: Scaffold(
             body: SingleChildScrollView(
               child: Stack(

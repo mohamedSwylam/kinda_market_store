@@ -1,18 +1,17 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:kinda_store/layout/cubit/cubit.dart';
-import 'package:kinda_store/layout/cubit/states.dart';
+import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:sizer/sizer.dart';
-
+import '../../layout/cubit/cubit.dart';
+import '../../layout/cubit/states.dart';
+import '../product_screen/product_details.dart';
 
 
 class FeedsDialog extends StatelessWidget {
   final String productId;
-  const FeedsDialog({this.productId});
+   FeedsDialog({this.productId});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
@@ -28,17 +27,16 @@ class FeedsDialog extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(children: [
               Container(
-                width: 70.w,
-                height: 70.h,
+                constraints: BoxConstraints(
+                    minHeight: 100,
+                    maxHeight: MediaQuery.of(context).size.height * 0.5),
+                width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: Image.network(
                   StoreAppCubit.get(context).findById(productId).imageUrl,
-                  width: 70.w,
-                  height: 70.h,
-                  fit: BoxFit.fill,
                 ),
               ),
               SizedBox(height: 15,),
@@ -75,7 +73,7 @@ class FeedsDialog extends StatelessWidget {
                               context,
                               1,
                                   ()  {
-                               //   navigateTo(context, ProductDetailsScreen(productId: productId,));
+                                  navigateTo(context, ProductDetailsScreen(productId: productId,));
                               }),
                         ),
                         Flexible(
@@ -124,17 +122,18 @@ class FeedsDialog extends StatelessWidget {
           ? Icons.favorite
           : Icons.favorite_border,
       Feather.eye,
-      Feather.shopping_cart,
+      StoreAppCubit.get(context)
+          .carts.any((element) => element.productId== productId)? MaterialCommunityIcons.check_all : Feather.shopping_cart,
     ];
-
+    var cubit = StoreAppCubit.get(context);
     List<String> texts = [
       StoreAppCubit.get(context)
           .wishList.any((element) => element.productId==productId)
-          ? 'في المفضلة'
-          : 'اضف للمفضلة',
-      'فتح المنتج',
+          ?  cubit.getTexts('feedsDia1')
+          :  cubit.getTexts('feedsDia2'),
+      cubit.getTexts('feedsDia5'),
       StoreAppCubit.get(context)
-          .carts.any((element) => element.productId==productId) ? 'في العربه' : 'اضف للعربه',
+          .carts.any((element) => element.productId==productId) ?  cubit.getTexts('feedsDia3'): cubit.getTexts('feedsDia4'),
     ];
     List<Color> colors = [
       StoreAppCubit.get(context)

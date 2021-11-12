@@ -15,7 +15,7 @@ import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:kinda_store/widget/backlayer.dart';
 
-import '../../feeds_dialog.dart';
+import 'feeds_dialog.dart';
 
 class FeedsScreen extends StatelessWidget {
   @override
@@ -23,8 +23,11 @@ class FeedsScreen extends StatelessWidget {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
+        var cubit = StoreAppCubit.get(context);
+        return Directionality(
+            textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+            child: Scaffold(
+            appBar: AppBar(
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +38,7 @@ class FeedsScreen extends StatelessWidget {
                     badgeColor: defaultColor,
                     animationType: BadgeAnimationType.slide,
                     toAnimate: true,
-                    position: BadgePosition.topEnd(top: -6, end: -5),
+                    position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
                     badgeContent: Text(
                       StoreAppCubit.get(context).carts.length.toString(),
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -82,7 +85,7 @@ class FeedsScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Text(
-                  "جميع المنتجات",
+                  cubit.getTexts('feeds'),
                   style: Theme.of(context)
                       .textTheme
                       .headline6
@@ -108,13 +111,17 @@ class FeedsScreen extends StatelessWidget {
               },
             ),
           ),
-        );
+        ));
       },
     );
   }
 }
 
-Widget buildFeedsItem(context, Product model) => InkWell(
+Widget buildFeedsItem(context, Product model) {
+  var cubit = StoreAppCubit.get(context);
+  return Directionality(
+    textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+    child: InkWell(
       onTap: () async {
         showDialog(
           context: context,
@@ -155,7 +162,7 @@ Widget buildFeedsItem(context, Product model) => InkWell(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 5,
+                    height: 2.h,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -178,7 +185,7 @@ Widget buildFeedsItem(context, Product model) => InkWell(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'ج.م',
+                        cubit.getTexts('cart2'),
                         style: TextStyle(
                           fontSize: 13.0.sp,
                           color: Colors.red,
@@ -231,8 +238,8 @@ Widget buildFeedsItem(context, Product model) => InkWell(
                     },
                     child: Icon(
                       StoreAppCubit.get(context)
-                              .carts
-                              .any((element) => element.productId == model.id)
+                          .carts
+                          .any((element) => element.productId == model.id)
                           ? MaterialCommunityIcons.check_all
                           : Feather.shopping_cart,
                       size: 8.w,
@@ -244,4 +251,6 @@ Widget buildFeedsItem(context, Product model) => InkWell(
           ],
         ),
       ),
-    );
+    ),
+  );
+}

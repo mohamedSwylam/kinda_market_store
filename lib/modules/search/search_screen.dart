@@ -9,13 +9,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/models/product_model.dart';
 import 'package:sizer/sizer.dart';
-import 'package:kinda_store/modules/cart_screen/empty_cart.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:kinda_store/widget/backlayer.dart';
 
-import '../../feeds_dialog.dart';
+import '../feeds_screen/feeds_dialog.dart';
 
 
 
@@ -52,191 +50,198 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final productsList = StoreAppCubit().products;
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0),
-              child: Badge(
+    var cubit = StoreAppCubit.get(context);
+    return Directionality(
+      textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0),
+                child: Badge(
+                  badgeColor: defaultColor,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
+                  badgeContent: Text(
+                    StoreAppCubit.get(context).carts.length.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      StoreAppCubit.get(context).selectedCart();
+                    },
+                    icon: Icon(
+                      Feather.shopping_cart,
+                      size: 25,
+                      color: Theme.of(context).splashColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 3.w,),
+              Badge(
                 badgeColor: defaultColor,
                 animationType: BadgeAnimationType.slide,
                 toAnimate: true,
-                position: BadgePosition.topEnd(top: -6, end: -5),
+                position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
                 badgeContent: Text(
-                  StoreAppCubit.get(context).carts.length.toString(),
+                  StoreAppCubit.get(context).wishList.length.toString(),
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 child: IconButton(
                   onPressed: () {
-                    StoreAppCubit.get(context).selectedCart();
+                    navigateTo(context, WishListScreen());
                   },
                   icon: Icon(
-                    Feather.shopping_cart,
-                    size: 25,
-                    color: Theme.of(context).splashColor,
+                    Icons.favorite_border,
+                    size: 28,
+                    color: Colors.redAccent,
                   ),
                 ),
               ),
-            ),
-            SizedBox(width: 3.w,),
-            Badge(
-              badgeColor: defaultColor,
-              animationType: BadgeAnimationType.slide,
-              toAnimate: true,
-              position: BadgePosition.topEnd(top: -5, end: -3),
-              badgeContent: Text(
-                StoreAppCubit.get(context).wishList.length.toString(),
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              child: IconButton(
-                onPressed: () {
-                  navigateTo(context, WishListScreen());
-                },
-                icon: Icon(
-                  Icons.favorite_border,
-                  size: 28,
-                  color: Colors.redAccent,
-                ),
-              ),
-            ),
-          ],
-        ),
-
-        elevation: 0.0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20.0, vertical: 10),
-            child: Text(
-              "البحث",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
-            ),
+            ],
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
+          elevation: 0.0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          actions: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: 40.0, vertical: 20),
-              child: Container(
-                height: MediaQuery.of(context).size.height * .09,
-                child: TextFormField(
-                  textAlign: TextAlign.end,
-                  onTap: () {},
-                  controller: _searchTextController,
-                  minLines: 1,
-                  focusNode: _node,
-                  cursorHeight: 20,
-                  onChanged: (String enteredKeyword) {
-                    List<Product> result = [];
-                    if (enteredKeyword.isEmpty) {
-                      // if the search field is empty or only contains white-space, we'll display all products
-                      result = StoreAppCubit.get(context).products;
-                    } else {
-                      result = StoreAppCubit.get(context).products .where((element) =>
-                          element.title.toLowerCase().contains(enteredKeyword.toLowerCase()))
-                          .toList();
-                      // we use the toLowerCase() method to make it case-insensitive
-                    }
-                    // Refresh the UI
-                    setState(() {
-                      _searchList = result;
-                    });
-                  },
-                  style: TextStyle(
-                      color: Theme.of(context).scaffoldBackgroundColor
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "ابحث في المتجر",
-                    hintStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,fontSize: 15.sp),
-                    fillColor: Colors.white,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Feather.search,color:  Theme.of(context).scaffoldBackgroundColor,size: 8.w,),
-                      ),
-                    ),
-                    suffixIcon: InkWell(
-                      onTap:_searchTextController.text.isEmpty
-                          ? null
-                          : () {
-                        _searchTextController.clear();
-                        _node.unfocus();
-                      },
-                      child: Icon(Feather.x,
-                            size: 8.w,
-                            color: _searchTextController.text.isNotEmpty
-                                ? Colors.red
-                                : Colors.grey),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              child: _searchTextController.text.isNotEmpty && _searchList.isEmpty
-                  ? Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Icon(
-                    Feather.search,
-                    size: 60.sp,
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    'لا توجد نتائج',
-                    style: TextStyle(
-                        fontSize: 30.sp, fontWeight: FontWeight.w700),
-                  ),
-                ],
-              )
-                  : GridView.count(
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                childAspectRatio: 240 / 420,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                children: List.generate(
-                    _searchTextController.text.isEmpty
-                        ? productsList.length
-                        : _searchList.length, (index) {
-                  return buildSearchItem(context, _searchList[index]);
-                }),
+                  horizontal: 20.0, vertical: 10),
+              child: Text(
+                cubit.getTexts('search1'),
+
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
               ),
             ),
           ],
         ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 40.0, vertical: 20),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .09,
+                  child: TextFormField(
+                    textAlign: TextAlign.end,
+                    onTap: () {},
+                    controller: _searchTextController,
+                    minLines: 1,
+                    focusNode: _node,
+                    cursorHeight: 20,
+                    onChanged: (String enteredKeyword) {
+                      List<Product> result = [];
+                      if (enteredKeyword.isEmpty) {
+                        // if the search field is empty or only contains white-space, we'll display all products
+                        result = StoreAppCubit.get(context).products;
+                      } else {
+                        result = StoreAppCubit.get(context).products .where((element) =>
+                            element.title.toLowerCase().contains(enteredKeyword.toLowerCase()))
+                            .toList();
+                        // we use the toLowerCase() method to make it case-insensitive
+                      }
+                      // Refresh the UI
+                      setState(() {
+                        _searchList = result;
+                      });
+                    },
+                    style: TextStyle(
+                        color: Theme.of(context).scaffoldBackgroundColor
+                    ),
+                    decoration: InputDecoration(
+                      hintText:  '${cubit.getTexts('search2')}',
+                      hintStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,fontSize: 11.sp),
+                      fillColor: Colors.white,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Feather.search,color:  Theme.of(context).scaffoldBackgroundColor,size: 8.w,),
+                        ),
+                      ),
+                      suffixIcon: InkWell(
+                        onTap:_searchTextController.text.isEmpty
+                            ? null
+                            : () {
+                          _searchTextController.clear();
+                          _node.unfocus();
+                        },
+                        child: Icon(Feather.x,
+                              size: 8.w,
+                              color: _searchTextController.text.isNotEmpty
+                                  ? Colors.red
+                                  : Colors.grey),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                child: _searchTextController.text.isNotEmpty && _searchList.isEmpty
+                    ? Column(
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Icon(
+                      Feather.search,
+                      size: 60.sp,
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      cubit.getTexts('search3'),
+                      style: TextStyle(
+                          fontSize: 30.sp, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                )
+                    : GridView.count(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  childAspectRatio: 240 / 420,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  children: List.generate(
+                      _searchTextController.text.isEmpty
+                          ? productsList.length
+                          : _searchList.length, (index) {
+                    return buildSearchItem(context, _searchList[index]);
+                  }),
+                ),
+              ),
+            ],
+          ),
 
+        ),
       ),
     );
 
   }
 
-  Widget buildSearchItem(context, Product model) =>
-      InkWell(
+  Widget buildSearchItem(context, Product model) {
+    var cubit = StoreAppCubit.get(context);
+    return  Directionality(
+      textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+      child: InkWell(
         onTap: () async {
           showDialog(
             context: context,
@@ -307,7 +312,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'ج.م',
+                          cubit.getTexts('cart2'),
                           style: TextStyle(
                             fontSize: 13.sp,
                             color: Colors.red,
@@ -373,5 +378,8 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
 
         ),
-      );
+      ),
+    );
+  }
+
 }

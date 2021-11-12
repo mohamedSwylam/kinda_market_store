@@ -367,11 +367,11 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     var dateparse = DateTime.parse(date);
     var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
     FirebaseAuth.instance.signInAnonymously().then((value) {
-      name = 'زائر';
-      email = 'بدون بريد الكتروني';
+      name = StoreAppCubit.get(context).isEn ?'Gust':'زائر';
+      email = StoreAppCubit.get(context).isEn ?'Without email address':'بدون بريد الكتروني';
       joinedAt = formattedDate;
-      phone = 'بدون رقم هاتف';
-      address = 'بدون عنوان';
+      phone = StoreAppCubit.get(context).isEn ?'Without phone number':'بدون رقم هاتف';
+      address = StoreAppCubit.get(context).isEn ?'Without address':'بدون عنوان';
       profileImage =
       'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
       createdAt = Timestamp.now().toString();
@@ -687,7 +687,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   Product findById(String productId) {
     return products.firstWhere((element) => element.id == productId);
   }
-
   List<Product> findByCategory(String categoryName) {
     List categoryList = products
         .where((element) =>
@@ -697,6 +696,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .toList();
     return categoryList;
   }
+
 
   var uuid = Uuid();
 
@@ -769,7 +769,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveFromCartErrorStates());
     });
   }
-
   void addItemByOne({String productId,
     String title,
     double price,
@@ -946,31 +945,59 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   ////////////////////////////////categoryScreen
   List<CategoryModel> categories = [
     CategoryModel(
-        categoryName: 'توابل', categoryImage: 'assets/images/twabl.jpg'),
+        categoryName: 'توابل', categoryImage: 'assets/images/twabl.jpg',categoryId: '1'),
     CategoryModel(
-        categoryName: 'مجمدات', categoryImage: 'assets/images/mogmdat.jpg'),
+        categoryName: 'مجمدات', categoryImage: 'assets/images/mogmdat.jpg',categoryId: '2'),
     CategoryModel(
-        categoryName: 'مشروبات', categoryImage: 'assets/images/mshrob.jpg'),
+        categoryName: 'مشروبات', categoryImage: 'assets/images/mshrob.jpg',categoryId: '3'),
     CategoryModel(
-        categoryName: 'مثلجات', categoryImage: 'assets/images/moslgat.jpg'),
+        categoryName: 'مثلجات', categoryImage: 'assets/images/moslgat.jpg',categoryId: '4'),
     CategoryModel(
       categoryName: 'جبن',
-      categoryImage: 'assets/images/cheese.jpg',
+      categoryImage: 'assets/images/cheese.jpg',categoryId: '5',
     ),
     CategoryModel(
-        categoryName: 'صوصات', categoryImage: 'assets/images/sos.jpg'),
+        categoryName: 'صوصات', categoryImage: 'assets/images/sos.jpg',categoryId: '6'),
     CategoryModel(
-        categoryName: 'مخبوزات', categoryImage: 'assets/images/bread.jpg'),
+        categoryName: 'مخبوزات', categoryImage: 'assets/images/bread.jpg',categoryId: '7'),
     CategoryModel(
-      categoryName: 'شيكولاته',
+      categoryName: 'شيكولاته',categoryId: '8',
       categoryImage: 'assets/images/choclate.jpg',
     ),
     CategoryModel(
-        categoryName: 'حلوي', categoryImage: 'assets/images/halwa.jpeg'),
+        categoryName: 'حلوي', categoryImage: 'assets/images/halwa.jpeg',categoryId: '9'),
     CategoryModel(
-        categoryName: 'مكسرات', categoryImage: 'assets/images/mksrat.gif'),
+        categoryName: 'مكسرات', categoryImage: 'assets/images/mksrat.gif',categoryId: '10'),
     CategoryModel(
-        categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg'),
+        categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg',categoryId: '11'),
+  ];
+  List<CategoryModel> categoriesEng = [
+    CategoryModel(
+        categoryName: 'Spices', categoryImage: 'assets/images/twabl.jpg',categoryId: '1'),
+    CategoryModel(
+        categoryName: 'Freezers', categoryImage: 'assets/images/mogmdat.jpg',categoryId: '2'),
+    CategoryModel(
+        categoryName: 'Drinks', categoryImage: 'assets/images/mshrob.jpg',categoryId: '3'),
+    CategoryModel(
+        categoryName: 'Ice cream"', categoryImage: 'assets/images/moslgat.jpg',categoryId: '4'),
+    CategoryModel(
+      categoryName: 'Cheeses',
+      categoryImage: 'assets/images/cheese.jpg',categoryId:'5',
+    ),
+    CategoryModel(
+        categoryName: 'Sauces', categoryImage: 'assets/images/sos.jpg',categoryId: '6'),
+    CategoryModel(
+        categoryName: 'Bakery', categoryImage: 'assets/images/bread.jpg',categoryId: '7'),
+    CategoryModel(
+      categoryName: 'Chocolates',
+      categoryImage: 'assets/images/choclate.jpg',categoryId: '8',
+    ),
+    CategoryModel(
+        categoryName: 'Sweets', categoryImage: 'assets/images/halwa.jpeg',categoryId: '9'),
+    CategoryModel(
+        categoryName: 'Nuts', categoryImage: 'assets/images/mksrat.gif',categoryId: '10'),
+    CategoryModel(
+        categoryName: 'Grocery', categoryImage: 'assets/images/bkala.jpg',categoryId: '11'),
   ];
 
 ////////////// languag
@@ -1019,6 +1046,88 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "cart6": "تم تأكيد الطلب",
     "cart7": "تأكيد الطلب",
     "cart8": "الاتصال للطلب",
+    "cart9": "حذف المنتج من العربه",
+    "cart10": " هل تريد حقل حذف المنتج من العربه ",
+    "cartEmpty1": "سله المشتريات فارغه",
+    "cartEmpty2": "يبدو انك لم تقم باضافه اي مشتريات حتي الان",
+    "cartEmpty3": "تسوق الان",
+    "wishListEmpty1": "المفضله فارغه",
+    "wishListEmpty2": "يبدو انك لم تقم باضافه اي تفضيلات حتي الان",
+    "orderEmpty1": "سله الطلبات فارغه",
+    "orderEmpty2": "يبدو انك لم تقم باضافه اي طلبات حتي الان",
+    "feeds": "جميع المنتجات",
+    "feedsDia1": "في المفضلة",
+    "feedsDia2": "اضف للمفضلة",
+    "feedsDia3": "في العربه",
+    "feedsDia4": "اضف للعربه",
+    "feedsDia5": "فتح المنتج",
+    "home1": "الرئيسية",
+    "home2": "ابحث في المتجر",
+    "home3": "الاصناف",
+    "home4": "اشهر المنتجات",
+    "home5": "توابل",
+    "home6": "مجمدات",
+    "home7": "مشروبات",
+    "home8": "مثلجات",
+    "home9": "جبن",
+    "home10": "صوصات",
+    "home11": "مخبوزات",
+    "home12": "شيكولاته",
+    "home13": "حلوي",
+    "home14": "مكسرات",
+    "home15": "بقاله",
+    "orderDia1": "تم تاكيد طلبكم بنجاح",
+    "orderDia2": "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال",
+    "orderDia3": "موافق",
+    "orderDetails1": "موافق",
+    "orderDetails2": "تفاصيل الطلب",
+    "orderDetails3": "تفاصيل التواصل",
+    "orderDetails4": "الاجمالي",
+    "orderDetails5": "الشحن",
+    "orderDetails6": "العنوان الذي ادخلته غير صالح",
+    "orderDetails7": "تفاصيل اكثر عن العنوان",
+    "orderDetails8": "رقم الهاتف الذي ادخلته غير صالح",
+    "orderDetails9": "رقم هاتف اخر للتواصل",
+    "orderDetails10": "الاستفسار بشأن الطلب",
+    "order1": "الطلبات",
+    "order2": "جاري العمل علي توصيل الطلب ",
+    "productDetails1": "تفاصيل المنتج",
+    "productDetails2": "تقييم المنتج",
+    "productDetails3": "بدون تقييم حتي الان",
+    "productDetails4": "كن اول من يقيم",
+    "productDetails5": "اضف تقييمك",
+    "productDetails6": "قد يعجبك ايضا",
+    "productDetails7": "اشتري الان",
+    "productDetails8": "منتج",
+    "productReview1": "رائع",
+    "productReview2": "ممتاز",
+    "productReview3": "جيد",
+    "productReview4": "لم يعجبني",
+    "productReview5": "سئ",
+    "productReview6": "اكتب تقييمك",
+    "search1": "البحث",
+    "search2": "ابحث في المتجر",
+    "search3": "لا توجد نتائج",
+    "user1": "ضيف",
+    "user2": "حقيبه المستخدم",
+    "user3": "المفضله",
+    "user4": "العربه",
+    "user5": "الطلبات",
+    "user6": "معلومات المستخدم",
+    "user7": "اسم المستخدم",
+    "user8": "البريد الالكتروني",
+    "user9": "رقم الهاتف",
+    "user10": "عنوان المستخدم",
+    "user11": "تاريخ الانضمام",
+    "user12": "الاعدادات",
+    "user13": "الوضع الليلي",
+    "user14": "الانجليزيه",
+    "user15": "تسجيل الخروج",
+    "user16": "هل تريد حقا تسجيل الخروج",
+    "dialog": "الغاء",
+    "wishList1": "المفضله",
+    "wishList2": "حذف من المفضله",
+    "wishList3": "هل تريد حقا حذف المنتج المفضله",
   };
   Map<String, Object> textsEn = {
     "landing1": "Welcome",
@@ -1064,6 +1173,87 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "cart6": "Order confirmed",
     "cart7": "Confirm order",
     "cart8": "Contact to order",
+    "cart9" : "Remove from cart",
+    "cart10": "Do you want to remove the product from the cart",
+    "cartEmpty1": "Cart is empty",
+    "cartEmpty2": "Looks like you haven't added anything to your cart yet",
+    "cartEmpty3": "Shopping now",
+    "wishListEmpty1": "WishList is empty",
+    "wishListEmpty2": "Looks like you haven't added anything to your wishList yet",
+    "orderEmpty1": "Order is empty",
+    "orderEmpty2": "Looks like you haven't added anything to your orders yet",
+    "feeds": " All Products",
+    "feedsDia1": "In wishList",
+    "feedsDia2": "Add to wish",
+    "feedsDia3": "In cart",
+    "feedsDia4": "Add to cart",
+    "feedsDia5": "Open",
+    "home1": "Home",
+    "home2": "Search the store",
+    "home3": "Categories",
+    "home4": "Popular products",
+    "home5": "Spices",
+    "home6": "Freezers",
+    "home7": "Drinks",
+    "home8": "Ice cream",
+    "home9": "Cheeses",
+    "home10": "Sauces",
+    "home11": "Bakery",
+    "home12": "Chocolate",
+    "home13": "Sweet",
+    "home14": "Nuts",
+    "home15": "Grocery",
+    "orderDia1": "Your request has been successfully confirmed",
+    "orderDia2": "We will contact you as soon as possible to inquire about the order or products You can call",
+    "orderDia3": "ok",
+    "orderDetails2": "Order Details",
+    "orderDetails3": "Contact Details",
+    "orderDetails4": "  :  Total ",
+    "orderDetails5": "  :  Shipping",
+    "orderDetails6": "The address you entered is not valid",
+    "orderDetails7": "more details about the address",
+    "orderDetails8": "The phone number you entered is invalid",
+    "orderDetails9": "Another phone number to contact",
+    "orderDetails10": "Order Inquiry",
+    "order1": "Orders",
+    "order2": "The order is being delivered",
+    "productDetails1": "Product Details",
+    "productDetails2": "Product Reviews",
+    "productDetails3": "No Reviews yet.",
+    "productDetails4": "Be the first to make review",
+    "productDetails5": "Add review",
+    "productDetails6": "You may also like",
+    "productDetails7": "Buy now",
+    "productDetails8": "Product",
+    "productReview1": "Amazing",
+    "productReview2": "Excellent",
+    "productReview3": "good",
+    "productReview4": "DisLike",
+    "productReview5": "Bad",
+    "productReview6": "Write your review",
+    "search1": "Search",
+    "search2": "Search the Store",
+    "search3": "No result found",
+    "user1": "Gust",
+    "user2": "User Bag",
+    "user3": "WishList",
+    "user4": "Cart",
+    "user5": "Order",
+    "user6": "User Information",
+    "user7": "User Name",
+    "user8": "Email address",
+    "user9": "Phone number",
+    "user10": "User address",
+    "user11": "Join date",
+    "user12": "Settings",
+    "user13": "Dark Theme",
+    "user14": "Arabic",
+    "user15": "Log out",
+    "user16": "Do you really want to log out",
+    "dialog": "Cancel",
+    "wishList1": "WishList",
+    "wishList2": "Remove from wish",
+    "wishList3": "Do you want to remove the product from the wishList",
   };
 
   void changeLanguage({bool fromShared}) {
