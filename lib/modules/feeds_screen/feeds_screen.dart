@@ -60,7 +60,7 @@ class FeedsScreen extends StatelessWidget {
                   badgeColor: defaultColor,
                   animationType: BadgeAnimationType.slide,
                   toAnimate: true,
-                  position: BadgePosition.topEnd(top: -5, end: -3),
+                  position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
                   badgeContent: Text(
                     StoreAppCubit.get(context).wishList.length.toString(),
                     style: TextStyle(color: Colors.white, fontSize: 18),

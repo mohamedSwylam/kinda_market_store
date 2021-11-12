@@ -16,39 +16,42 @@ class SplashScreen extends StatelessWidget {
     return Directionality(
       textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
       child: Scaffold(
-        body: Stack(
-          children: [
-            FadeAnimation(1.2,Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                color: Colors.yellow[700],
-              ),
-            ),),
-            FadeAnimation(1.5,Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 15.h,
-                    width: 34.w,
-                    child: Image(
-                      image: AssetImage('assets/images/login.png'),
+        body: Container(
+          height: double.infinity,
+          child: Stack(
+            children: [
+              FadeAnimation(1.2,Container(
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.yellow[700],
+                ),
+              ),),
+              FadeAnimation(1.5,Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 15.h,
+                      width: 34.w,
+                      child: Image(
+                        image: AssetImage('assets/images/login.png'),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4.h,),
-                  Text(
-                    cubit.getTexts('login1'),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(fontWeight: FontWeight.bold,fontSize: 18.sp,color: Colors.black),
-                  ),
-                ],
-              ),
-            ),),
-          ],
+                    SizedBox(height: 4.h,),
+                    Text(
+                      cubit.getTexts('login1'),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold,fontSize: 18.sp,color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),),
+            ],
+          ),
         ),
       ),
     );

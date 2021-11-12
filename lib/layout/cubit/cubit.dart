@@ -13,6 +13,7 @@ import 'package:kinda_store/layout/store_layout.dart';
 import 'package:kinda_store/models/banner_model.dart';
 import 'package:kinda_store/models/comment_model.dart';
 import 'package:kinda_store/models/user_model.dart';
+import 'package:kinda_store/models/watched_product_model.dart';
 import 'package:kinda_store/modules/search/search_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
@@ -59,6 +60,10 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void selectedSearch() {
     currentIndex = 2;
     emit(StoreAppBottomBarSearchState());
+  }
+  void selectedUser() {
+    currentIndex = 4;
+    emit(StoreAppBottomBarUserState());
   }
 
   bool isDark = false;
@@ -696,7 +701,15 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         .toList();
     return categoryList;
   }
-
+  List<Product> findByCategoryEn(String categoryName) {
+    List categoryList = products
+        .where((element) =>
+        element.productCategoryNameEn
+            .toLowerCase()
+            .contains(categoryName.toLowerCase()))
+        .toList();
+    return categoryList;
+  }
 
   var uuid = Uuid();
 
@@ -922,6 +935,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
               ),
               imageUrl: element.get('imageUrl'),
               productCategoryName: element.get('productCategoryName'),
+              productCategoryNameEn: element.get('productCategoryNameُEn'),
               isPopular: true),
         );
       });
@@ -930,7 +944,74 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetProductErrorStates());
     });
   }
+  ////////////////////////////watchedRecently
+  List<WatchedModel> watchedProducts = [];
 
+  void getWatchedProducts() async {
+    emit(GetWatchedLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('watched')
+        .where('userId', isEqualTo: uId)
+        .get()
+        .then((QuerySnapshot watchedSnapshot) {
+      watchedProducts.clear();
+      watchedSnapshot.docs.forEach((element) {
+        // print('element.get(productBrand), ${element.get('productBrand')}');
+        watchedProducts.insert(
+          0,
+          WatchedModel(
+            watchedId: element.get('watchedId'),
+            description: element.get('description'),
+            imageUrl: element.get('imageUrl'),
+            price: element.get('price'),
+            productId: element.get('productId'),
+            title: element.get('title'),
+            userId: element.get('userId'),
+          ),
+        );
+      });
+      emit(GetWatchedSuccessStates());
+    }).catchError((error) {
+      emit(GetWatchedErrorStates(error.toString()));
+    });
+  }
+  void addToWatchedProduct({
+    String productId,
+    String title,
+    double price,
+    String imageUrl,
+    String description,
+    String userId,
+  }) {
+    final watchedId = uuid.v4();
+    FirebaseFirestore.instance.collection('watched').doc(watchedId).set({
+      'productId': productId.toString(),
+      'userId': uId.toString(),
+      'watchedId': watchedId.toString(),
+      'title': title,
+      'price': price,
+      'description': description,
+      'imageUrl': imageUrl,
+    }).then((value) {
+      getWatchedProducts();
+      emit(UploadWatchedItemSuccessState());
+    }).catchError((error) {
+      emit(UploadWatchedItemErrorState());
+    });
+  }
+  void removeFromWatched(watchedId) async {
+    emit(RemoveFromWatchedLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('watched')
+        .doc(watchedId)
+        .delete()
+        .then((_) {
+      getWatchedProducts();
+      emit(RemoveFromWatchedSuccessStates());
+    }).catchError((error) {
+      emit(RemoveFromWatchedErrorStates());
+    });
+  }
   ///////////////////////////////////Signout
   void signOut(context) =>
       CacheHelper.removeData(key: 'uId').then((value) {
@@ -979,7 +1060,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     CategoryModel(
         categoryName: 'Drinks', categoryImage: 'assets/images/mshrob.jpg',categoryId: '3'),
     CategoryModel(
-        categoryName: 'Ice cream"', categoryImage: 'assets/images/moslgat.jpg',categoryId: '4'),
+        categoryName: 'Ice cream', categoryImage: 'assets/images/moslgat.jpg',categoryId: '4'),
     CategoryModel(
       categoryName: 'Cheeses',
       categoryImage: 'assets/images/cheese.jpg',categoryId:'5',
@@ -1076,6 +1157,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "home13": "حلوي",
     "home14": "مكسرات",
     "home15": "بقاله",
+    "home16": "شوهد موخرا",
     "orderDia1": "تم تاكيد طلبكم بنجاح",
     "orderDia2": "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال",
     "orderDia3": "موافق",
@@ -1090,7 +1172,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "orderDetails9": "رقم هاتف اخر للتواصل",
     "orderDetails10": "الاستفسار بشأن الطلب",
     "order1": "الطلبات",
-    "order2": "جاري العمل علي توصيل الطلب ",
+    "order2": "جاري توصيل الطلب",
     "productDetails1": "تفاصيل المنتج",
     "productDetails2": "تقييم المنتج",
     "productDetails3": "بدون تقييم حتي الان",
@@ -1128,6 +1210,18 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "wishList1": "المفضله",
     "wishList2": "حذف من المفضله",
     "wishList3": "هل تريد حقا حذف المنتج المفضله",
+    "backLayer1": "معلومات عنا",
+    "backLayer2": "اشمون  ميدان فليفل خلف صيدليه الحكمه",
+    "backLayer3": "ارقام التواصل",
+    "backLayer4": "واتساب",
+    "backLayer5": "فيسبوك",
+    "backLayer6": "الموقع",
+    "backLayer7": "العنوان",
+    "layout1": "الرئيسيه",
+    "layout2": "المنتجات",
+    "layout3": "البحث",
+    "layout4": "العربه",
+    "layout5": "المستخدم",
   };
   Map<String, Object> textsEn = {
     "landing1": "Welcome",
@@ -1203,6 +1297,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "home13": "Sweet",
     "home14": "Nuts",
     "home15": "Grocery",
+    "home16": "Watched Recently",
     "orderDia1": "Your request has been successfully confirmed",
     "orderDia2": "We will contact you as soon as possible to inquire about the order or products You can call",
     "orderDia3": "ok",
@@ -1254,6 +1349,18 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "wishList1": "WishList",
     "wishList2": "Remove from wish",
     "wishList3": "Do you want to remove the product from the wishList",
+    "backLayer1": "About Us",
+    "backLayer2": "Ashmoun filyfal Square behined elhekma pharmacy",
+    "backLayer3": "Contacts",
+    "backLayer4": "WattsApp",
+    "backLayer5": "FaceBook",
+    "backLayer6": "Location",
+    "backLayer7": "address",
+    "layout1": "Home",
+    "layout2": "Products",
+    "layout3": "Search",
+    "layout4": "Cart",
+    "layout5": "User",
   };
 
   void changeLanguage({bool fromShared}) {

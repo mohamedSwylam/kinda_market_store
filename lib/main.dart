@@ -29,7 +29,7 @@ void main() async {
 
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
   bool isEn = CacheHelper.getBoolean(key: 'isEn');
-  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),));
+  runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,));
 }
 
 class MyApp extends StatelessWidget
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget
     return  MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct()..getUserData()..getOrders()..getWishList()..getCarts()..getBanners()..changeLanguage(fromShared: isEn)..getLan(),
+          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct()..getWatchedProducts()..getUserData()..getOrders()..getWishList()..getCarts()..getBanners()..changeLanguage(fromShared: isEn)..getLan(),
         ),
       ],
       child: BlocConsumer<StoreAppCubit,StoreAppStates>(
@@ -52,13 +52,13 @@ class MyApp extends StatelessWidget
         builder: (context, state) {
           return Sizer(
             builder: (context, orientation, deviceType)=> MaterialApp(
-              builder: DevicePreview.appBuilder,
+             // builder: DevicePreview.appBuilder,
               title: 'Flutter Demo',
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,
               themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-              home: StoreLayout(),
+              home: SplashScreen(),
             ),
           );
         },
@@ -66,3 +66,4 @@ class MyApp extends StatelessWidget
     );
   }
 }
+//runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),));

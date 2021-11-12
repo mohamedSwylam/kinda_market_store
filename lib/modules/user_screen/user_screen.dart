@@ -598,6 +598,7 @@ class _UserInfoState extends State<UserScreen> {
                             onToggle: (value) {
                               StoreAppCubit.get(context).changeLanguage();
                               StoreAppCubit.get(context).getLan();
+                              StoreAppCubit.get(context).selectedHome();
                             },
                           ),
                         ],

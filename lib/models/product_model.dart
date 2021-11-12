@@ -7,6 +7,7 @@ class Product {
    double price;
    String imageUrl;
    String productCategoryName;
+   String productCategoryNameEn;
    bool isPopular;
    int quantity;
 
@@ -17,6 +18,7 @@ class Product {
         this.price,
         this.imageUrl,
         this.productCategoryName,
+        this.productCategoryNameEn,
         this.isPopular,
         this.quantity,
       });
@@ -28,6 +30,7 @@ class Product {
     price = json['price'];
     imageUrl = json['imageUrl'];
     productCategoryName = json['productCategoryName'];
+    productCategoryNameEn = json['productCategoryNameEn'];
     isPopular = json['isPopular'];
     quantity = json['quantity'];
   }
@@ -40,6 +43,7 @@ class Product {
       'price': price,
       'imageUrl': imageUrl,
       'productCategoryName': productCategoryName,
+      'productCategoryNameEn': productCategoryNameEn,
       'isPopular': isPopular,
       'quantity': quantity,
     };

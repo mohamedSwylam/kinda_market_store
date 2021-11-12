@@ -13,7 +13,6 @@ import 'package:kinda_store/models/order_model.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
-import 'package:kinda_store/widget/backlayer.dart';
 import 'package:sizer/sizer.dart';
 import 'empty_order.dart';
 class OrderScreen extends StatelessWidget {
@@ -132,14 +131,14 @@ Widget buildOrderItem(context ,OrderModel orderModel) {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: 2.h,),
                       Text(
                         '${orderModel.title}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.end,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -169,6 +168,7 @@ Widget buildOrderItem(context ,OrderModel orderModel) {
                               ),
                               Text(
                                 '${orderModel.total}',
+                                textAlign: TextAlign.end,
                                 style: TextStyle(
                                   fontSize:13.0.sp,
                                   color: Colors.grey,
@@ -179,6 +179,7 @@ Widget buildOrderItem(context ,OrderModel orderModel) {
                           SizedBox(width: 5.w,),
                           Text(
                             cubit.getTexts('orderDetails4'),
+                            textAlign: TextAlign.end,
                             style: TextStyle(
                               fontSize: 13.0.sp,
                               color: Colors.black,
@@ -192,7 +193,7 @@ Widget buildOrderItem(context ,OrderModel orderModel) {
                       ),
                       Text(
                         cubit.getTexts('order2'),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.end,
                         style: TextStyle(
                             color: Colors.redAccent,
                             fontSize: 13.sp,

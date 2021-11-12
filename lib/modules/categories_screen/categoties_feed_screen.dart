@@ -23,6 +23,7 @@ class CategoriesFeedScreen extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         var productAttr=StoreAppCubit.get(context).findByCategory(categoryName);
+        var productAttEn=StoreAppCubit.get(context).findByCategoryEn(categoryName);
         return Scaffold(
           appBar: AppBar(
             title: Row(
@@ -93,7 +94,7 @@ class CategoriesFeedScreen extends StatelessWidget {
           ),
           body: GridView.builder(
             shrinkWrap: true,
-            itemCount: StoreAppCubit.get(context).findByCategory(categoryName).length,
+            itemCount: StoreAppCubit.get(context).isEn ? StoreAppCubit.get(context).findByCategoryEn(categoryName).length:StoreAppCubit.get(context).findByCategory(categoryName).length,
             physics: BouncingScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -102,8 +103,13 @@ class CategoriesFeedScreen extends StatelessWidget {
               childAspectRatio: 0.6,
             ),
             itemBuilder: (context, index) {
+            if(StoreAppCubit.get(context).isEn){
+              var list=StoreAppCubit.get(context).findByCategoryEn(categoryName);
+              return buildFeedsItem(context,list[index]);
+            }else{
               var list=StoreAppCubit.get(context).findByCategory(categoryName);
               return buildFeedsItem(context,list[index]);
+            }
             },
           ),
         );

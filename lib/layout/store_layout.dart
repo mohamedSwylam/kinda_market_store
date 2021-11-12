@@ -20,11 +20,11 @@ class StoreLayout extends StatelessWidget {
             onTap: (index) => cubit.changeIndex(index),
             currentIndex: cubit.currentIndex,
             items: [
-              TitledNavigationBarItem(title: Text('الرئيسه',style: Theme.of(context).textTheme.subtitle1,), icon: MaterialCommunityIcons.home_account,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text('المنتجات',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.rss,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text('البحث',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.search,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text('العربه',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.shopping_cart,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text('الحساب',style: Theme.of(context).textTheme.subtitle1,), icon: Feather.user,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout1'), style: Theme.of(context).textTheme.subtitle1,), icon: MaterialCommunityIcons.home_account,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout2'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.rss,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout3'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.search,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout4'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.shopping_cart,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout5'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.user,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
             ],
           ),
         );

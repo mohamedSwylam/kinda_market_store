@@ -11,6 +11,7 @@ import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/category_model.dart';
 import 'package:kinda_store/models/product_model.dart';
+import 'package:kinda_store/models/watched_product_model.dart';
 import 'package:kinda_store/modules/categories_screen/categoties_feed_screen.dart';
 import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
@@ -285,6 +286,29 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,vertical: 20,
+              ),
+              child: Text(
+                cubit.getTexts('home16'),
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                    fontWeight: FontWeight.bold, fontSize: 18.sp),
+              ),
+            ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          var list=StoreAppCubit.get(context).watchedProducts;
+                          return buildWatchedRecentlyItem(context,list[index]);
+                        },
+                        separatorBuilder: (context, index) => Container(
+                          height: 2.h,
+                        ),
+                        itemCount: StoreAppCubit.get(context).watchedProducts.length,
+                      ),
+            SizedBox(height: 20.h,)
             ],
           ),
         ),
@@ -302,6 +326,20 @@ Widget buildProductItem(context, Product model) {
     textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
     child: InkWell(
       onTap: () {
+        StoreAppCubit.get(context).addToWatchedProduct(
+            productId: model.id,
+            title: StoreAppCubit.get(context)
+                .findById(model.id)
+                .title,
+            price: StoreAppCubit.get(context)
+                .findById(model.id)
+                .price,
+            description: StoreAppCubit.get(context)
+                .findById(model.id)
+                .description,
+            imageUrl: StoreAppCubit.get(context)
+                .findById(model.id)
+                .imageUrl);
         navigateTo(context, ProductDetailsScreen(productId: model.id));
       },
       child: Padding(
@@ -487,6 +525,7 @@ Widget buildCategoryItem(context, CategoryModel category) => InkWell(
               categoryId: category.categoryId,
               categoryName: category.categoryName,
             ));
+        print(StoreAppCubit.get(context).isEn);
       },
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -541,6 +580,213 @@ Widget buildCategoryItem(context, CategoryModel category) => InkWell(
           }),
     );
 
+Widget buildWatchedRecentlyItem(context,WatchedModel model) {
+  var cubit = StoreAppCubit.get(context);
+  return Directionality(
+    textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+    child: Stack(
+      children: [
+        Container(
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: InkWell(
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                                size: 6.w,
+                              ),
+                              onTap: (){
+                                StoreAppCubit.get(context).removeFromWatched(model.watchedId);
+                              },
+                            ),
+                          ),
+                          Spacer(),
+                          Container(
+                            width: 35.w,
+                            child: Text(
+                              '${model.title}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.end,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(fontSize: 13.sp,color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            cubit.getTexts('cart2'),
+                            style: TextStyle(
+                              fontSize: 13.0.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            '${model.price.toStringAsFixed(0)}',
+                            style: TextStyle(
+                              fontSize: 15.0.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      Text(
+                         model.description,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey,fontSize: 11.sp),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.end,
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: StoreAppCubit.get(context)
+                          .carts
+                          .any((element) =>
+                      element.productId == model.productId)
+                          ? () {}
+                          : () {
+                        StoreAppCubit.get(context)
+                            .addItemToCart(
+                            productId: model.productId,
+                            title: model.title,
+                            price: model.price,
+                            imageUrl: model.imageUrl);
+                      },
+                            child: Text(
+                              StoreAppCubit.get(context).carts.any(
+                                      (element) =>
+                                  element.productId == model.productId)
+                                  ?  '${cubit.getTexts('feedsDia3')}'
+                                  :  '${cubit.getTexts('feedsDia4')}',
+                              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.red,fontSize: 15.sp),
+                            ),
+                          ),
+                          Icon(
+                            Entypo.plus,
+                            size: 6.w,
+                            color: Colors.redAccent,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 1.5.h,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 2.5.h,
+              ),
+              Container(
+                width: 35.w,
+                height: 27.h,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage('${model.imageUrl}',)),
+                ),
+              ),
+            ],
+          ),
+          margin: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 15,
+            top: 15,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: const Radius.circular(16.0),
+              topLeft: const Radius.circular(16.0),
+              bottomRight: const Radius.circular(16.0),
+              topRight: const Radius.circular(16.0),
+            ),
+            color: Colors.white,
+          ),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+        ),
+        Positioned(
+          top: 25.h,
+          left: 7,
+          child: Container(
+            height: 6.h,
+            width: 10.w,
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              padding: EdgeInsets.symmetric(horizontal: 0.0),
+              color: Colors.white,
+              child: CircleAvatar(
+                radius: 8.w,
+                backgroundColor: Colors.white,
+                child: Icon(
+                  StoreAppCubit.get(context).wishList.any(
+                          (element) => element.productId == model.productId)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: StoreAppCubit.get(context).wishList.any(
+                          (element) => element.productId == model.productId)
+                      ? Colors.red
+                      : Colors.black,
+                ),
+              ),
+              onPressed: StoreAppCubit.get(context)
+                  .wishList
+                  .any((element) => element.productId == model.productId)
+                  ? () {}
+                  : () {
+                StoreAppCubit.get(context).addToWishList(
+                  productId: model.productId,
+                  title: model.title,
+                  price: model.price,
+                  imageUrl: model.imageUrl,
+                  userId: StoreAppCubit.get(context).uId,
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
 
 

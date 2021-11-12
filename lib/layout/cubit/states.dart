@@ -10,6 +10,8 @@ class StoreAppBottomBarChangeState extends StoreAppStates {}
 
 class StoreAppBottomBarSearchState extends StoreAppStates {}
 
+class StoreAppBottomBarUserState extends StoreAppStates {}
+
 class StoreAppBottomBarHomeState extends StoreAppStates {}
 
 class StoreAppBottomBarCartState extends StoreAppStates {}
@@ -172,7 +174,26 @@ class GetUserLoginErrorStates extends StoreAppStates {}
 class CreateCartItemSuccessState extends StoreAppStates {}
 
 class CreateCartItemErrorState extends StoreAppStates {}
+////////////////////////////watchedRecently
+class UploadWatchedItemSuccessState extends StoreAppStates {}
 
+class UploadWatchedItemErrorState extends StoreAppStates {}
+
+class GetWatchedLoadingStates extends StoreAppStates {}
+
+class GetWatchedSuccessStates extends StoreAppStates {}
+
+class GetWatchedErrorStates extends StoreAppStates {
+  final String error;
+
+  GetWatchedErrorStates(this.error);
+}
+class RemoveFromWatchedLoadingStates extends StoreAppStates {}
+
+class RemoveFromWatchedSuccessStates extends StoreAppStates {}
+
+class RemoveFromWatchedErrorStates extends StoreAppStates {}
+//////////////////////////////
 ///////////wishlist
 class UploadWishListItemSuccessState extends StoreAppStates {}
 
@@ -187,7 +208,6 @@ class GetWishListErrorStates extends StoreAppStates {
 
   GetWishListErrorStates(this.error);
 }
-
 class RemoveFromWishListLoadingStates extends StoreAppStates {}
 
 class RemoveFromWishListSuccessStates extends StoreAppStates {}

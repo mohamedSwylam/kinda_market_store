@@ -173,7 +173,7 @@ Widget buildCartItem(CartModel model, context) {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(fontSize: 14.sp),
+                                    .copyWith(fontSize: 14.sp,color: Colors.black),
                               ),
                               SizedBox(
                                 height: 20,
@@ -261,7 +261,7 @@ Widget buildCartItem(CartModel model, context) {
                         Expanded(
                           flex: 4,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 10.0, right: 10),
+                            padding: const EdgeInsets.only(top: 10.0, right: 10,left: 10),
                             child: Container(
                               height: 22.h,
                               decoration: BoxDecoration(

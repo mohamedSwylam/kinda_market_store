@@ -93,7 +93,7 @@ class WishListScreen extends StatelessWidget {
                     actions: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10),
+                            horizontal: 5.0, vertical: 10),
                         child: Text(
                           " ${cubit.getTexts('wishList1')} (${StoreAppCubit.get(context).wishList.length})",
                           style: Theme.of(context)

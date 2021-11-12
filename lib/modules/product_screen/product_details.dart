@@ -223,7 +223,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                           .headline6
                                           .copyWith(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                              fontSize: 14.sp,color: Colors.black),
                                     ),
                                     SizedBox(
                                       height: 4.h,
