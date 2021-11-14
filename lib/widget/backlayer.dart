@@ -171,28 +171,6 @@ class BackLayer extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: (){
-                                    launch("tel:01229369779");
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.call,
-                                        size: 6.w,
-                                      ),
-                                      SizedBox(width: 10.w,),
-                                      Text(
-                                        '01229369779',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1
-                                            .copyWith(fontSize: 12.sp,color: Colors.red),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 2.h,),
-                                InkWell(
-                                  onTap: (){
                                     launch("tel:01093717500");
                                   },
                                   child: Row(
@@ -281,7 +259,7 @@ class BackLayer extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10.w,),
                                   Text(
-                                    cubit.getTexts('login1'),
+                                    cubit.getTexts('backLayer8'),
                                     style: Theme.of(context)
                                         .textTheme
                                         .subtitle1

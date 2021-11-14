@@ -23,6 +23,7 @@ class OrderDetailsScreen extends StatelessWidget {
   final double price;
   final int quantity;
   final String title;
+  final String titleEn;
   final String imageUrl;
    OrderDetailsScreen(
       {
@@ -31,6 +32,7 @@ class OrderDetailsScreen extends StatelessWidget {
         @required this.price,
         @required this.quantity,
         @required this.title,
+        @required this.titleEn,
         @required this.imageUrl});
   var uuid = Uuid();
   var formKey = GlobalKey<FormState>();
@@ -525,6 +527,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             'productId': productId.toString(),
                             'userId': StoreAppCubit.get(context).uId.toString(),
                             'title': title,
+                            'titleEn': titleEn,
                             'price': price,
                             'subTotal': (price*quantity),
                             'total':total,

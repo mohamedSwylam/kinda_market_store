@@ -5,6 +5,7 @@ class WishListModel {
   String wishListId;
   String userId;
   String title;
+  String titleEn;
   double price;
   String imageUrl;
 
@@ -12,6 +13,7 @@ class WishListModel {
       {this.userId,
         this.wishListId,
         this.title,
+        this.titleEn,
         this.price,
         this.imageUrl,
         this.productId});
@@ -19,6 +21,7 @@ class WishListModel {
   WishListModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     title = json['title'];
+    titleEn = json['titleEn'];
     productId = json['productId'];
     price = json['price'];
     imageUrl = json['imageUrl'];
@@ -29,6 +32,7 @@ class WishListModel {
     return {
       'wishListId': wishListId,
       'title': title,
+      'titleEn': titleEn,
       'userId': userId,
       'price': price,
       'imageUrl': imageUrl,

@@ -135,7 +135,7 @@ Widget buildOrderItem(context ,OrderModel orderModel) {
                     children: [
                       SizedBox(height: 2.h,),
                       Text(
-                        '${orderModel.title}',
+                        cubit.isEn?orderModel.titleEn:orderModel.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.end,

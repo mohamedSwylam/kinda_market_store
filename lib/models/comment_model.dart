@@ -6,6 +6,7 @@ class CommentModel {
   String text;
   double rate;
   String rateDescription;
+  String rateDescriptionEn;
   String imageUrl;
   String dateTime;
 
@@ -14,6 +15,7 @@ class CommentModel {
         this.username,
         this.commentId,
         this.rateDescription,
+        this.rateDescriptionEn,
         this.imageUrl,
         this.dateTime,
         this.rate,
@@ -28,10 +30,10 @@ class CommentModel {
     username = json['username'];
     productId = json['productId'];
     rateDescription = json['rateDescription'];
+    rateDescriptionEn = json['rateDescriptionEn'];
     imageUrl = json['imageUrl'];
     text = json['text'];
   }
-
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
@@ -39,6 +41,7 @@ class CommentModel {
       'dateTime': dateTime,
       'rate': rate,
       'rateDescription': rateDescription,
+      'rateDescriptionEn': rateDescriptionEn,
       'username': username,
       'imageUrl': imageUrl,
       'text': text,

@@ -147,7 +147,7 @@ Widget buildWishListItem(WishListModel model,context){
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${model.title}',
+                      cubit.isEn?model.titleEn:model.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.end,

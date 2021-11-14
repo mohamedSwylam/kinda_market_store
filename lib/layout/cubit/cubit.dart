@@ -102,6 +102,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     @required String dateTime,
     @ required String text,
     @ required String rateDescription,
+    @ required String rateDescriptionEn,
     @ required double rate,
     @ required String productId,
   }) {
@@ -114,8 +115,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       productId: productId,
       rate: rate??3,
       rateDescription: rateDescription??'جيد',
+      rateDescriptionEn: rateDescriptionEn??'Good',
       commentId: commentId,
-      username: name??"زائر",
+      username: name,
       text: text,
     );
     FirebaseFirestore.instance
@@ -151,6 +153,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             username: element.get('username'),
             rate: element.get('rate'),
             rateDescription: element.get('rateDescription'),
+            rateDescriptionEn: element.get('rateDescriptionEn'),
             productId: element.get('productId'),
             text: element.get('text'),
           ),
@@ -163,29 +166,36 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
   double rate ;
   String rateDescription;
+  String rateDescriptionEn;
   void changeRating(rating) {
     rate=rating;
     if (rating > 0 && rating <= 1){
       rateDescription ='سئ';
+      rateDescriptionEn ='Bad';
     }
     else if (rating > 1 && rating <= 2){
       rateDescription ='لم يعجبني';
+      rateDescriptionEn ='Dislike';
     }
     else if (rating > 2 && rating <=3){
       rateDescription ='جيد';
+      rateDescriptionEn ='Good';
     }
     else if (rating > 3 && rating <= 4){
       rateDescription ='ممتاز';
+      rateDescriptionEn ='Excellent';
     }
     else if (rating > 4 && rating <= 5){
       rateDescription ='رائع';
+      rateDescriptionEn ='Amazing';
     }
     else{
       rate =3.0;
       rateDescription="جيد";
+      rateDescriptionEn ='Good';
     }
     print(rating);
-   // emit(ChangeRateSuccessStates());
+    emit(ChangeRateSuccessStates());
   }
 
   ///////////////////////////SignUp
@@ -344,6 +354,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       getUserData();
       getOrders();
       getWishList();
+      getWatchedProducts();
       getCarts();
       print(value.user.email);
       print(value.user.uid);
@@ -504,6 +515,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           getUserData();
           getCarts();
           getWishList();
+          getWatchedProducts();
           getOrders();
           navigateTo(context, StoreLayout());
         } catch (error) {
@@ -564,6 +576,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           OrderModel(
             orderId: element.get('orderId'),
             title: element.get('title'),
+            titleEn: element.get('titleEn'),
             price: element.get('price'),
             imageUrl: element.get('imageUrl'),
             userId: element.get('userId'),
@@ -641,6 +654,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
         getUserData();
         getOrders();
         getWishList();
+        getWatchedProducts();
         getCarts();
         CacheHelper.saveData(key: 'uId', value: value.user.uid).then((value) {
           navigateAndFinish(context, StoreLayout());
@@ -716,6 +730,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void addItemToCart({
     String productId,
     String title,
+    String titleEn,
     double price,
     String imageUrl,
     String userId,
@@ -727,6 +742,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       'userId': uId.toString(),
       'cartId': cartId.toString(),
       'title': title,
+      'titleEn': titleEn,
       'price': price,
       'imageUrl': imageUrl,
       'quantity': 1,
@@ -759,6 +775,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             productId: element.get('productId'),
             quantity: element.get('quantity'),
             title: element.get('title'),
+            titleEn: element.get('titleEn'),
             userId: element.get('userId'),
           ),
         );
@@ -836,6 +853,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void addToWishList({
     String productId,
     String title,
+    String titleEn,
     double price,
     String imageUrl,
     String userId,
@@ -846,6 +864,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       'userId': uId.toString(),
       'wishListId': wishListId.toString(),
       'title': title,
+      'titleEn': titleEn,
       'price': price,
       'imageUrl': imageUrl,
     }).then((value) {
@@ -876,6 +895,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             price: element.get('price'),
             productId: element.get('productId'),
             title: element.get('title'),
+            titleEn: element.get('titleEn'),
             userId: element.get('userId'),
           ),
         );
@@ -930,12 +950,14 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
               id: element.get('id'),
               title: element.get('title'),
               description: element.get('description'),
+              productCategoryNameEn: element.get('productCategoryNameُEn'),
+              titleEn: element.get('titleEn'),
+              descriptionEn: element.get('descriptionEn'),
               price: double.parse(
                 element.get('price'),
               ),
               imageUrl: element.get('imageUrl'),
               productCategoryName: element.get('productCategoryName'),
-              productCategoryNameEn: element.get('productCategoryNameُEn'),
               isPopular: true),
         );
       });
@@ -966,6 +988,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             price: element.get('price'),
             productId: element.get('productId'),
             title: element.get('title'),
+            descriptionEn: element.get('descriptionEn'),
+            titleEn: element.get('titleEn'),
             userId: element.get('userId'),
           ),
         );
@@ -978,6 +1002,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void addToWatchedProduct({
     String productId,
     String title,
+    String titleEn,
+    String descriptionEn,
     double price,
     String imageUrl,
     String description,
@@ -989,6 +1015,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       'userId': uId.toString(),
       'watchedId': watchedId.toString(),
       'title': title,
+      'titleEn': titleEn,
+      'descriptionEn': descriptionEn,
       'price': price,
       'description': description,
       'imageUrl': imageUrl,
@@ -1180,7 +1208,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "productDetails5": "اضف تقييمك",
     "productDetails6": "قد يعجبك ايضا",
     "productDetails7": "اشتري الان",
-    "productDetails8": "منتج",
+    "productDetails8": "المنتج",
     "productReview1": "رائع",
     "productReview2": "ممتاز",
     "productReview3": "جيد",
@@ -1217,6 +1245,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "backLayer5": "فيسبوك",
     "backLayer6": "الموقع",
     "backLayer7": "العنوان",
+    "backLayer8": "جروب كنده تشيز",
     "layout1": "الرئيسيه",
     "layout2": "المنتجات",
     "layout3": "البحث",
@@ -1356,6 +1385,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "backLayer5": "FaceBook",
     "backLayer6": "Location",
     "backLayer7": "address",
+    "backLayer8": "Kinda Cheese Group",
     "layout1": "Home",
     "layout2": "Products",
     "layout3": "Search",

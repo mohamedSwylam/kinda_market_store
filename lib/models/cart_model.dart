@@ -6,6 +6,7 @@ class CartModel {
   String cartId;
   String userId;
   String title;
+  String titleEn;
   double price;
   String imageUrl;
   int quantity;
@@ -14,6 +15,7 @@ class CartModel {
       {this.userId,
       this.cartId,
       this.title,
+      this.titleEn,
       this.price,
       this.imageUrl,
       this.quantity,
@@ -22,6 +24,7 @@ class CartModel {
   CartModel.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     title = json['title'];
+    titleEn = json['titleEn'];
     productId = json['productId'];
     price = json['price'];
     imageUrl = json['imageUrl'];
@@ -33,6 +36,7 @@ class CartModel {
     return {
       'cartId': cartId,
       'title': title,
+      'titleEn': titleEn,
       'userId': userId,
       'price': price,
       'imageUrl': imageUrl,

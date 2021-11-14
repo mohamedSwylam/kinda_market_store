@@ -139,6 +139,26 @@ Widget buildCartItem(CartModel model, context) {
     textDirection: cubit.isEn ==false? TextDirection.ltr :TextDirection.rtl,
     child: InkWell(
       onTap: () {
+        StoreAppCubit.get(context).addToWatchedProduct(
+            productId: model.productId,
+            title: StoreAppCubit.get(context)
+                .findById(model.productId)
+                .title,
+            price: StoreAppCubit.get(context)
+                .findById(model.productId)
+                .price,
+            descriptionEn:StoreAppCubit.get(context)
+                .findById(model.productId)
+                .descriptionEn,
+            titleEn:StoreAppCubit.get(context)
+                .findById(model.productId)
+                .titleEn,
+            description: StoreAppCubit.get(context)
+                .findById(model.productId)
+                .description,
+            imageUrl: StoreAppCubit.get(context)
+                .findById(model.productId)
+                .imageUrl);
         navigateTo(
             context,
             ProductDetailsScreen(
@@ -166,7 +186,7 @@ Widget buildCartItem(CartModel model, context) {
                                 height: 3.h,
                               ),
                               Text(
-                                '${model.title}',
+                                '${cubit.isEn?model.titleEn:model.title}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.end,
@@ -393,6 +413,7 @@ Widget buildCartItem(CartModel model, context) {
                                             price: model.price,
                                             cartId: model.cartId,
                                             title: model.title,
+                                            titleEn: model.titleEn,
                                             quantity: model.quantity,
                                             imageUrl: model.imageUrl,
                                             productId: model.productId,

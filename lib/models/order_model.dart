@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class OrderModel {
   String orderId;
   String title;
+  String titleEn;
   String productId;
   double price;
   String imageUrl;
@@ -19,6 +20,7 @@ class OrderModel {
   OrderModel(
       {this.orderId,
         this.title,
+        this.titleEn,
         this.productId,
         this.imageUrl,
         this.userId,
@@ -37,6 +39,7 @@ class OrderModel {
     orderId = json['orderId'];
     productId = json['productId'];
     userId = json['userId'];
+    titleEn = json['titleEn'];
     username = json['username'];
     userAddress = json['userAddress'];
     addressDetails = json['addressDetails'];
@@ -56,6 +59,7 @@ class OrderModel {
       'productId': productId,
       'userId': userId,
       'title': title,
+      'titleEn': titleEn,
       'username': username,
       'quantity': quantity,
       'userAddress': userAddress,

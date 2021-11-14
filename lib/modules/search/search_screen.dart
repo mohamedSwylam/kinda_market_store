@@ -146,7 +146,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         // if the search field is empty or only contains white-space, we'll display all products
                         result = StoreAppCubit.get(context).products;
                       } else {
-                        result = StoreAppCubit.get(context).products .where((element) =>
+                        result = StoreAppCubit.get(context).isEn ? StoreAppCubit.get(context).products .where((element) =>
+                            element.titleEn.toLowerCase().contains(enteredKeyword.toLowerCase()))
+                            .toList() : StoreAppCubit.get(context).products .where((element) =>
                             element.title.toLowerCase().contains(enteredKeyword.toLowerCase()))
                             .toList();
                         // we use the toLowerCase() method to make it case-insensitive
@@ -297,7 +299,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: Text(
-                        model.title, style: TextStyle(
+                        cubit.isEn?model.titleEn:model.title,
+                        style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 13.sp,
@@ -353,6 +356,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                 .get(context)
                                 .findById(model.id)
                                 .title,
+                            titleEn: StoreAppCubit
+                                .get(context)
+                                .findById(model.id)
+                                .titleEn,
                             price: StoreAppCubit
                                 .get(context)
                                 .findById(model.id)

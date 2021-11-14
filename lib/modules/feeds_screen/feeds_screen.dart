@@ -167,7 +167,7 @@ Widget buildFeedsItem(context, Product model) {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Text(
-                      model.title,
+                      cubit.isEn?model.titleEn:model.title,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -229,6 +229,9 @@ Widget buildFeedsItem(context, Product model) {
                           title: StoreAppCubit.get(context)
                               .findById(model.id)
                               .title,
+                          titleEn: StoreAppCubit.get(context)
+                              .findById(model.id)
+                              .titleEn,
                           price: StoreAppCubit.get(context)
                               .findById(model.id)
                               .price,

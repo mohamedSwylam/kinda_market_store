@@ -1,24 +1,27 @@
-import 'package:flutter/material.dart';
 
 class Product {
-   String id;
-   String title;
-   String description;
-   double price;
-   String imageUrl;
-   String productCategoryName;
-   String productCategoryNameEn;
-   bool isPopular;
-   int quantity;
+  String id;
+  String title;
+  String titleEn;
+  String description;
+  String descriptionEn;
+  double price;
+  String imageUrl;
+  String productCategoryName;
+  String productCategoryNameEn;
+  bool isPopular;
+  int quantity;
 
   Product(
       {this.id,
         this.title,
+        this.titleEn,
+        this.descriptionEn,
+        this.productCategoryNameEn,
         this.description,
         this.price,
         this.imageUrl,
         this.productCategoryName,
-        this.productCategoryNameEn,
         this.isPopular,
         this.quantity,
       });
@@ -26,7 +29,9 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    titleEn = json['titleEn'];
     description = json['description'];
+    descriptionEn = json['descriptionEn'];
     price = json['price'];
     imageUrl = json['imageUrl'];
     productCategoryName = json['productCategoryName'];
@@ -39,11 +44,13 @@ class Product {
     return {
       'id': id,
       'title': title,
+      'titleEn': titleEn,
       'description': description,
+      'descriptionEn': descriptionEn,
+      'productCategoryNameEn': productCategoryNameEn,
       'price': price,
       'imageUrl': imageUrl,
       'productCategoryName': productCategoryName,
-      'productCategoryNameEn': productCategoryNameEn,
       'isPopular': isPopular,
       'quantity': quantity,
     };

@@ -168,6 +168,7 @@ class ReviewProductDialog extends StatelessWidget {
                                 dateTime: formattedDate,
                                 rate: StoreAppCubit.get(context).rate,
                                 rateDescription: StoreAppCubit.get(context).rateDescription,
+                                rateDescriptionEn: StoreAppCubit.get(context).rateDescriptionEn,
                                 text: commentController.text,
                                 productId: productId);
                             Navigator.pop(context);

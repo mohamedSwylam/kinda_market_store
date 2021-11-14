@@ -29,9 +29,7 @@ void main() async {
 
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
   bool isEn = CacheHelper.getBoolean(key: 'isEn');
-  runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,));
-}
-
+  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),));}
 class MyApp extends StatelessWidget
 {
   final bool isDark;
@@ -52,13 +50,13 @@ class MyApp extends StatelessWidget
         builder: (context, state) {
           return Sizer(
             builder: (context, orientation, deviceType)=> MaterialApp(
-             // builder: DevicePreview.appBuilder,
+              builder: DevicePreview.appBuilder,
               title: 'Flutter Demo',
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,
               themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-              home: SplashScreen(),
+              home: StoreLayout(),
             ),
           );
         },

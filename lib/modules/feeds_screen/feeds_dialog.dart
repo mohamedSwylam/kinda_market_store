@@ -61,6 +61,7 @@ class FeedsDialog extends StatelessWidget {
                                   .addToWishList(
                                 productId: productId,
                                 title:  productAttr.title,
+                                titleEn:  productAttr.titleEn,
                                 price: productAttr.price,
                                 imageUrl:  productAttr.imageUrl ,
                                 userId: StoreAppCubit.get(context).uId,
@@ -73,6 +74,26 @@ class FeedsDialog extends StatelessWidget {
                               context,
                               1,
                                   ()  {
+                                    StoreAppCubit.get(context).addToWatchedProduct(
+                                        productId: productId,
+                                        title: StoreAppCubit.get(context)
+                                            .findById(productId)
+                                            .title,
+                                        price: StoreAppCubit.get(context)
+                                            .findById(productId)
+                                            .price,
+                                        descriptionEn:StoreAppCubit.get(context)
+                                            .findById(productId)
+                                            .descriptionEn,
+                                        titleEn:StoreAppCubit.get(context)
+                                            .findById(productId)
+                                            .titleEn,
+                                        description: StoreAppCubit.get(context)
+                                            .findById(productId)
+                                            .description,
+                                        imageUrl: StoreAppCubit.get(context)
+                                            .findById(productId)
+                                            .imageUrl);
                                   navigateTo(context, ProductDetailsScreen(productId: productId,));
                               }),
                         ),
@@ -81,7 +102,7 @@ class FeedsDialog extends StatelessWidget {
                             context,
                             2,
                               StoreAppCubit.get(context).carts.any((element) => element.productId==productId)? (){}:() {
-                              StoreAppCubit.get(context).addItemToCart(productId: productId,title:  productAttr.title, price: productAttr.price, imageUrl: productAttr.imageUrl);
+                              StoreAppCubit.get(context).addItemToCart(productId: productId,title:  productAttr.title,titleEn:  productAttr.titleEn, price: productAttr.price, imageUrl: productAttr.imageUrl);
                             },
                           ),
                         ),

@@ -207,9 +207,6 @@ class _UserInfoState extends State<UserScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
@@ -256,9 +253,6 @@ class _UserInfoState extends State<UserScreen> {
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 2.h,
                     ),
                     Material(
                       color: Colors.transparent,
@@ -311,7 +305,7 @@ class _UserInfoState extends State<UserScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 2.h,
                     ),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
@@ -540,7 +534,7 @@ class _UserInfoState extends State<UserScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
@@ -548,12 +542,12 @@ class _UserInfoState extends State<UserScreen> {
                             style: TextStyle(fontSize: 15.sp),
                           ),
                           SizedBox(
-                            width: 10.w,
+                            width: 8.w,
                           ),
                           FlutterSwitch(
                             width: 13.0.w,
                             height: 4.h,
-                            toggleSize: 20.0,
+                            toggleSize: 16.0.sp,
                             value: StoreAppCubit.get(context).isDark ? true : false,
                             borderRadius: 30.0,
                             padding: 0.0,
@@ -574,7 +568,7 @@ class _UserInfoState extends State<UserScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
@@ -582,12 +576,12 @@ class _UserInfoState extends State<UserScreen> {
                             style: TextStyle(fontSize: 15.sp),
                           ),
                           SizedBox(
-                            width: 10.w,
+                            width: 5.w,
                           ),
                           FlutterSwitch(
                             width: 13.0.w,
                             height: 4.h,
-                            toggleSize: 20.0,
+                            toggleSize: 16.0.sp,
                             value: StoreAppCubit.get(context).isEn ? true : false,
                             borderRadius: 30.0,
                             padding: 0.0,
@@ -621,15 +615,8 @@ class _UserInfoState extends State<UserScreen> {
                           padding: const EdgeInsets.only(left: 15.0, right: 22),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Icon(
-                                  Icons.arrow_back_ios_outlined,
-                                  size: 5.w,
-                                ),
-                              ),
-                              Spacer(),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 8.0, right: 15),
@@ -642,7 +629,7 @@ class _UserInfoState extends State<UserScreen> {
                                 ),
                               ),
                               SizedBox(
-                                width: 10.w,
+                                width: 4.w,
                               ),
                               Container(
                                 width: 11.w,
@@ -650,7 +637,7 @@ class _UserInfoState extends State<UserScreen> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                          'https://image.flaticon.com/icons/png/128/1828/1828304.png')),
+                                          'https://cdn-icons-png.flaticon.com/512/1828/1828404.png')),
                                 ),
                               ),
                             ],

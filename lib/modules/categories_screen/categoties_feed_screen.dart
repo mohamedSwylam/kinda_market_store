@@ -228,6 +228,7 @@ Widget buildFeedsItem(context,Product model){
                       StoreAppCubit.get(context).addItemToCart(
                           productId:  model.id,
                           title:  StoreAppCubit.get(context).findById(model.id).title,
+                          titleEn :  StoreAppCubit.get(context).findById(model.id).titleEn,
                           price:  StoreAppCubit.get(context).findById(model.id).price,
                           imageUrl: StoreAppCubit.get(context).findById(model.id).imageUrl);
                     },
