@@ -294,3 +294,7 @@ class GetCommentsSuccessStates extends StoreAppStates {}
 class GetCommentsErrorStates extends StoreAppStates {}
 
 class ChangeRateSuccessStates extends StoreAppStates {}
+//////////////////// notification
+class PushNotificationLoadingState extends StoreAppStates {}
+class PushNotificationSuccessState extends StoreAppStates {}
+class PushNotificationErrorState extends StoreAppStates {}

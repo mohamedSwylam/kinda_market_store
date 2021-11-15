@@ -7,60 +7,24 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://student.valuxapps.com/api/',
+        baseUrl: 'https://fcm.googleapis.com/fcm/send',
         receiveDataWhenStatusError: true,
       ),
     );
   }
 
-  static Future<Response> getData({
-    @required String url,
-    Map<String, dynamic> query,
-    String lang='en',
-    String token,
-  }) async {
-    dio.options.headers={
-      'lang':lang,
-      'Content-Type':'application/json',
-      'Authorization':token??'',
-    };
-    return await dio.get(
-      url,
-      queryParameters: query??null,
-    );
-  }
 
   static Future<Response> postData({
     @required String url,
     Map<String, dynamic> query,
     @required Map<String, dynamic> data,
-    String lang='en',
     String token,
   }) async {
-    dio.options.headers={
-      'lang':lang,
-      'Content-Type':'application/json',
-      'Authorization':token??'',
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'key=AAAAlf5cfKg:APA91bFnumlsHjmG5VO-C3EYoXr-7YNX4WfPasuCrz-ZYTkx2y46U7DNYDIE_TiJGXGfl1660tI4YlhthE15kx5ie5oOzuCSmYWN1CYgT8X2gP7IZBcwZDB1gj-Hsy5AvBBeYHoXgri7',
     };
     return dio.post(
-      url,
-      queryParameters: query,
-      data: data,
-    );
-  }
-  static Future<Response> putData({
-    @required String url,
-    Map<String, dynamic> query,
-    @required Map<String, dynamic> data,
-    String lang='en',
-    String token,
-  }) async {
-    dio.options.headers={
-      'lang':lang,
-      'Content-Type':'application/json',
-      'Authorization':token??'',
-    };
-    return dio.put(
       url,
       queryParameters: query,
       data: data,

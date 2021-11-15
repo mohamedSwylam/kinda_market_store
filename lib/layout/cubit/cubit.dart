@@ -28,6 +28,8 @@ import 'package:kinda_store/modules/home_screen/home_screen.dart';
 import 'package:kinda_store/modules/landingPage/landing_page.dart';
 import 'package:kinda_store/modules/user_screen/user_screen.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
+import 'package:kinda_store/shared/network/remote/dio_helper.dart';
+import 'package:kinda_store/shared/network/remote/end_point.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -197,7 +199,42 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     print(rating);
     emit(ChangeRateSuccessStates());
   }
+  //////////////////////////////////Notification
 
+  void pushNotification({
+    @required String token,
+  }) {
+    emit(PushNotificationLoadingState());
+    DioHelper.postData(
+      url: NOTIFICATION,
+      data: {
+        'to':token,
+        'notification':{
+    "title":"طلب جديد",
+    "body":"قام احد المستخدمين بطلب اوردر جديد ",
+    "sound": "default"
+    },
+    "android":{
+    "priority": "HIGH",
+    "notification": {
+    "default_sound": true,
+    "notification_priority": "PRIORITY_MAX",
+    "sound": "default",
+    "default_vibrate_timings": true,
+    "default_light_settings": true
+    },
+    "data" : {
+    "type":"order",
+    "id":"1",
+    "click_action":"FLUTTER_NOTIFICATION_CLICK"
+    }}
+      },
+    ).then((value) {
+      emit(PushNotificationSuccessState());
+    }).catchError((error){
+      emit(PushNotificationErrorState());
+    });
+  }
   ///////////////////////////SignUp
   void userSignUp({
     @required String password,
