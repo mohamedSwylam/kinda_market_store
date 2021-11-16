@@ -8,7 +8,7 @@ import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
-import 'package:kinda_store/shared/styles/color.dart';
+import 'package:kinda_store/shared/components/constants.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import 'package:sizer/sizer.dart';
 
@@ -162,7 +162,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(fontSize: 13.sp),
+                                    .copyWith(fontSize: 13.sp,color: Colors.black),
                               ),
                               SizedBox(
                                 height: 2.h,
@@ -179,7 +179,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2
-                                        .copyWith(fontSize: 13.sp),
+                                        .copyWith(fontSize: 13.sp,color: Colors.black),
                                   ),
                                   SizedBox(
                                     height: 2.h,
@@ -192,7 +192,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2
-                                        .copyWith(fontSize: 13.sp),
+                                        .copyWith(fontSize: 13.sp,color: Colors.black),
                                   ),
                                   SizedBox(
                                     height: 2.5.h,
@@ -546,6 +546,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             'imageUrl': imageUrl,
                           });
                           StoreAppCubit.get(context).getOrders();
+                          StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد لمنتج ${title}',token: y9ksc);
                           showDialog(
                             context: context,
                             builder: (BuildContext context) => OrderConfirmDialog(),

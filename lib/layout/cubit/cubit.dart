@@ -125,8 +125,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     FirebaseFirestore.instance
         .collection('products')
         .doc(productId)
-        .collection('comments')
-        .add(model.toMap())
+        .collection('comments').doc(commentId)
+        .set(model.toMap())
         .then((value) {
       emit(WriteCommentSuccessState());
     }).catchError((error) {
@@ -203,6 +203,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   void pushNotification({
     @required String token,
+    @required String title,
+    @required String body,
   }) {
     emit(PushNotificationLoadingState());
     DioHelper.postData(
@@ -210,8 +212,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       data: {
         'to':token,
         'notification':{
-    "title":"طلب جديد",
-    "body":"قام احد المستخدمين بطلب اوردر جديد ",
+    "title":title,
+    "body": body,
     "sound": "default"
     },
     "android":{
@@ -884,7 +886,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
-//////////////////
 
   //////////////////////WishList
   void addToWishList({

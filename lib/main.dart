@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget
           return Sizer(
             builder: (context, orientation, deviceType)=> MaterialApp(
               builder: DevicePreview.appBuilder,
-              title: 'Flutter Demo',
+              title: 'Kinda Store',
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,

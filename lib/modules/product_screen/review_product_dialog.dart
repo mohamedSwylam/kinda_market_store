@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:kinda_store/shared/components/constants.dart';
 import 'package:sizer/sizer.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
@@ -13,7 +14,8 @@ import 'package:kinda_store/shared/styles/color.dart';
 
 class ReviewProductDialog extends StatelessWidget {
   final String productId;
-  const ReviewProductDialog({this.productId});
+  final String title;
+  const ReviewProductDialog({this.productId,this.title});
   @override
   Widget build(BuildContext context) {
     var commentController = TextEditingController();
@@ -171,6 +173,7 @@ class ReviewProductDialog extends StatelessWidget {
                                 rateDescriptionEn: StoreAppCubit.get(context).rateDescriptionEn,
                                 text: commentController.text,
                                 productId: productId);
+                            StoreAppCubit.get(context).pushNotification(title:'تقييم جديد',body:' قام ${StoreAppCubit.get(context).name} بتقييم منتج ${title}',token: y9ksc,);
                             Navigator.pop(context);
                           },
                           shape: RoundedRectangleBorder(

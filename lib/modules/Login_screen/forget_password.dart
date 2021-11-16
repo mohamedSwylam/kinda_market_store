@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
-import 'package:kinda_store/layout/store_layout.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:sizer/sizer.dart';
 import 'package:kinda_store/widget/fade_animation.dart';

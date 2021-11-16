@@ -286,7 +286,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                         onPressed:  () async {
                                           showDialog(
                                             context: context,
-                                            builder: (BuildContext context) =>  ReviewProductDialog(productId: productId,),
+                                            builder: (BuildContext context) =>  ReviewProductDialog(productId: productId,title: productAttr.title,),
                                           );
                                         },
                                         shape: RoundedRectangleBorder(
@@ -316,116 +316,6 @@ class ProductDetailsScreen extends StatelessWidget {
                                     SizedBox(
                                       height: 4.h,
                                     ),
-                                    /* Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          '0 %',
-                                          style: Theme.of(context).textTheme.subtitle2,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        SizedBox(height: 18),
-                                        Text(
-                                          '0 %',
-                                          style:  Theme.of(context).textTheme.subtitle2,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        SizedBox(height: 16),
-                                        Text(
-                                          '0 %',
-                                          style:  Theme.of(context).textTheme.subtitle2,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        SizedBox(height: 17),
-                                        Text(
-                                          '0 %',
-                                          style:  Theme.of(context).textTheme.subtitle2,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        SizedBox(height: 16),
-                                        Text(
-                                          '0 %',
-                                          style:  Theme.of(context).textTheme.subtitle2,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Container(
-                                          width: 160,
-                                          height: 15.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                          ),
-                                        ),
-                                        SizedBox(height: 25),
-                                        Container(
-                                          width: 160,
-                                          height: 15.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                          ),
-                                        ),
-                                        SizedBox(height: 26),
-                                        Container(
-                                          width: 160,
-                                          height: 15.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                          ),
-                                        ),
-                                        SizedBox(height: 28),
-                                        Container(
-                                          width: 160,
-                                          height: 15.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                          ),
-                                        ),
-                                        SizedBox(height: 25),
-                                        Container(
-                                          width: 160,
-                                          height: 15.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),*/
                                   ],
                                 ),
                               ),

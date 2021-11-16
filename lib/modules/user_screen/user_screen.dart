@@ -605,11 +605,10 @@ class _UserInfoState extends State<UserScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          StoreAppCubit.get(context).pushNotification(token: 'd-X6s2PfRbKBsh05cOlL8Z:APA91bFVV2txIQPrAQ-XEq63vQWHAUejLvTWi0UuC9LHoe2_IFIkjrDbIOC_Kr-qP9js7apX56Ecgnk4wdqH3TGl8Ix5LnpZrkW5-vgAUDz5rrIxIN12J9tc8i8T1ICSZBEhowUxuvQa');
-                          /*showDialogg(context, cubit.getTexts('user15'),
+                          showDialogg(context, cubit.getTexts('user15'),
                               cubit.getTexts('user16'), () {
                             StoreAppCubit.get(context).signOut(context);
-                          });*/
+                          });
                         },
                         splashColor: Theme.of(context).splashColor,
                         child: Padding(
