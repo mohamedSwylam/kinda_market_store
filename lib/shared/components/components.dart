@@ -40,7 +40,8 @@ Widget defaultFormFiled({
   bool isClickable = true,
   Function onTap,
   IconData suffix,
-  IconData prefix,
+  Widget prefix,
+  Widget prefixIcon,
   @required Function validate,
   Function suffixPressed,
 }) =>
@@ -55,6 +56,8 @@ Widget defaultFormFiled({
       controller: controller,
       keyboardType: type,
       decoration: InputDecoration(
+        prefix:prefix,
+        prefixIcon: prefixIcon,
         border: InputBorder.none,
         hintStyle: TextStyle(color: Colors.grey.withOpacity(.8),),
         hintText: hint,
@@ -228,7 +231,59 @@ Future<void> showDialogg(context,title,subtitle,Function function) async {
                   padding:
                   const EdgeInsets.only(right: 6.0),
                   child: Image.network(
-                    'https://image.flaticon.com/icons/png/128/1828/1828304.png',
+                    'https://cdn-icons.flaticon.com/png/512/3071/premium/3071694.png?token=exp=1637136773~hmac=e4495fc982fef43b7ebd330d387f9d57',
+                    height: 18.h,
+                    width: 18.w,
+                  ),
+                ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(title,style: TextStyle(fontSize: 13.sp),textAlign: TextAlign.center,),
+                ),
+              ],
+            ),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(subtitle,style: TextStyle(fontSize: 11.sp),textAlign: TextAlign.center,maxLines: 2,),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text( cubit.getTexts('dialog'),
+                      style: TextStyle(fontSize: 15.sp),)),
+              TextButton(
+                  onPressed: () async {
+                    function();
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                           cubit.getTexts('forgetPassDialog3'),
+                    style: TextStyle(color: Colors.red,fontSize: 15.sp),
+                  ))
+            ],
+          ),
+        );
+      });
+}
+
+Future<void> showDialoggLogout(context,title,subtitle,Function function) async {
+  var cubit=StoreAppCubit.get(context);
+  showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return Directionality(
+          textDirection: StoreAppCubit.get(context).isEn == false? TextDirection.ltr :TextDirection.rtl,
+          child: AlertDialog(
+            title: Row(
+              children: [
+                Padding(
+                  padding:
+                  const EdgeInsets.only(right: 6.0),
+                  child: Image.network(
+                    'https://cdn-icons-png.flaticon.com/512/889/889937.png',
                     height: 18.h,
                     width: 18.w,
                   ),

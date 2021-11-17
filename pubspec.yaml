@@ -71,6 +71,7 @@ dependencies:
   flutter_lints: ^1.0.0
   sizer: ^2.0.15
   flutter_switch: ^0.3.2
+  otp_text_field: ^1.1.1
 
 dev_dependencies:
   device_preview: ^0.7.5

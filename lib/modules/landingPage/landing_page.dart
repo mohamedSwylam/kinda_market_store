@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/modules/Login_screen/login_screen.dart';
+import 'package:kinda_store/modules/phone_sign_in/phone_verifcation.dart';
+import 'package:kinda_store/modules/phone_sign_in/phone_login.dart';
 import 'package:kinda_store/modules/sign_up_screen/sign_up_screen.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
@@ -230,6 +232,16 @@ class _LandingPageState extends State<LandingPage>
                   iconSize: 12.w,
                   icon: Icon(
                     FontAwesome.google_plus_official,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    navigateTo(context, PhoneLoginScreen());
+                  },
+                  color: Colors.green[700],
+                  iconSize: 12.w,
+                  icon: Icon(
+                    FontAwesome.phone_square,
                   ),
                 ),
                 SizedBox(

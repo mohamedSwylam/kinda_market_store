@@ -298,3 +298,19 @@ class ChangeRateSuccessStates extends StoreAppStates {}
 class PushNotificationLoadingState extends StoreAppStates {}
 class PushNotificationSuccessState extends StoreAppStates {}
 class PushNotificationErrorState extends StoreAppStates {}
+//////////////phone
+class CodeSentState extends StoreAppStates {}
+class CodeAutoRetrievalTimeoutState extends StoreAppStates {}
+class StartTimerState extends StoreAppStates {}
+class SetDataState extends StoreAppStates {}
+class OnPinCompletedState extends StoreAppStates {}
+class PhoneSignInSuccessState extends StoreAppStates {
+  final String uId;
+
+  PhoneSignInSuccessState(this.uId);
+}
+class PhoneSignInErrorState extends StoreAppStates {
+  final  error;
+
+  PhoneSignInErrorState(this.error);
+}

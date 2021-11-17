@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kinda_store/modules/landingPage/splash_screen.dart';
+import 'package:kinda_store/modules/phone_sign_in/phone_login.dart';
 import 'package:kinda_store/shared/bloc_observer.dart';
 import 'package:kinda_store/shared/components/constants.dart';
 import 'package:kinda_store/shared/network/local/cache_helper.dart';
@@ -15,6 +17,7 @@ import 'layout/cubit/cubit.dart';
 import 'layout/cubit/states.dart';
 import 'layout/store_layout.dart';
 import 'modules/landingPage/landing_page.dart';
+import 'modules/phone_sign_in/phone_verifcation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +32,7 @@ void main() async {
   if (uId != null) {
     widget = StoreLayout();
   } else {
-    widget = LandingPage();
+    widget = SplashScreen();
   }
 
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
@@ -47,8 +50,7 @@ class MyApp extends StatelessWidget
     return  MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct()..getWatchedProducts()..getUserData()..getOrders()..getWishList()..getCarts()..getBanners()..changeLanguage(fromShared: isEn)..getLan(),
-        ),
+          create: (BuildContext context) => StoreAppCubit()..changeThemeMode(fromShared: isDark)..getProduct()..getWatchedProducts()..getUserData()..getOrders()..getWishList()..getCarts()..getBanners()..changeLanguage(fromShared: isEn)..getLan()),
       ],
       child: BlocConsumer<StoreAppCubit,StoreAppStates>(
         listener: (context, state) {},
@@ -61,7 +63,7 @@ class MyApp extends StatelessWidget
               darkTheme: darkTheme,
               theme: lightTheme,
               themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-              home: StoreLayout(),
+              home: startWidget,
             ),
           );
         },

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -20,6 +21,7 @@ import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/cart_model.dart';
 import 'package:kinda_store/models/category_model.dart';
 import 'package:kinda_store/models/order_model.dart';
+import 'package:sizer/sizer.dart';
 import 'package:kinda_store/models/product_model.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
@@ -63,6 +65,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     currentIndex = 2;
     emit(StoreAppBottomBarSearchState());
   }
+
   void selectedUser() {
     currentIndex = 4;
     emit(StoreAppBottomBarUserState());
@@ -98,26 +101,28 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void openWattsAppChat() async {
     await launch('http://wa.me/01093717500?text=مرحبا بكم في كنده تشيز ');
   }
+
   ///////////////write comment
 
   void writeComment({
     @required String dateTime,
-    @ required String text,
-    @ required String rateDescription,
-    @ required String rateDescriptionEn,
-    @ required double rate,
-    @ required String productId,
+    @required String text,
+    @required String rateDescription,
+    @required String rateDescriptionEn,
+    @required double rate,
+    @required String productId,
   }) {
     final commentId = uuid.v4();
     emit(WriteCommentLoadingState());
     CommentModel model = CommentModel(
       userId: uId,
-      imageUrl: profileImage??"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
+      imageUrl: profileImage ??
+          "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
       dateTime: dateTime,
       productId: productId,
-      rate: rate??3,
-      rateDescription: rateDescription??'جيد',
-      rateDescriptionEn: rateDescriptionEn??'Good',
+      rate: rate ?? 3,
+      rateDescription: rateDescription ?? 'جيد',
+      rateDescriptionEn: rateDescriptionEn ?? 'Good',
       commentId: commentId,
       username: name,
       text: text,
@@ -125,7 +130,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     FirebaseFirestore.instance
         .collection('products')
         .doc(productId)
-        .collection('comments').doc(commentId)
+        .collection('comments')
+        .doc(commentId)
         .set(model.toMap())
         .then((value) {
       emit(WriteCommentSuccessState());
@@ -133,14 +139,18 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(WriteCommentErrorState());
     });
   }
+
   List<CommentModel> comments = [];
+
   void getComments(
-      @required String productId,
-      ) async {
+    @required String productId,
+  ) async {
     emit(GetCommentsLoadingStates());
     await FirebaseFirestore.instance
-        .collection('products').doc(productId).collection('comments').
-        get()
+        .collection('products')
+        .doc(productId)
+        .collection('comments')
+        .get()
         .then((QuerySnapshot commentsSnapshot) {
       comments.clear();
       commentsSnapshot.docs.forEach((element) {
@@ -166,39 +176,38 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetCommentsErrorStates());
     });
   }
-  double rate ;
+
+  double rate;
+
   String rateDescription;
   String rateDescriptionEn;
+
   void changeRating(rating) {
-    rate=rating;
-    if (rating > 0 && rating <= 1){
-      rateDescription ='سئ';
-      rateDescriptionEn ='Bad';
-    }
-    else if (rating > 1 && rating <= 2){
-      rateDescription ='لم يعجبني';
-      rateDescriptionEn ='Dislike';
-    }
-    else if (rating > 2 && rating <=3){
-      rateDescription ='جيد';
-      rateDescriptionEn ='Good';
-    }
-    else if (rating > 3 && rating <= 4){
-      rateDescription ='ممتاز';
-      rateDescriptionEn ='Excellent';
-    }
-    else if (rating > 4 && rating <= 5){
-      rateDescription ='رائع';
-      rateDescriptionEn ='Amazing';
-    }
-    else{
-      rate =3.0;
-      rateDescription="جيد";
-      rateDescriptionEn ='Good';
+    rate = rating;
+    if (rating > 0 && rating <= 1) {
+      rateDescription = 'سئ';
+      rateDescriptionEn = 'Bad';
+    } else if (rating > 1 && rating <= 2) {
+      rateDescription = 'لم يعجبني';
+      rateDescriptionEn = 'Dislike';
+    } else if (rating > 2 && rating <= 3) {
+      rateDescription = 'جيد';
+      rateDescriptionEn = 'Good';
+    } else if (rating > 3 && rating <= 4) {
+      rateDescription = 'ممتاز';
+      rateDescriptionEn = 'Excellent';
+    } else if (rating > 4 && rating <= 5) {
+      rateDescription = 'رائع';
+      rateDescriptionEn = 'Amazing';
+    } else {
+      rate = 3.0;
+      rateDescription = "جيد";
+      rateDescriptionEn = 'Good';
     }
     print(rating);
     emit(ChangeRateSuccessStates());
   }
+
   //////////////////////////////////Notification
 
   void pushNotification({
@@ -210,33 +219,31 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     DioHelper.postData(
       url: NOTIFICATION,
       data: {
-        'to':token,
-        'notification':{
-    "title":title,
-    "body": body,
-    "sound": "default"
-    },
-    "android":{
-    "priority": "HIGH",
-    "notification": {
-    "default_sound": true,
-    "notification_priority": "PRIORITY_MAX",
-    "sound": "default",
-    "default_vibrate_timings": true,
-    "default_light_settings": true
-    },
-    "data" : {
-    "type":"order",
-    "id":"1",
-    "click_action":"FLUTTER_NOTIFICATION_CLICK"
-    }}
+        'to': token,
+        'notification': {"title": title, "body": body, "sound": "default"},
+        "android": {
+          "priority": "HIGH",
+          "notification": {
+            "default_sound": true,
+            "notification_priority": "PRIORITY_MAX",
+            "sound": "default",
+            "default_vibrate_timings": true,
+            "default_light_settings": true
+          },
+          "data": {
+            "type": "order",
+            "id": "1",
+            "click_action": "FLUTTER_NOTIFICATION_CLICK"
+          }
+        }
       },
     ).then((value) {
       emit(PushNotificationSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(PushNotificationErrorState());
     });
   }
+
   ///////////////////////////SignUp
   void userSignUp({
     @required String password,
@@ -335,10 +342,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     emit(UploadProfileImageLoadingState());
     firebase_storage.FirebaseStorage.instance
         .ref()
-        .child('users/${Uri
-        .file(profile.path)
-        .pathSegments
-        .last}')
+        .child('users/${Uri.file(profile.path).pathSegments.last}')
         .putFile(profile)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
@@ -367,7 +371,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   void pickImageCamera() async {
     final picker = ImagePicker();
     final pickedImage =
-    await picker.getImage(source: ImageSource.camera, imageQuality: 10);
+        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
     final pickedImageFile = File(profile.path);
     profile = pickedImageFile;
     uploadProfileImage();
@@ -376,7 +380,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
   void remove() {
     url =
-    'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+        'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
     uploadProfileImage();
     emit(SignUpRemoveProfileImageSuccessState());
   }
@@ -422,13 +426,18 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     var dateparse = DateTime.parse(date);
     var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse.year}";
     FirebaseAuth.instance.signInAnonymously().then((value) {
-      name = StoreAppCubit.get(context).isEn ?'Gust':'زائر';
-      email = StoreAppCubit.get(context).isEn ?'Without email address':'بدون بريد الكتروني';
+      name = StoreAppCubit.get(context).isEn ? 'Gust' : 'زائر';
+      email = StoreAppCubit.get(context).isEn
+          ? 'Without email address'
+          : 'بدون بريد الكتروني';
       joinedAt = formattedDate;
-      phone = StoreAppCubit.get(context).isEn ?'Without phone number':'بدون رقم هاتف';
-      address = StoreAppCubit.get(context).isEn ?'Without address':'بدون عنوان';
+      phone = StoreAppCubit.get(context).isEn
+          ? 'Without phone number'
+          : 'بدون رقم هاتف';
+      address =
+          StoreAppCubit.get(context).isEn ? 'Without address' : 'بدون عنوان';
       profileImage =
-      'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
       createdAt = Timestamp.now().toString();
       getUserData();
       getOrders();
@@ -505,7 +514,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     print('user.displayName ${user.displayName}');
     print('user.photoURL ${user.photoURL}');
     final DocumentSnapshot userDoc =
-    await FirebaseFirestore.instance.collection('users').doc(uId).get();
+        await FirebaseFirestore.instance.collection('users').doc(uId).get();
     if (userDoc == null) {
       return;
     } else {
@@ -721,8 +730,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
 
       showDialog(
           context: context,
-          builder: (context) =>
-              AlertDialog(
+          builder: (context) => AlertDialog(
                 title: Text('Log in with facebook failed'),
                 content: Text(content),
                 actions: [
@@ -745,19 +753,19 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   Product findById(String productId) {
     return products.firstWhere((element) => element.id == productId);
   }
+
   List<Product> findByCategory(String categoryName) {
     List categoryList = products
-        .where((element) =>
-        element.productCategoryName
+        .where((element) => element.productCategoryName
             .toLowerCase()
             .contains(categoryName.toLowerCase()))
         .toList();
     return categoryList;
   }
+
   List<Product> findByCategoryEn(String categoryName) {
     List categoryList = products
-        .where((element) =>
-        element.productCategoryNameEn
+        .where((element) => element.productCategoryNameEn
             .toLowerCase()
             .contains(categoryName.toLowerCase()))
         .toList();
@@ -838,13 +846,15 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveFromCartErrorStates());
     });
   }
-  void addItemByOne({String productId,
-    String title,
-    double price,
-    String imageUrl,
-    String userId,
-    int quantity,
-    cartId}) async {
+
+  void addItemByOne(
+      {String productId,
+      String title,
+      double price,
+      String imageUrl,
+      String userId,
+      int quantity,
+      cartId}) async {
     emit(AddCartItemByOneLoadingStates());
     await FirebaseFirestore.instance.collection('carts').doc(cartId).update({
       'productId': productId.toString(),
@@ -862,13 +872,14 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     });
   }
 
-  void reduceItemByOne({String productId,
-    String title,
-    double price,
-    String imageUrl,
-    String userId,
-    int quantity,
-    cartId}) async {
+  void reduceItemByOne(
+      {String productId,
+      String title,
+      double price,
+      String imageUrl,
+      String userId,
+      int quantity,
+      cartId}) async {
     emit(ReduceCartItemByOneLoadingStates());
     await FirebaseFirestore.instance.collection('carts').doc(cartId).update({
       'productId': productId.toString(),
@@ -885,7 +896,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(ReduceCartItemByOneErrorStates());
     });
   }
-
 
   //////////////////////WishList
   void addToWishList({
@@ -964,7 +974,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   List<Product> searchQuery(String searchText) {
     searchList = products
         .where((element) =>
-        element.title.toLowerCase().contains(searchText.toLowerCase()))
+            element.title.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
     emit(StoreAppSearchQuerySuccessState());
     return searchList;
@@ -1004,6 +1014,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetProductErrorStates());
     });
   }
+
   ////////////////////////////watchedRecently
   List<WatchedModel> watchedProducts = [];
 
@@ -1037,6 +1048,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetWatchedErrorStates(error.toString()));
     });
   }
+
   void addToWatchedProduct({
     String productId,
     String title,
@@ -1065,6 +1077,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(UploadWatchedItemErrorState());
     });
   }
+
   void removeFromWatched(watchedId) async {
     emit(RemoveFromWatchedLoadingStates());
     await FirebaseFirestore.instance
@@ -1078,9 +1091,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveFromWatchedErrorStates());
     });
   }
+
   ///////////////////////////////////Signout
-  void signOut(context) =>
-      CacheHelper.removeData(key: 'uId').then((value) {
+  void signOut(context) => CacheHelper.removeData(key: 'uId').then((value) {
         if (value) {
           FirebaseAuth.instance
               .signOut()
@@ -1092,59 +1105,99 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   ////////////////////////////////categoryScreen
   List<CategoryModel> categories = [
     CategoryModel(
-        categoryName: 'توابل', categoryImage: 'assets/images/twabl.jpg',categoryId: '1'),
+        categoryName: 'توابل',
+        categoryImage: 'assets/images/twabl.jpg',
+        categoryId: '1'),
     CategoryModel(
-        categoryName: 'مجمدات', categoryImage: 'assets/images/mogmdat.jpg',categoryId: '2'),
+        categoryName: 'مجمدات',
+        categoryImage: 'assets/images/mogmdat.jpg',
+        categoryId: '2'),
     CategoryModel(
-        categoryName: 'مشروبات', categoryImage: 'assets/images/mshrob.jpg',categoryId: '3'),
+        categoryName: 'مشروبات',
+        categoryImage: 'assets/images/mshrob.jpg',
+        categoryId: '3'),
     CategoryModel(
-        categoryName: 'مثلجات', categoryImage: 'assets/images/moslgat.jpg',categoryId: '4'),
+        categoryName: 'مثلجات',
+        categoryImage: 'assets/images/moslgat.jpg',
+        categoryId: '4'),
     CategoryModel(
       categoryName: 'جبن',
-      categoryImage: 'assets/images/cheese.jpg',categoryId: '5',
+      categoryImage: 'assets/images/cheese.jpg',
+      categoryId: '5',
     ),
     CategoryModel(
-        categoryName: 'صوصات', categoryImage: 'assets/images/sos.jpg',categoryId: '6'),
+        categoryName: 'صوصات',
+        categoryImage: 'assets/images/sos.jpg',
+        categoryId: '6'),
     CategoryModel(
-        categoryName: 'مخبوزات', categoryImage: 'assets/images/bread.jpg',categoryId: '7'),
+        categoryName: 'مخبوزات',
+        categoryImage: 'assets/images/bread.jpg',
+        categoryId: '7'),
     CategoryModel(
-      categoryName: 'شيكولاته',categoryId: '8',
+      categoryName: 'شيكولاته',
+      categoryId: '8',
       categoryImage: 'assets/images/choclate.jpg',
     ),
     CategoryModel(
-        categoryName: 'حلوي', categoryImage: 'assets/images/halwa.jpeg',categoryId: '9'),
+        categoryName: 'حلوي',
+        categoryImage: 'assets/images/halwa.jpeg',
+        categoryId: '9'),
     CategoryModel(
-        categoryName: 'مكسرات', categoryImage: 'assets/images/mksrat.gif',categoryId: '10'),
+        categoryName: 'مكسرات',
+        categoryImage: 'assets/images/mksrat.gif',
+        categoryId: '10'),
     CategoryModel(
-        categoryName: 'بقاله', categoryImage: 'assets/images/bkala.jpg',categoryId: '11'),
+        categoryName: 'بقاله',
+        categoryImage: 'assets/images/bkala.jpg',
+        categoryId: '11'),
   ];
   List<CategoryModel> categoriesEng = [
     CategoryModel(
-        categoryName: 'Spices', categoryImage: 'assets/images/twabl.jpg',categoryId: '1'),
+        categoryName: 'Spices',
+        categoryImage: 'assets/images/twabl.jpg',
+        categoryId: '1'),
     CategoryModel(
-        categoryName: 'Freezers', categoryImage: 'assets/images/mogmdat.jpg',categoryId: '2'),
+        categoryName: 'Freezers',
+        categoryImage: 'assets/images/mogmdat.jpg',
+        categoryId: '2'),
     CategoryModel(
-        categoryName: 'Drinks', categoryImage: 'assets/images/mshrob.jpg',categoryId: '3'),
+        categoryName: 'Drinks',
+        categoryImage: 'assets/images/mshrob.jpg',
+        categoryId: '3'),
     CategoryModel(
-        categoryName: 'Ice cream', categoryImage: 'assets/images/moslgat.jpg',categoryId: '4'),
+        categoryName: 'Ice cream',
+        categoryImage: 'assets/images/moslgat.jpg',
+        categoryId: '4'),
     CategoryModel(
       categoryName: 'Cheeses',
-      categoryImage: 'assets/images/cheese.jpg',categoryId:'5',
+      categoryImage: 'assets/images/cheese.jpg',
+      categoryId: '5',
     ),
     CategoryModel(
-        categoryName: 'Sauces', categoryImage: 'assets/images/sos.jpg',categoryId: '6'),
+        categoryName: 'Sauces',
+        categoryImage: 'assets/images/sos.jpg',
+        categoryId: '6'),
     CategoryModel(
-        categoryName: 'Bakery', categoryImage: 'assets/images/bread.jpg',categoryId: '7'),
+        categoryName: 'Bakery',
+        categoryImage: 'assets/images/bread.jpg',
+        categoryId: '7'),
     CategoryModel(
       categoryName: 'Chocolates',
-      categoryImage: 'assets/images/choclate.jpg',categoryId: '8',
+      categoryImage: 'assets/images/choclate.jpg',
+      categoryId: '8',
     ),
     CategoryModel(
-        categoryName: 'Sweets', categoryImage: 'assets/images/halwa.jpeg',categoryId: '9'),
+        categoryName: 'Sweets',
+        categoryImage: 'assets/images/halwa.jpeg',
+        categoryId: '9'),
     CategoryModel(
-        categoryName: 'Nuts', categoryImage: 'assets/images/mksrat.gif',categoryId: '10'),
+        categoryName: 'Nuts',
+        categoryImage: 'assets/images/mksrat.gif',
+        categoryId: '10'),
     CategoryModel(
-        categoryName: 'Grocery', categoryImage: 'assets/images/bkala.jpg',categoryId: '11'),
+        categoryName: 'Grocery',
+        categoryImage: 'assets/images/bkala.jpg',
+        categoryId: '11'),
   ];
 
 ////////////// languag
@@ -1168,7 +1221,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "forgetPass3": "اعاده تعيين",
     "forgetPass4": "بريد الكتروني غير صالح",
     "forgetPassDialog1": "'تم ارسال رابط اعاده تعيين كلمه المرور بنجاح",
-    "forgetPassDialog2": "برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم",
+    "forgetPassDialog2":
+        "برجاء التوجه الي صندوق الوارد بالبريد الالكتروني الخاص بكم لاعاده تعيين كلمه المرور الخاصه بكم",
     "forgetPassDialog3": "موافق",
     "signUp1": "اختر",
     "signUp2": "الكاميرا",
@@ -1225,7 +1279,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "home15": "بقاله",
     "home16": "شوهد موخرا",
     "orderDia1": "تم تاكيد طلبكم بنجاح",
-    "orderDia2": "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال",
+    "orderDia2":
+        "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال",
     "orderDia3": "موافق",
     "orderDetails1": "موافق",
     "orderDetails2": "تفاصيل الطلب",
@@ -1289,6 +1344,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "layout3": "البحث",
     "layout4": "العربه",
     "layout5": "المستخدم",
+    "phone1": "التحقق من",
+    "phone2": "اكتب 6 رموز للتأكيد",
   };
   Map<String, Object> textsEn = {
     "landing1": "Welcome",
@@ -1300,7 +1357,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "login1": "Kinda Cheese",
     "login2": "Email address",
     "login3": "password",
-    "login4": "Forget password ?",
+    "login4": "Forget password",
     "login5": "Login",
     "login6": "Invalid password",
     "login7": "Invalid email address",
@@ -1334,13 +1391,14 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "cart6": "Order confirmed",
     "cart7": "Confirm order",
     "cart8": "Contact to order",
-    "cart9" : "Remove from cart",
+    "cart9": "Remove from cart",
     "cart10": "Do you want to remove the product from the cart",
     "cartEmpty1": "Cart is empty",
     "cartEmpty2": "Looks like you haven't added anything to your cart yet",
     "cartEmpty3": "Shopping now",
     "wishListEmpty1": "WishList is empty",
-    "wishListEmpty2": "Looks like you haven't added anything to your wishList yet",
+    "wishListEmpty2":
+        "Looks like you haven't added anything to your wishList yet",
     "orderEmpty1": "Order is empty",
     "orderEmpty2": "Looks like you haven't added anything to your orders yet",
     "feeds": " All Products",
@@ -1366,7 +1424,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "home15": "Grocery",
     "home16": "Watched Recently",
     "orderDia1": "Your request has been successfully confirmed",
-    "orderDia2": "We will contact you as soon as possible to inquire about the order or products You can call",
+    "orderDia2":
+        "We will contact you as soon as possible to inquire about the order or products You can call",
     "orderDia3": "ok",
     "orderDetails2": "Order Details",
     "orderDetails3": "Contact Details",
@@ -1429,6 +1488,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "layout3": "Search",
     "layout4": "Cart",
     "layout5": "User",
+    "phone1": "Verify",
+    "phone2":   "Enter 6 digit OTP",
   };
 
   void changeLanguage({bool fromShared}) {
@@ -1442,13 +1503,100 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       });
     }
   }
-  getLan() async{
+
+  getLan() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isEn = prefs.getBool("isEn")?? true;
+    isEn = prefs.getBool("isEn") ?? true;
     emit(StoreAppGetLanguageState());
   }
+
   Object getTexts(String txt) {
     if (isEn == true) return textsEn[txt];
     return textsAr[txt];
   }
+
+  /////////phone authontication
+
+  Future<void> verifyPhoneNumber(
+      String phoneNumber, BuildContext context, Function setData) async {
+    PhoneVerificationCompleted verificationCompleted =
+        (PhoneAuthCredential phoneAuthCredential) async {
+      showSnackBar(context, "Verification Completed");
+    };
+    PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException exception) {
+      showSnackBar(context, exception.toString());
+      print(exception.toString());
+    };
+    PhoneCodeSent codeSent =
+        (String verificationID, [int forceResnedingtoken]) {
+      showSnackBar(context, "Verification Code sent on the phone number");
+      setData(verificationID);
+    };
+
+    PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationID) {
+      showSnackBar(context, "Time out");
+    };
+    try {
+      await _auth.verifyPhoneNumber(
+          timeout: Duration(seconds: 60),
+          phoneNumber: phoneNumber,
+          verificationCompleted: verificationCompleted,
+          verificationFailed: verificationFailed,
+          codeSent: codeSent,
+          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> signInwithPhoneNumber(
+      String verificationId, String smsCode, BuildContext context) async {
+    try {
+      AuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential).then((value){
+            getUserData();
+            getOrders();
+            getWishList();
+            getWatchedProducts();
+            getCarts();
+            showSnackBar(context, "logged In");
+            emit(PhoneSignInSuccessState(value.user.uid));
+          });
+
+    } catch (e) {
+      showSnackBar(context, e.toString());
+      emit(PhoneSignInErrorState(e.toString()));
+    }
+  }
+
+  void showSnackBar(BuildContext context, String text) {
+    final snackBar = SnackBar(content: Text(text));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  int start = 30;
+  bool wait = false;
+  String buttonName = "Send";
+  TextEditingController mobilePhoneController = TextEditingController();
+  String verificationIdFinal = "";
+  String smsCode = "";
+
+
+  void setData(String verificationId) {
+    verificationIdFinal = verificationId;
+    emit(SetDataState());
+  }
+
+  onPinCompleted(pin) {
+      print("Completed: " + pin);
+        smsCode = pin;
+        emit(OnPinCompletedState());
+  }
+
 }
+//1225192420

@@ -146,11 +146,6 @@ class LoginScreen extends StatelessWidget {
                                             return null;
                                           },
                                           isPassword: StoreAppCubit.get(context).isPasswordShown,
-                                          suffixPressed: () {
-                                            StoreAppCubit.get(context)
-                                                .changePasswordVisibility();
-                                          },
-                                          prefix: StoreAppCubit.get(context).prefix,
                                         hint: cubit.getTexts('login3'),
                                       ),
                                     ),

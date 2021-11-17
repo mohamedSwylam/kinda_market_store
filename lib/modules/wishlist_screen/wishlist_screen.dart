@@ -32,96 +32,86 @@ class WishListScreen extends StatelessWidget {
               :Directionality(
             textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
             child: Scaffold(
-            body: Center(
-                child: BackdropScaffold(
-                  headerHeight: MediaQuery.of(context).size.height * .25,
-                  appBar: BackdropAppBar(
-                    leading: BackdropToggleButton(
-                      icon: AnimatedIcons.home_menu,
-                      color: Theme.of(context).splashColor,
-                    ),
-                    title: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 18.0),
-                          child: Badge(
-                            badgeColor: defaultColor,
-                            animationType: BadgeAnimationType.slide,
-                            toAnimate: true,
-                            position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
-                            badgeContent: Text(
-                              StoreAppCubit.get(context).carts.length.toString(),
-                              style: TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                            child: IconButton(
-                              onPressed: () {
-                                StoreAppCubit.get(context).selectedCart();
-                              },
-                              icon: Icon(
-                                Feather.shopping_cart,
-                                size: 25,
-                                color: Theme.of(context).splashColor,
-                              ),
-                            ),
-                          ),
+            body: Scaffold(
+              appBar: AppBar(
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18.0),
+                      child: Badge(
+                        badgeColor: defaultColor,
+                        animationType: BadgeAnimationType.slide,
+                        toAnimate: true,
+                        position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
+                        badgeContent: Text(
+                          StoreAppCubit.get(context).carts.length.toString(),
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                        SizedBox(width: 3.w,),
-                        Badge(
-                          badgeColor: defaultColor,
-                          animationType: BadgeAnimationType.slide,
-                          toAnimate: true,
-                          position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
-                          badgeContent: Text(
-                            StoreAppCubit.get(context).wishList.length.toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                        child: IconButton(
+                          onPressed: () {
+                            StoreAppCubit.get(context).selectedCart();
+                          },
+                          icon: Icon(
+                            Feather.shopping_cart,
+                            size: 25,
+                            color: Theme.of(context).splashColor,
                           ),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.favorite_border,
-                              size: 28,
-                              color: Colors.redAccent,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    elevation: 0.0,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    actions: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5.0, vertical: 10),
-                        child: Text(
-                          " ${cubit.getTexts('wishList1')} (${StoreAppCubit.get(context).wishList.length})",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
                         ),
                       ),
-                    ],
-                  ),
-                  backLayer: BackLayer(),
-                  frontLayer: Scaffold(
-                    body: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var list=StoreAppCubit.get(context).wishList;
-                          return buildWishListItem(list[index],context);
-                        },
-                        separatorBuilder: (context, index) => Container(
-                          height: 8,
+                    ),
+                    SizedBox(width: 3.w,),
+                    Badge(
+                      badgeColor: defaultColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: StoreAppCubit.get(context).isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
+                      badgeContent: Text(
+                        StoreAppCubit.get(context).wishList.length.toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.favorite_border,
+                          size: 28,
+                          color: Colors.redAccent,
                         ),
-                        itemCount: StoreAppCubit.get(context).wishList.length,
                       ),
                     ),
-                  )
+                  ],
                 ),
+                elevation: 0.0,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                actions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 10),
+                    child: Text(
+                      " ${cubit.getTexts('wishList1')} (${StoreAppCubit.get(context).wishList.length})",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    var list=StoreAppCubit.get(context).wishList;
+                    return buildWishListItem(list[index],context);
+                  },
+                  separatorBuilder: (context, index) => Container(
+                    height: 8,
+                  ),
+                  itemCount: StoreAppCubit.get(context).wishList.length,
+                ),
+              ),
             ),
           ),
               );

@@ -317,7 +317,6 @@ class SignUpScreen extends StatelessWidget {
                                         StoreAppCubit.get(context)
                                             .changePasswordVisibility();
                                       },
-                                      prefix: StoreAppCubit.get(context).prefix,
                                     hint:cubit.getTexts('signUp14'),
                                   ),
                                 ),),

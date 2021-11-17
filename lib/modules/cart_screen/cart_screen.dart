@@ -34,6 +34,7 @@ class CartScreen extends StatelessWidget {
                       cubit.isEn ==false? TextDirection.ltr : TextDirection.rtl,
                   child: Scaffold(
                     appBar: AppBar(
+                      leading: Text(''),
                       title: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.start,

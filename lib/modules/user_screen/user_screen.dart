@@ -81,7 +81,7 @@ class _UserInfoState extends State<UserScreen> {
                   top = constraints.biggest.height;
                   return Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     child: FlexibleSpaceBar(
                       collapseMode: CollapseMode.parallax,
@@ -605,7 +605,7 @@ class _UserInfoState extends State<UserScreen> {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          showDialogg(context, cubit.getTexts('user15'),
+                          showDialoggLogout(context, cubit.getTexts('user15'),
                               cubit.getTexts('user16'), () {
                             StoreAppCubit.get(context).signOut(context);
                           });

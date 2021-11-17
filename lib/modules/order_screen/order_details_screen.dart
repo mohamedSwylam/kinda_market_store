@@ -458,7 +458,6 @@ class OrderDetailsScreen extends StatelessWidget {
                               defaultFormFiled(
                                   type: TextInputType.text,
                                   controller: addressDetailsController,
-                                  prefix: Icons.location_on,
                                   validate: (String value) {
                                     if (value.isEmpty) {
                                       return '${cubit.getTexts('orderDetails6')}';
