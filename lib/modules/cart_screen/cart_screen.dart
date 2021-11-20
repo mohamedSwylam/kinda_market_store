@@ -30,8 +30,9 @@ class CartScreen extends StatelessWidget {
                   body: EmptyCart(),
                 )
               : Directionality(
-                  textDirection:
-                      cubit.isEn ==false? TextDirection.ltr : TextDirection.rtl,
+                  textDirection: cubit.isEn == false
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   child: Scaffold(
                     appBar: AppBar(
                       leading: Text(''),
@@ -45,7 +46,9 @@ class CartScreen extends StatelessWidget {
                               badgeColor: defaultColor,
                               animationType: BadgeAnimationType.slide,
                               toAnimate: true,
-                              position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
+                              position: cubit.isEn
+                                  ? BadgePosition.topEnd(top: -10, end: 28)
+                                  : BadgePosition.topEnd(top: -6, end: -5),
                               badgeContent: Text(
                                 StoreAppCubit.get(context)
                                     .carts
@@ -71,7 +74,9 @@ class CartScreen extends StatelessWidget {
                             badgeColor: defaultColor,
                             animationType: BadgeAnimationType.slide,
                             toAnimate: true,
-                            position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
+                            position: cubit.isEn
+                                ? BadgePosition.topEnd(top: -10, end: 28)
+                                : BadgePosition.topEnd(top: -5, end: -3),
                             badgeContent: Text(
                               StoreAppCubit.get(context)
                                   .wishList
@@ -114,52 +119,123 @@ class CartScreen extends StatelessWidget {
                     body: Container(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 0.0),
-                        child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            var list = StoreAppCubit.get(context).carts;
-                            return buildCartItem(list[index], context);
-                          },
-                          separatorBuilder: (context, index) => Container(
-                            height: 4.w,
-                          ),
-                          itemCount: StoreAppCubit.get(context).carts.length,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView.separated(
+                                physics: BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var list = StoreAppCubit.get(context).carts;
+                                  return buildCartItem(list[index], context);
+                                },
+                                separatorBuilder: (context, index) => Container(
+                                  height: 4.w,
+                                ),
+                                itemCount: StoreAppCubit.get(context).carts.length,
+                              ),
+                            ),
+                            SizedBox(height: 10.h,)
+                          ],
                         ),
                       ),
                     ),
-                    // bottomSheet: bottomSheet(context),
+                    bottomSheet: bottomSheet(context),
                   ),
                 );
         });
   }
 }
 
+Widget bottomSheet(context) {
+  var cubit = StoreAppCubit.get(context);
+  return Container(
+    height: 10.h,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: Colors.grey[300],
+    ),
+    child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 05.0, left: 25, top: 10),
+          child: Row(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '${StoreAppCubit.get(context).totalAmount.toStringAsFixed(0)}  ${cubit.getTexts('cart2')}',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Text(
+                    cubit.getTexts('orderDetails4'),
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: defaultColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: RaisedButton(
+                  onPressed: () {
+                  navigateTo(
+                        context,
+                        OrderDetailsScreen());
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(color: defaultColor),
+                  ),
+                  color: defaultColor,
+                  child: Text(
+                    cubit.getTexts('cart7'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).textSelectionColor,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget buildCartItem(CartModel model, context) {
   var cubit = StoreAppCubit.get(context);
   return Directionality(
-    textDirection: cubit.isEn ==false? TextDirection.ltr :TextDirection.rtl,
+    textDirection: cubit.isEn == false ? TextDirection.ltr : TextDirection.rtl,
     child: InkWell(
       onTap: () {
         StoreAppCubit.get(context).addToWatchedProduct(
             productId: model.productId,
-            title: StoreAppCubit.get(context)
-                .findById(model.productId)
-                .title,
-            price: StoreAppCubit.get(context)
-                .findById(model.productId)
-                .price,
-            descriptionEn:StoreAppCubit.get(context)
+            title: StoreAppCubit.get(context).findById(model.productId).title,
+            price: StoreAppCubit.get(context).findById(model.productId).price,
+            descriptionEn: StoreAppCubit.get(context)
                 .findById(model.productId)
                 .descriptionEn,
-            titleEn:StoreAppCubit.get(context)
-                .findById(model.productId)
-                .titleEn,
+            titleEn:
+                StoreAppCubit.get(context).findById(model.productId).titleEn,
             description: StoreAppCubit.get(context)
                 .findById(model.productId)
                 .description,
-            imageUrl: StoreAppCubit.get(context)
-                .findById(model.productId)
-                .imageUrl);
+            imageUrl:
+                StoreAppCubit.get(context).findById(model.productId).imageUrl);
         navigateTo(
             context,
             ProductDetailsScreen(
@@ -167,16 +243,15 @@ Widget buildCartItem(CartModel model, context) {
             ));
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.only(left: 10.0),
         child: Container(
-          height: 60.h,
+          height: 43.h,
           width: 80.w,
           child: Stack(
             children: [
               Container(
                 child: Column(
                   children: [
-                    SizedBox(height: 1.5.h),
                     Row(
                       children: [
                         Expanded(
@@ -184,17 +259,18 @@ Widget buildCartItem(CartModel model, context) {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               SizedBox(
-                                height: 3.h,
+                                height: 2.h,
                               ),
                               Text(
-                                '${cubit.isEn?model.titleEn:model.title}',
+                                '${cubit.isEn ? model.titleEn : model.title}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.end,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .copyWith(fontSize: 14.sp,color: Colors.black),
+                                    .copyWith(
+                                        fontSize: 14.sp, color: Colors.black),
                               ),
                               SizedBox(
                                 height: 20,
@@ -203,7 +279,8 @@ Widget buildCartItem(CartModel model, context) {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -241,7 +318,8 @@ Widget buildCartItem(CartModel model, context) {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -282,11 +360,12 @@ Widget buildCartItem(CartModel model, context) {
                         Expanded(
                           flex: 4,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 10.0, right: 10,left: 10),
+                            padding: const EdgeInsets.only(
+                                top: 0.0, right: 0, left: 0),
                             child: Container(
                               height: 22.h,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                                 image: DecorationImage(
                                   fit: BoxFit.fill,
                                   image: NetworkImage(
@@ -393,11 +472,11 @@ Widget buildCartItem(CartModel model, context) {
                         ],
                       ),
                     ),
-                    Container(
+                    /*Container(
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 4.h,
                           ),
                           Container(
                             width: 80.w,
@@ -426,10 +505,12 @@ Widget buildCartItem(CartModel model, context) {
                               ),
                               color: defaultColor,
                               child: Text(
-                                StoreAppCubit.get(context).orders.any((element) =>
-                                        element.productId == model.productId)
+                                StoreAppCubit.get(context).orders.any(
+                                        (element) =>
+                                            element.productId ==
+                                            model.productId)
                                     ? cubit.getTexts('cart6')
-                                  : cubit.getTexts('cart7'),
+                                    : cubit.getTexts('cart7'),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Theme.of(context).textSelectionColor,
@@ -462,11 +543,11 @@ Widget buildCartItem(CartModel model, context) {
                                   flex: 6,
                                   child: Container(
                                     width: double.infinity,
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.08,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.08,
                                     child: RaisedButton(
                                       onPressed: () {
-                                        launch("tel:01093717500");
+                                        launch("tel:+201093717500");
                                       },
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
@@ -495,18 +576,19 @@ Widget buildCartItem(CartModel model, context) {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
                 margin: const EdgeInsets.only(
-                    left: 10, bottom: 10, right: 10, top: 10),
+                    left: 10, bottom: 10, right: 0, top: 0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(16),bottomLeft: Radius.circular(16),),
                   color: Colors.white,
                 ),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
               ),
               Positioned(
+                top: 0,
                 child: Container(
                   height: 10.w,
                   width: 10.w,
@@ -525,7 +607,7 @@ Widget buildCartItem(CartModel model, context) {
                       ),
                     ),
                     onPressed: () {
-                      showDialogg(context,cubit.getTexts('cart9'),
+                      showDialogg(context, cubit.getTexts('cart9'),
                           cubit.getTexts('cart10'), () {
                         StoreAppCubit.get(context).removeFromCart(model.cartId);
                       });

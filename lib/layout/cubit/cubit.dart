@@ -99,7 +99,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
 
   void openWattsAppChat() async {
-    await launch('http://wa.me/01093717500?text=مرحبا بكم في كنده تشيز ');
+    await launch('http://wa.me/+201093717500?text=مرحبا بكم في كنده تشيز ');
   }
 
   ///////////////write comment
@@ -325,7 +325,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   File profile;
   String url;
   var picker = ImagePicker();
-
   Future<void> getProfileImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -832,7 +831,16 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetCartsErrorStates(error.toString()));
     });
   }
-
+  double get totalAmount {
+    var total = 0.0;
+    carts.forEach((value) {
+      total += value.price * value.quantity;
+    });
+    return total;
+  }
+  CartModel findByCartId(String cartId) {
+    return carts.firstWhere((element) => element.cartId == cartId);
+  }
   void removeFromCart(cartId) async {
     emit(RemoveFromCartLoadingStates());
     await FirebaseFirestore.instance
@@ -1489,7 +1497,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "layout4": "Cart",
     "layout5": "User",
     "phone1": "Verify",
-    "phone2":   "Enter 6 digit OTP",
+    "phone2": "Enter 6 digit OTP",
   };
 
   void changeLanguage({bool fromShared}) {
@@ -1551,23 +1559,41 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     }
   }
 
-  Future<void> signInwithPhoneNumber(
-      String verificationId, String smsCode, BuildContext context) async {
+  Future<void> signInwithPhoneNumber({
+    String verificationId,
+    String smsCode,
+    BuildContext context,
+    @required String password,
+    @required String name,
+    @required String phone,
+    @required String address,
+    @required String joinedAt,
+    @required String createdAt,
+    @required String profileImage,
+  }) async {
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
-
       UserCredential userCredential =
-          await _auth.signInWithCredential(credential).then((value){
+          await _auth.signInWithCredential(credential).then((value) {
+            createUser(
+              profileImage: profileImage,
+              uId:value.user.uid,
+              phone: phone,
+              address: address,
+              name: name,
+              email: '',
+              joinedAt: joinedAt,
+              createdAt: createdAt,
+            );
             getUserData();
             getOrders();
             getWishList();
             getWatchedProducts();
             getCarts();
-            showSnackBar(context, "logged In");
-            emit(PhoneSignInSuccessState(value.user.uid));
-          });
-
+        showSnackBar(context, "logged In");
+        emit(PhoneSignInSuccessState(value.user.uid));
+      });
     } catch (e) {
       showSnackBar(context, e.toString());
       emit(PhoneSignInErrorState(e.toString()));
@@ -1586,17 +1612,16 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   String verificationIdFinal = "";
   String smsCode = "";
 
-
   void setData(String verificationId) {
     verificationIdFinal = verificationId;
     emit(SetDataState());
   }
 
   onPinCompleted(pin) {
-      print("Completed: " + pin);
-        smsCode = pin;
-        emit(OnPinCompletedState());
+    print("Completed: " + pin);
+    smsCode = pin;
+    emit(OnPinCompletedState());
   }
-
 }
+
 //1225192420

@@ -231,7 +231,7 @@ Future<void> showDialogg(context,title,subtitle,Function function) async {
                   padding:
                   const EdgeInsets.only(right: 6.0),
                   child: Image.network(
-                    'https://cdn-icons.flaticon.com/png/512/3071/premium/3071694.png?token=exp=1637136773~hmac=e4495fc982fef43b7ebd330d387f9d57',
+                    'https://firebasestorage.googleapis.com/v0/b/kindacheese-7c99d.appspot.com/o/3071694.png?alt=media&token=4096d309-9f1f-45f0-8430-b46fed6f732b',
                     height: 18.h,
                     width: 18.w,
                   ),

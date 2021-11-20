@@ -451,7 +451,8 @@ class _UserInfoState extends State<UserScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      cubit.getTexts('user10'),                                      style: Theme.of(context)
+                                      cubit.getTexts('user10'),
+                                      style: Theme.of(context)
                                           .textTheme
                                           .subtitle1
                                           .copyWith(fontSize: 12.sp),

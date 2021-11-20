@@ -174,6 +174,7 @@ class ReviewProductDialog extends StatelessWidget {
                                 text: commentController.text,
                                 productId: productId);
                             StoreAppCubit.get(context).pushNotification(title:'تقييم جديد',body:' قام ${StoreAppCubit.get(context).name} بتقييم منتج ${title}',token: y9ksc,);
+                            StoreAppCubit.get(context).pushNotification(title:'تقييم جديد',body:' قام ${StoreAppCubit.get(context).name} بتقييم منتج ${title}',token: karima,);
                             Navigator.pop(context);
                           },
                           shape: RoundedRectangleBorder(

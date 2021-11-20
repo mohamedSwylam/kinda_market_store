@@ -15,8 +15,6 @@ import 'package:kinda_store/shared/styles/color.dart';
 
 import '../feeds_screen/feeds_dialog.dart';
 
-
-
 class SearchScreen extends StatefulWidget {
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -25,6 +23,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchTextController;
   final FocusNode _node = FocusNode();
+
   void initState() {
     super.initState();
     _searchTextController = TextEditingController();
@@ -39,20 +38,25 @@ class _SearchScreenState extends State<SearchScreen> {
     _node.dispose();
     _searchTextController.dispose();
   }
+
   List<Product> _searchList = [];
+
   List<Product> searchQuery(String searchText) {
-    List _searchList = StoreAppCubit.get(context).products
+    List _searchList = StoreAppCubit.get(context)
+        .products
         .where((element) =>
-        element.title.toLowerCase().contains(searchText.toLowerCase()))
+            element.title.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
     return _searchList;
   }
+
   @override
   Widget build(BuildContext context) {
     final productsList = StoreAppCubit().products;
     var cubit = StoreAppCubit.get(context);
     return Directionality(
-      textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+      textDirection:
+          cubit.isEn == false ? TextDirection.ltr : TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
           title: Row(
@@ -65,7 +69,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   badgeColor: defaultColor,
                   animationType: BadgeAnimationType.slide,
                   toAnimate: true,
-                  position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -6, end: -5),
+                  position: cubit.isEn
+                      ? BadgePosition.topEnd(top: -10, end: 28)
+                      : BadgePosition.topEnd(top: -6, end: -5),
                   badgeContent: Text(
                     StoreAppCubit.get(context).carts.length.toString(),
                     style: TextStyle(color: Colors.white, fontSize: 18),
@@ -82,12 +88,16 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-              SizedBox(width: 3.w,),
+              SizedBox(
+                width: 3.w,
+              ),
               Badge(
                 badgeColor: defaultColor,
                 animationType: BadgeAnimationType.slide,
                 toAnimate: true,
-                position: cubit.isEn ?BadgePosition.topEnd(top: -10, end: 28):BadgePosition.topEnd(top: -5, end: -3),
+                position: cubit.isEn
+                    ? BadgePosition.topEnd(top: -10, end: 28)
+                    : BadgePosition.topEnd(top: -5, end: -3),
                 badgeContent: Text(
                   StoreAppCubit.get(context).wishList.length.toString(),
                   style: TextStyle(color: Colors.white, fontSize: 18),
@@ -109,15 +119,14 @@ class _SearchScreenState extends State<SearchScreen> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           actions: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0, vertical: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: Text(
                 cubit.getTexts('search1'),
-
                 style: Theme.of(context)
                     .textTheme
                     .headline6
-                    .copyWith(fontWeight: FontWeight.bold,fontSize: 20),
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
           ],
@@ -129,8 +138,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
                 child: Container(
                   height: MediaQuery.of(context).size.height * .09,
                   child: TextFormField(
@@ -146,11 +155,19 @@ class _SearchScreenState extends State<SearchScreen> {
                         // if the search field is empty or only contains white-space, we'll display all products
                         result = StoreAppCubit.get(context).products;
                       } else {
-                        result = StoreAppCubit.get(context).isEn ? StoreAppCubit.get(context).products .where((element) =>
-                            element.titleEn.toLowerCase().contains(enteredKeyword.toLowerCase()))
-                            .toList() : StoreAppCubit.get(context).products .where((element) =>
-                            element.title.toLowerCase().contains(enteredKeyword.toLowerCase()))
-                            .toList();
+                        result = StoreAppCubit.get(context).isEn
+                            ? StoreAppCubit.get(context)
+                                .products
+                                .where((element) => element.titleEn
+                                    .toLowerCase()
+                                    .contains(enteredKeyword.toLowerCase()))
+                                .toList()
+                            : StoreAppCubit.get(context)
+                                .products
+                                .where((element) => element.title
+                                    .toLowerCase()
+                                    .contains(enteredKeyword.toLowerCase()))
+                                .toList();
                         // we use the toLowerCase() method to make it case-insensitive
                       }
                       // Refresh the UI
@@ -159,31 +176,36 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                     },
                     style: TextStyle(
-                        color: Theme.of(context).scaffoldBackgroundColor
-                    ),
+                        color: Theme.of(context).scaffoldBackgroundColor),
                     decoration: InputDecoration(
-                      hintText:  '${cubit.getTexts('search2')}',
-                      hintStyle: TextStyle(color: Theme.of(context).scaffoldBackgroundColor,fontSize: 11.sp),
+                      hintText: '${cubit.getTexts('search2')}',
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          fontSize: 11.sp),
                       fillColor: Colors.white,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Feather.search,color:  Theme.of(context).scaffoldBackgroundColor,size: 8.w,),
+                          child: Icon(
+                            Feather.search,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            size: 8.w,
+                          ),
                         ),
                       ),
                       suffixIcon: InkWell(
-                        onTap:_searchTextController.text.isEmpty
+                        onTap: _searchTextController.text.isEmpty
                             ? null
                             : () {
-                          _searchTextController.clear();
-                          _node.unfocus();
-                        },
+                                _searchTextController.clear();
+                                _node.unfocus();
+                              },
                         child: Icon(Feather.x,
-                              size: 8.w,
-                              color: _searchTextController.text.isNotEmpty
-                                  ? Colors.red
-                                  : Colors.grey),
+                            size: 8.w,
+                            color: _searchTextController.text.isNotEmpty
+                                ? Colors.red
+                                : Colors.grey),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
@@ -195,62 +217,61 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               Container(
-                child: _searchTextController.text.isNotEmpty && _searchList.isEmpty
+                child: _searchTextController.text.isNotEmpty &&
+                        _searchList.isEmpty
                     ? Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Icon(
-                      Feather.search,
-                      size: 60.sp,
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      cubit.getTexts('search3'),
-                      style: TextStyle(
-                          fontSize: 30.sp, fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                )
+                        children: [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Icon(
+                            Feather.search,
+                            size: 60.sp,
+                          ),
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Text(
+                            cubit.getTexts('search3'),
+                            style: TextStyle(
+                                fontSize: 30.sp, fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      )
                     : GridView.count(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  childAspectRatio: 240 / 420,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  children: List.generate(
-                      _searchTextController.text.isEmpty
-                          ? productsList.length
-                          : _searchList.length, (index) {
-                    return buildSearchItem(context, _searchList[index]);
-                  }),
-                ),
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        childAspectRatio: 240 / 420,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        children: List.generate(
+                            _searchTextController.text.isEmpty
+                                ? productsList.length
+                                : _searchList.length, (index) {
+                          return buildSearchItem(context, _searchList[index]);
+                        }),
+                      ),
               ),
             ],
           ),
-
         ),
       ),
     );
-
   }
 
   Widget buildSearchItem(context, Product model) {
     var cubit = StoreAppCubit.get(context);
-    return  Directionality(
-      textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+    return Directionality(
+      textDirection:
+          cubit.isEn == false ? TextDirection.ltr : TextDirection.rtl,
       child: InkWell(
         onTap: () async {
           showDialog(
             context: context,
-            builder: (BuildContext context) =>
-                FeedsDialog(
-                  productId: model.id,
-                ),
+            builder: (BuildContext context) => FeedsDialog(
+              productId: model.id,
+            ),
           );
         },
         child: Container(
@@ -267,50 +288,43 @@ class _SearchScreenState extends State<SearchScreen> {
               )
             ],
           ),
-
           child: Column(
-
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: [
-
               Expanded(
-
                 child: Image(
-
                   fit: BoxFit.fill,
-
                   height: 180,
-
                   image: NetworkImage(model.imageUrl),
-
                   width: double.infinity,
-
                 ),
-
               ),
               Container(
                 color: Colors.grey[300],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: Text(
-                        cubit.isEn?model.titleEn:model.title,
+                        cubit.isEn ? model.titleEn : model.title,
                         style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.sp,
-                      ),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.sp,
+                        ),
                         textAlign: TextAlign.end,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -321,7 +335,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             color: Colors.red,
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Text(
                           '${model.price}',
                           style: TextStyle(
@@ -331,7 +347,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                   ],
                 ),
               ),
@@ -343,7 +361,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       bottomLeft: Radius.circular(20.0)),
                 ),
                 width: double.infinity,
-                height:  8.h,
+                height: 8.h,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -352,41 +370,33 @@ class _SearchScreenState extends State<SearchScreen> {
                       onTap: () {
                         StoreAppCubit.get(context).addItemToCart(
                             productId: model.id,
-                            title: StoreAppCubit
-                                .get(context)
+                            title: StoreAppCubit.get(context)
                                 .findById(model.id)
                                 .title,
-                            titleEn: StoreAppCubit
-                                .get(context)
+                            titleEn:StoreAppCubit.get(context)
                                 .findById(model.id)
                                 .titleEn,
-                            price: StoreAppCubit
-                                .get(context)
+                            price: StoreAppCubit.get(context)
                                 .findById(model.id)
                                 .price,
-                            imageUrl: StoreAppCubit
-                                .get(context)
+                            imageUrl: StoreAppCubit.get(context)
                                 .findById(model.id)
                                 .imageUrl);
                       },
-                      child: Icon(StoreAppCubit
-                          .get(context)
-                          .carts
-                          .any((element) => element.productId == model.id)
-                          ? MaterialCommunityIcons.check_all
-                          : Feather.shopping_cart,size: 8.w,),
+                      child: Icon(
+                        StoreAppCubit.get(context).carts.any(
+                                (element) => element.productId == model.id)
+                            ? MaterialCommunityIcons.check_all
+                            : Feather.shopping_cart,
+                      ),
                     ),
-
                   ],
                 ),
               ),
             ],
-
           ),
-
         ),
       ),
     );
   }
-
 }

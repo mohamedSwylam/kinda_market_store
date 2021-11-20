@@ -25,12 +25,14 @@ class OrderDetailsScreen extends StatelessWidget {
   final String title;
   final String titleEn;
   final String imageUrl;
+  final String total;
    OrderDetailsScreen(
       {
         @required this.productId,
         @required this.cartId,
         @required this.price,
         @required this.quantity,
+        @required this.total,
         @required this.title,
         @required this.titleEn,
         @required this.imageUrl});
@@ -545,6 +547,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             'imageUrl': imageUrl,
                           });
                           StoreAppCubit.get(context).getOrders();
+                          StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد لمنتج ${title}',token: karima);
                           StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد لمنتج ${title}',token: y9ksc);
                           showDialog(
                             context: context,

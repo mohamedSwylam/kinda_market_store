@@ -78,18 +78,6 @@ class OrderConfirmDialog extends StatelessWidget {
                                     .copyWith(fontWeight: FontWeight.w600,fontSize: 12.sp,color: Colors.red),),
                             ),
                             SizedBox(height: 2.h,),
-                            InkWell(
-                              onTap: (){
-                                launch("tel:01229369779");
-                              },
-                              child: Text(
-                                '01229369779',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6
-                                    .copyWith(fontWeight: FontWeight.w600,fontSize: 12.sp,color: Colors.red),),
-                            ),
                           ],
                         ),
                       ),

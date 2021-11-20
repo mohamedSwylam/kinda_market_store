@@ -1,6 +1,3 @@
-import 'package:backdrop/app_bar.dart';
-import 'package:backdrop/button.dart';
-import 'package:backdrop/scaffold.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

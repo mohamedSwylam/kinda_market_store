@@ -22,7 +22,10 @@ class PhoneVerficationScreen extends StatelessWidget {
   final String name;
   final String address;
   final String password;
-  PhoneVerficationScreen({this.phone, this.name, this.address, this.password});
+  final  String profile;
+
+  PhoneVerficationScreen({this.phone, this.name, this.address, this.password,this.profile});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
@@ -35,15 +38,14 @@ class PhoneVerficationScreen extends StatelessWidget {
             navigateAndFinish(context, StoreLayout());
           });
           StoreAppCubit.get(context).selectedHome();
-        }},
+        }
+      },
       builder: (context, state) {
         var date = DateTime.now().toString();
         var dateparse = DateTime.parse(date);
-        var formattedDate = "${dateparse.day}-${dateparse.month}-${dateparse
-            .year}";
-        var profileImage = StoreAppCubit
-            .get(context)
-            .profile;
+        var formattedDate =
+            "${dateparse.day}-${dateparse.month}-${dateparse.year}";
+        var profileImage = StoreAppCubit.get(context).profile;
         var uuid = Uuid();
         var cubit = StoreAppCubit.get(context);
         return Directionality(
@@ -80,24 +82,26 @@ class PhoneVerficationScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 10.h,),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       Text(
                         cubit.getTexts('phone1'),
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold,fontSize: 25.sp),
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 25.sp),
                       ),
                       Text(
                         '${phone}',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold,fontSize: 25.sp,letterSpacing: 5),
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.sp,
+                            letterSpacing: 5),
                       ),
-                      SizedBox(height: 25.h,),
+                      SizedBox(
+                        height: 25.h,
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width - 30,
                         child: Row(
@@ -111,7 +115,8 @@ class PhoneVerficationScreen extends StatelessWidget {
                             ),
                             Text(
                               cubit.getTexts('phone2'),
-                              style: TextStyle(fontSize: 13.sp, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 13.sp, color: Colors.white),
                             ),
                             Expanded(
                               child: Container(
@@ -141,10 +146,11 @@ class PhoneVerficationScreen extends StatelessWidget {
                               errorBorderColor: Colors.white,
                               focusBorderColor: Colors.white,
                             ),
-                            style: TextStyle(fontSize: 15.sp, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 15.sp, color: Colors.black),
                             textFieldAlignment: MainAxisAlignment.spaceAround,
                             fieldStyle: FieldStyle.box,
-                            onCompleted: (pin) =>cubit.onPinCompleted(pin),
+                            onCompleted: (pin) => cubit.onPinCompleted(pin),
                           ),
                         ),
                       ),
@@ -152,43 +158,36 @@ class PhoneVerficationScreen extends StatelessWidget {
                         height: 6.h,
                       ),
                       Center(
-                        child:  ConditionalBuilder(
-                          condition: state is! LoginLoadingState,
-                          builder: (context) {
-                            return InkWell(
-                              onTap: () {
-                                final userId=uuid.v4();
-                                cubit.signInwithPhoneNumber(
-                                     cubit.verificationIdFinal, cubit.smsCode, context);
-                                cubit.createUser(
-                                  profileImage: StoreAppCubit.get(context).profileImage,
-                                  uId:userId ,
-                                  phone: phone,
-                                  address: address,
-                                  name: name,
-                                  email: '',
-                                  joinedAt: formattedDate,
-                                  createdAt: Timestamp.now().toString(),
-                                );
-                              },
-                              child: Container(
-                                width: 30 .w,
-                                height: 11.h,
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.yellow[700]),
-                                child: Center(
-                                    child: Text(
-                                      cubit.getTexts('login5'),
-                                      style: TextStyle(
-                                          color: Colors.black,fontWeight: FontWeight.bold,fontSize: 15.sp),
-                                    )),
-                              ),
-                            );
+                        child: InkWell(
+                          onTap: () {
+                            cubit.signInwithPhoneNumber(
+                              verificationId: cubit.verificationIdFinal,
+                              smsCode: cubit.smsCode,
+                              context: context,
+                              password: password,
+                              name: name,
+                              address: address,
+                              phone: phone,
+                              joinedAt: formattedDate,
+                              createdAt: Timestamp.now().toString(),
+                              profileImage: profile,);
                           },
-                          fallback: (context) =>
-                              Center(child: CircularProgressIndicator()),
+                          child: Container(
+                            width: 30.w,
+                            height: 11.h,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.yellow[700]),
+                            child: Center(
+                                child: Text(
+                                  cubit.getTexts('login5'),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.sp),
+                                )),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -196,7 +195,6 @@ class PhoneVerficationScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),

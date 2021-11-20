@@ -71,4 +71,4 @@ class MyApp extends StatelessWidget
     );
   }
 }
-//runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),));
+//  runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),);}

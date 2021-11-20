@@ -76,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 7.h,),
+                        SizedBox(height: 10.h,),
                         FadeAnimation(.9,Center(
                           child: Stack(
                             alignment: AlignmentDirectional.bottomEnd,
@@ -222,7 +222,7 @@ class SignUpScreen extends StatelessWidget {
                             ],
                           ),
                         ),),
-                        SizedBox(height: 5.h,),
+                        SizedBox(height: 25.h,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: FadeAnimation(.9,Container(

@@ -370,6 +370,8 @@ class PhoneLoginScreen extends StatelessWidget {
                                     address: addressController.text,
                                     name: nameController.text,
                                     phone: phoneController.text,
+                                    profile:
+                                    '${cubit.url}',
                                   ));
                                 }
                               },

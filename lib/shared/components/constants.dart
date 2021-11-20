@@ -37,6 +37,9 @@ class MyColors {
   static Color endColor2 = Color(0xFFA0C2A9);
 }
 String uId='';
+
+//karima
+String karima='dwblwB8aTvqpn874yfDepe:APA91bGq3dO_ev0EYFkq5AfG7lkZQTuiDecOEGDMq2T2_mptdwreLnt2rpiaac0alf59jkDAbP03FUpko127sLZ0TDFHmqeoNz3x_e5MPg33LsSlOS2oeG_n6thkN50eutr8hGqBIsc6';
 //a71ksc
 String a71ksc ='ev1piPzzR5uYYj596hutOZ:APA91bEbwIaEQPXEYD2GqLArmh6eMSUY8KX4I290iXmORm51ehjnSFxC5gkMYdniB4pIKOgabDRrwGYHbFRHiD4DcVY7JLy-X2cbWXt7OUnFypF3PRNRBmZ01H8mhD_xG2V7EvbOByB7';
 //a71
