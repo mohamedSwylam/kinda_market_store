@@ -7,6 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/cart_model.dart';
+import 'package:kinda_store/modules/order_screen/ord.dart';
 import 'package:kinda_store/modules/order_screen/order_details_screen.dart';
 import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
@@ -131,10 +132,13 @@ class CartScreen extends StatelessWidget {
                                 separatorBuilder: (context, index) => Container(
                                   height: 4.w,
                                 ),
-                                itemCount: StoreAppCubit.get(context).carts.length,
+                                itemCount:
+                                    StoreAppCubit.get(context).carts.length,
                               ),
                             ),
-                            SizedBox(height: 10.h,)
+                            SizedBox(
+                              height: 10.h,
+                            )
                           ],
                         ),
                       ),
@@ -147,6 +151,7 @@ class CartScreen extends StatelessWidget {
 }
 
 Widget bottomSheet(context) {
+  double totalAmount = StoreAppCubit.get(context).totalAmount;
   var cubit = StoreAppCubit.get(context);
   return Container(
     height: 10.h,
@@ -154,64 +159,58 @@ Widget bottomSheet(context) {
     decoration: BoxDecoration(
       color: Colors.grey[300],
     ),
-    child: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 05.0, left: 25, top: 10),
-          child: Row(
+    child: Padding(
+      padding: const EdgeInsets.only(right: 05.0, left: 25),
+      child: Row(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    '${StoreAppCubit.get(context).totalAmount.toStringAsFixed(0)}  ${cubit.getTexts('cart2')}',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Text(
-                    cubit.getTexts('orderDetails4'),
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: defaultColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              Text(
+                '${StoreAppCubit.get(context).totalAmount.toStringAsFixed(0)}  ${cubit.getTexts('cart2')}',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.grey,
+                ),
               ),
-              Spacer(),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.height * 0.06,
-                child: RaisedButton(
-                  onPressed: () {
-                  navigateTo(
-                        context,
-                        OrderDetailsScreen());
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: BorderSide(color: defaultColor),
-                  ),
+              SizedBox(
+                width: 5.w,
+              ),
+              Text(
+                cubit.getTexts('orderDetails4'),
+                style: TextStyle(
+                  fontSize: 13.sp,
                   color: defaultColor,
-                  child: Text(
-                    cubit.getTexts('cart7'),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).textSelectionColor,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600),
-                  ),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-        ),
-      ],
+          Spacer(),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: MediaQuery.of(context).size.height * 0.06,
+            child: RaisedButton(
+              onPressed: () {
+                navigateTo(context, OrdScreen(totalAmount:totalAmount,));
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: defaultColor),
+              ),
+              color: defaultColor,
+              child: Text(
+                cubit.getTexts('cart7'),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Theme.of(context).textSelectionColor,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
@@ -243,25 +242,52 @@ Widget buildCartItem(CartModel model, context) {
             ));
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
+        padding: const EdgeInsets.only(
+          left: 25,
+        ),
         child: Container(
-          height: 43.h,
+          height: 33.h,
           width: 80.w,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
+          ),
           child: Stack(
             children: [
-              Container(
-                child: Column(
-                  children: [
-                    Row(
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                height: 2.h,
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                showDialogg(context, cubit.getTexts('cart9'),
+                                    cubit.getTexts('cart10'), () {
+                                  StoreAppCubit.get(context)
+                                      .removeFromCart(model.cartId);
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20.0),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 6.0.w,
+                                  color: Colors.red,
+                                ),
                               ),
-                              Text(
+                            ),
+                            Container(
+                              width: 40.w,
+                              child: Text(
                                 '${cubit.isEn ? model.titleEn : model.title}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -272,207 +298,211 @@ Widget buildCartItem(CartModel model, context) {
                                     .copyWith(
                                         fontSize: 14.sp, color: Colors.black),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        cubit.getTexts('cart2'),
-                                        style: TextStyle(
-                                          fontSize: 10.0.sp,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 1.w,
-                                      ),
-                                      Text(
-                                        '${model.price.toStringAsFixed(0)}',
-                                        style: TextStyle(
-                                          fontSize: 12.0.sp,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    cubit.getTexts('cart3'),
-                                    style: TextStyle(
-                                      fontSize: 10.0.sp,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        cubit.getTexts('cart2'),
-                                        style: TextStyle(
-                                          fontSize: 10.0.sp,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 1.w,
-                                      ),
-                                      Text(
-                                        '${(model.price * model.quantity).toStringAsFixed(0)}',
-                                        style: TextStyle(
-                                          fontSize: 10.0.sp,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    cubit.getTexts('cart4'),
-                                    style: TextStyle(
-                                      fontSize: 10.0.sp,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          flex: 3,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 0.0, right: 0, left: 0),
-                            child: Container(
-                              height: 22.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(
-                                    '${model.imageUrl}',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  cubit.getTexts('cart2'),
+                                  style: TextStyle(
+                                    fontSize: 10.0.sp,
+                                    color: Colors.grey,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                Text(
+                                  '${model.price.toStringAsFixed(0)}',
+                                  style: TextStyle(
+                                    fontSize: 12.0.sp,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              cubit.getTexts('cart3'),
+                              style: TextStyle(
+                                fontSize: 10.0.sp,
+                                color: Colors.black,
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                    ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              child: Container(
-                                child: CircleAvatar(
-                                  radius: 5.w,
-                                  backgroundColor: defaultColor,
-                                  child: Icon(
-                                    Icons.arrow_downward_rounded,
-                                    color: Colors.black,
-                                    size: 7.w,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  cubit.getTexts('cart2'),
+                                  style: TextStyle(
+                                    fontSize: 10.0.sp,
+                                    color: Colors.grey,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                Text(
+                                  '${(model.price * model.quantity).toStringAsFixed(0)}',
+                                  style: TextStyle(
+                                    fontSize: 10.0.sp,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              cubit.getTexts('cart4'),
+                              style: TextStyle(
+                                fontSize: 10.0.sp,
+                                color: Colors.black,
                               ),
-                              onTap: () {
-                                if (model.quantity > 0) {
-                                  StoreAppCubit.get(context).reduceItemByOne(
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                child: Container(
+                                  child: CircleAvatar(
+                                    radius: 4.5.w,
+                                    backgroundColor: defaultColor,
+                                    child: CircleAvatar(
+                                      radius: 3.w,
+                                      backgroundColor: Colors.black,
+                                      child: CircleAvatar(
+                                        radius: 2.5.w,
+                                        backgroundColor: defaultColor,
+                                        child: Icon(
+                                          Icons.arrow_downward_rounded,
+                                          color: Colors.black,
+                                          size: 4.w,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  if (model.quantity > 0) {
+                                    StoreAppCubit.get(context).reduceItemByOne(
+                                      imageUrl: model.imageUrl,
+                                      price: model.price,
+                                      title: model.title,
+                                      productId: model.productId,
+                                      quantity: (model.quantity - 1),
+                                      userId: model.userId,
+                                      cartId: model.cartId,
+                                    );
+                                  }
+                                },
+                              ),
+                              Container(
+                                child: Center(
+                                    child: Text(
+                                  '${model.quantity.toString()}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                          color: Colors.black, fontSize: 15.sp),
+                                )),
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: CircleAvatar(
+                                    radius: 4.5.w,
+                                    backgroundColor: defaultColor,
+                                    child: CircleAvatar(
+                                      radius: 3.w,
+                                      backgroundColor: Colors.black,
+                                      child: CircleAvatar(
+                                        radius: 2.5.w,
+                                        backgroundColor: defaultColor,
+                                        child: Icon(
+                                          Icons.arrow_upward_outlined,
+                                          color: Colors.black,
+                                          size: 4.w,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  StoreAppCubit.get(context).addItemByOne(
                                     imageUrl: model.imageUrl,
                                     price: model.price,
                                     title: model.title,
                                     productId: model.productId,
-                                    quantity: (model.quantity - 1),
+                                    quantity: (model.quantity + 1),
                                     userId: model.userId,
                                     cartId: model.cartId,
                                   );
-                                }
-                              },
-                            ),
-                            flex: 2,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              child: Center(
-                                  child: Text(
-                                '${model.quantity.toString()}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(
-                                        color: Colors.black, fontSize: 18.sp),
-                              )),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: InkWell(
-                              child: Container(
-                                child: CircleAvatar(
-                                  radius: 5.w,
-                                  backgroundColor: defaultColor,
-                                  child: Icon(
-                                    Icons.arrow_upward_rounded,
-                                    color: Colors.black,
-                                    size: 7.w,
-                                  ),
+                                },
+                              ),
+                              Text(
+                                cubit.getTexts('cart5'),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 11.0.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              onTap: () {
-                                StoreAppCubit.get(context).addItemByOne(
-                                  imageUrl: model.imageUrl,
-                                  price: model.price,
-                                  title: model.title,
-                                  productId: model.productId,
-                                  quantity: (model.quantity + 1),
-                                  userId: model.userId,
-                                  cartId: model.cartId,
-                                );
-                              },
-                            ),
+                            ],
                           ),
-                          Spacer(),
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              cubit.getTexts('cart5'),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                fontSize: 13.0.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                        ),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                      ],
+                    ),
+                    flex: 3,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(0),
+                            bottomLeft: Radius.circular(0)),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                            '${model.imageUrl}',
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                    /*Container(
+                  ),
+                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+/*Container(
                       child: Column(
                         children: [
                           SizedBox(
@@ -577,48 +607,3 @@ Widget buildCartItem(CartModel model, context) {
                         ],
                       ),
                     ),*/
-                  ],
-                ),
-                margin: const EdgeInsets.only(
-                    left: 10, bottom: 10, right: 0, top: 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(16),bottomLeft: Radius.circular(16),),
-                  color: Colors.white,
-                ),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-              ),
-              Positioned(
-                top: 0,
-                child: Container(
-                  height: 10.w,
-                  width: 10.w,
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0.w)),
-                    padding: EdgeInsets.symmetric(horizontal: 0.0),
-                    color: Colors.white,
-                    child: CircleAvatar(
-                      radius: 10.0.w,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.close,
-                        size: 7.0.w,
-                        color: Colors.red,
-                      ),
-                    ),
-                    onPressed: () {
-                      showDialogg(context, cubit.getTexts('cart9'),
-                          cubit.getTexts('cart10'), () {
-                        StoreAppCubit.get(context).removeFromCart(model.cartId);
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}

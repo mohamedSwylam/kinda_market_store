@@ -25,14 +25,12 @@ class OrderDetailsScreen extends StatelessWidget {
   final String title;
   final String titleEn;
   final String imageUrl;
-  final String total;
    OrderDetailsScreen(
       {
         @required this.productId,
         @required this.cartId,
         @required this.price,
         @required this.quantity,
-        @required this.total,
         @required this.title,
         @required this.titleEn,
         @required this.imageUrl});
@@ -562,10 +560,11 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                       color: defaultColor,
                       child: Text(
-                        StoreAppCubit.get(context)
+                       /* StoreAppCubit.get(context)
                             .orders.any((element) => element.productId==productId)
                             ? '${cubit.getTexts('cart6')}'
-                            : '${cubit.getTexts('cart7')}',
+                            :*/
+                        '${cubit.getTexts('cart7')}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).textSelectionColor,
@@ -588,10 +587,11 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                       color: defaultColor,
                       child: Text(
-                        StoreAppCubit.get(context)
+                       /* StoreAppCubit.get(context)
                             .orders.any((element) => element.productId==productId)
                             ? '${cubit.getTexts('orderDetails10')}'
-                            : '${cubit.getTexts('cart8')}',
+                            : */
+                        '${cubit.getTexts('cart8')}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).textSelectionColor,

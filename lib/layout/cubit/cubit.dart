@@ -624,16 +624,15 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             orderId: element.get('orderId'),
             title: element.get('title'),
             titleEn: element.get('titleEn'),
-            price: element.get('price'),
             imageUrl: element.get('imageUrl'),
+            products: element.get('products'),
+            productsEn: element.get('productsEn'),
             userId: element.get('userId'),
             userAddress: element.get('userAddress'),
             total: element.get('total'),
             subTotal: element.get('subTotal'),
             anotherNumber: element.get('anotherNumber'),
             addressDetails: element.get('addressDetails'),
-            quantity: element.get('quantity'),
-            productId: element.get('productId'),
             username: element.get('username'),
             userPhone: element.get('userPhone'),
           ),
@@ -801,7 +800,6 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
   }
 
   List<CartModel> carts = [];
-
   void getCarts() async {
     emit(GetCartsLoadingStates());
     await FirebaseFirestore.instance
@@ -1293,8 +1291,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "orderDetails1": "موافق",
     "orderDetails2": "تفاصيل الطلب",
     "orderDetails3": "تفاصيل التواصل",
-    "orderDetails4": "الاجمالي",
-    "orderDetails5": "الشحن",
+    "orderDetails4": " : الاجمالي",
+    "orderDetails5": " : الشحن",
     "orderDetails6": "العنوان الذي ادخلته غير صالح",
     "orderDetails7": "تفاصيل اكثر عن العنوان",
     "orderDetails8": "رقم الهاتف الذي ادخلته غير صالح",

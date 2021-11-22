@@ -705,6 +705,7 @@ Widget buildWatchedRecentlyItem(context,WatchedModel model) {
                               .addItemToCart(
                               productId: model.productId,
                               title: model.title,
+                              titleEn: model.titleEn,
                               price: model.price,
                               imageUrl: model.imageUrl);
                         },
