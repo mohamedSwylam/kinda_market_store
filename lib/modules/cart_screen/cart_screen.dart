@@ -7,7 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/cart_model.dart';
-import 'package:kinda_store/modules/order_screen/ord.dart';
+import 'package:kinda_store/modules/order_screen/order_details.dart';
 import 'package:kinda_store/modules/order_screen/order_details_screen.dart';
 import 'package:kinda_store/modules/product_screen/product_details.dart';
 import 'package:kinda_store/modules/wishlist_screen/wishlist_screen.dart';
@@ -36,7 +36,20 @@ class CartScreen extends StatelessWidget {
                       : TextDirection.rtl,
                   child: Scaffold(
                     appBar: AppBar(
-                      leading: Text(''),
+                      leading: IconButton(
+                        onPressed: () {
+                          showDialogg(context, cubit.getTexts('cart12'),
+                              cubit.getTexts('cart11'), () {
+                                StoreAppCubit.get(context).clearCart();
+                              });
+
+                        },
+                        icon: Icon(
+                          Feather.trash,
+                          size: 25,
+                          color: Theme.of(context).splashColor,
+                        ),
+                      ),
                       title: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -192,7 +205,7 @@ Widget bottomSheet(context) {
             height: MediaQuery.of(context).size.height * 0.06,
             child: RaisedButton(
               onPressed: () {
-                navigateTo(context, OrdScreen(totalAmount:totalAmount,));
+                navigateTo(context, OrderDetailsScreen(totalAmount:totalAmount,));
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

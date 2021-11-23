@@ -6,6 +6,8 @@ class OrderModel {
   String titleEn;
   String imageUrl;
   List products;
+  List prices;
+  List quantities;
   List productsEn;
   String userId;
   String username;
@@ -22,6 +24,8 @@ class OrderModel {
         this.titleEn,
         this.products,
         this.imageUrl,
+        this.prices,
+        this.quantities,
         this.productsEn,
         this.userId,
         this.username,
@@ -37,7 +41,9 @@ class OrderModel {
     orderId = json['orderId'];
     products = json['products'];
     userId = json['userId'];
+    quantities = json['quantities'];
     titleEn = json['titleEn'];
+    prices = json['prices'];
     productsEn = json['productsEn'];
     username = json['username'];
     userAddress = json['userAddress'];
@@ -54,11 +60,13 @@ class OrderModel {
     return {
       'orderId': orderId,
       'userId': userId,
+      'quantities': quantities,
       'products': products,
       'productsEn': productsEn,
       'title': title,
       'titleEn': titleEn,
       'username': username,
+      'prices': prices,
       'userAddress': userAddress,
       'addressDetails': addressDetails,
       'anotherNumber': anotherNumber,

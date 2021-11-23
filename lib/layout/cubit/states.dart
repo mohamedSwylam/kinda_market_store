@@ -220,6 +220,12 @@ class RemoveFromCartSuccessStates extends StoreAppStates {}
 
 class RemoveFromCartErrorStates extends StoreAppStates {}
 
+class ClearCartLoadingStates extends StoreAppStates {}
+
+class ClearCartSuccessStates extends StoreAppStates {}
+
+class ClearCartErrorStates extends StoreAppStates {}
+
 class AddCartItemByOneLoadingStates extends StoreAppStates {}
 
 class AddCartItemByOneSuccessStates extends StoreAppStates {}

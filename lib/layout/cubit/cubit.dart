@@ -626,6 +626,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
             titleEn: element.get('titleEn'),
             imageUrl: element.get('imageUrl'),
             products: element.get('products'),
+            prices: element.get('prices'),
+            quantities : element.get('quantities'),
             productsEn: element.get('productsEn'),
             userId: element.get('userId'),
             userAddress: element.get('userAddress'),
@@ -850,6 +852,21 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(RemoveFromCartSuccessStates());
     }).catchError((error) {
       emit(RemoveFromCartErrorStates());
+    });
+  }
+  void clearCart() async {
+    emit(ClearCartLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('carts')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs.where((element) => element['userId']==uId)){
+        ds.reference.delete();
+      }
+      getCarts();
+      emit(ClearCartSuccessStates());
+    }).catchError((error) {
+      emit(ClearCartErrorStates());
     });
   }
 
@@ -1254,7 +1271,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "cart7": "تأكيد الطلب",
     "cart8": "الاتصال للطلب",
     "cart9": "حذف المنتج من العربه",
-    "cart10": " هل تريد حقل حذف المنتج من العربه ",
+    "cart10": " هل تريد حقا حذف المنتج من العربه ",
+    "cart11": " هل تريد حقا تنظيف العربه ",
+    "cart12": "تنظيف العربه",
     "cartEmpty1": "سله المشتريات فارغه",
     "cartEmpty2": "يبدو انك لم تقم باضافه اي مشتريات حتي الان",
     "cartEmpty3": "تسوق الان",
@@ -1286,7 +1305,7 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "home16": "شوهد موخرا",
     "orderDia1": "تم تاكيد طلبكم بنجاح",
     "orderDia2":
-        "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال",
+        "سوف يتم التواصل معكم في اقرب وقت ممكن للاستفسار بشان الطلب او المنتجات يمكنك الاتصال ويمكنكم ايضا مراجعه الطلب من سله الطلبات",
     "orderDia3": "موافق",
     "orderDetails1": "موافق",
     "orderDetails2": "تفاصيل الطلب",
@@ -1399,6 +1418,8 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "cart8": "Contact to order",
     "cart9": "Remove from cart",
     "cart10": "Do you want to remove the product from the cart",
+    "cart11": " Do you want to remove all products from the cart ",
+    "cart12": "Clear cart",
     "cartEmpty1": "Cart is empty",
     "cartEmpty2": "Looks like you haven't added anything to your cart yet",
     "cartEmpty3": "Shopping now",

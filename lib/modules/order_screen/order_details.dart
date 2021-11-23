@@ -19,13 +19,13 @@ import 'package:uuid/uuid.dart';
 
 import 'order_confirm_dialog.dart';
 
-class OrdScreen extends StatelessWidget {
+class OrderDetailsScreen extends StatelessWidget {
   final double totalAmount;
   var uuid = Uuid();
   var formKey = GlobalKey<FormState>();
   var anotherPhoneController=TextEditingController();
   var addressDetailsController=TextEditingController();
-   OrdScreen({ this.totalAmount});
+  OrderDetailsScreen({ this.totalAmount});
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StoreAppCubit, StoreAppStates>(
@@ -210,7 +210,7 @@ class OrdScreen extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   var list = StoreAppCubit.get(context).carts;
-                                  return buildCartItem(list[index], context);
+                                  return buildOrderItem(list[index], context);
                                 },
                                 itemCount: StoreAppCubit.get(context).carts.length,
                               ),
@@ -463,6 +463,8 @@ class OrdScreen extends StatelessWidget {
                                       'userId': StoreAppCubit.get(context).uId.toString(),
                                       'products': StoreAppCubit.get(context).carts.map((e) => e.title).toList(),
                                       'productsEn': StoreAppCubit.get(context).carts.map((e) => e.titleEn).toList(),
+                                      'prices': StoreAppCubit.get(context).carts.map((e) => e.price).toList(),
+                                      'quantities': StoreAppCubit.get(context).carts.map((e) => e.quantity).toList(),
                                       'titleEn': StoreAppCubit.get(context).carts[1].titleEn,
                                       'title': StoreAppCubit.get(context).carts[1].title,
                                       'subTotal': totalAmount,
@@ -481,7 +483,8 @@ class OrdScreen extends StatelessWidget {
                                       'imageUrl': StoreAppCubit.get(context).carts[1].imageUrl,
                                     });
                                     StoreAppCubit.get(context).getOrders();
-                                   // StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد  ',token: karima);
+                                    StoreAppCubit.get(context).clearCart();
+                                    //StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد  ',token: karima);
                                     StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد  ',token: y9ksc);
                                     showDialog(
                                       context: context,
@@ -495,11 +498,11 @@ class OrdScreen extends StatelessWidget {
                                 ),
                                 color: defaultColor,
                                 child: Text(
-                                  cubit.getTexts('cart7'),
+                                cubit.getTexts('cart7'),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Theme.of(context).textSelectionColor,
-                                      fontSize: 15,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -571,7 +574,7 @@ class OrdScreen extends StatelessWidget {
     );
   }
 }
-Widget buildCartItem(CartModel model, context) {
+Widget buildOrderItem(CartModel model, context) {
   var cubit = StoreAppCubit.get(context);
   return Directionality(
     textDirection: cubit.isEn == false ? TextDirection.ltr : TextDirection.rtl,

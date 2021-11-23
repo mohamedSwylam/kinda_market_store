@@ -1,3 +1,4 @@
+/*
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -560,10 +561,12 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                       color: defaultColor,
                       child: Text(
-                       /* StoreAppCubit.get(context)
+                       */
+/* StoreAppCubit.get(context)
                             .orders.any((element) => element.productId==productId)
                             ? '${cubit.getTexts('cart6')}'
-                            :*/
+                            :*//*
+
                         '${cubit.getTexts('cart7')}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -587,10 +590,12 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                       color: defaultColor,
                       child: Text(
-                       /* StoreAppCubit.get(context)
+                       */
+/* StoreAppCubit.get(context)
                             .orders.any((element) => element.productId==productId)
                             ? '${cubit.getTexts('orderDetails10')}'
-                            : */
+                            : *//*
+
                         '${cubit.getTexts('cart8')}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -610,3 +615,4 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 }
+*/

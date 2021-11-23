@@ -189,11 +189,11 @@ Widget buildOrderItem(context ,OrderModel orderModel) {
                         height: 4.h,
                       ),
                       Text(
-                        cubit.getTexts('order2'),
+                        orderModel.products.toString(),
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 13.sp,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.w600),
                       ),
                     ],
