@@ -37,7 +37,7 @@ void main() async {
 
   bool isDark = CacheHelper.getBoolean(key: 'isDark');
   bool isEn = CacheHelper.getBoolean(key: 'isEn');
-  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),));}
+  runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),);}
 class MyApp extends StatelessWidget
 {
   final bool isDark;
@@ -71,4 +71,4 @@ class MyApp extends StatelessWidget
     );
   }
 }
-//  runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),);}
+//  runApp(DevicePreview(builder: (context) =>MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),));} runApp(MyApp(isDark: isDark,startWidget: widget,isEn: isEn,),);}

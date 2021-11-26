@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:sizer/sizer.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
@@ -43,7 +44,9 @@ class SignUpScreen extends StatelessWidget {
         var cubit = StoreAppCubit.get(context);
         return Directionality(
           textDirection: cubit.isEn== false? TextDirection.ltr :TextDirection.rtl,
-          child: Scaffold(
+          child: ConditionalBuilder(
+            condition: state is! LoginLoadingState,
+            builder: (context)=>Scaffold(
             body: SingleChildScrollView(
               child: Stack(
                 children: [
@@ -368,6 +371,10 @@ class SignUpScreen extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+            fallback: (context)=>Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Center(child: SpinKitChasingDots(size: 80,color: defaultColor,))),
           ),
         );
       },

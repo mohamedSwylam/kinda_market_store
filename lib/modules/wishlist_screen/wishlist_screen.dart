@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/wishlist_model.dart';
@@ -183,17 +184,17 @@ Widget buildWishListItem(WishListModel model,context){
               SizedBox(
                 width: 6.w,
               ),
-              Container(
+              Image.network(
+                model.imageUrl,
                 width: 35.w,
                 height: 27.h,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                      '${model.imageUrl}',
-                    ),
-                  ),
-                ),
+                fit: BoxFit.fill,
+                errorBuilder:(context,child,progress){
+                  return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                },
+                loadingBuilder:(context,child,progress){
+                  return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                },
               ),
             ],
           ),

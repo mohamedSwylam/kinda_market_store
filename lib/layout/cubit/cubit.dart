@@ -442,7 +442,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       getOrders();
       getWishList();
       getCarts();
-      navigateTo(context, StoreLayout());
+      CacheHelper.saveData(key: 'uId', value: value.user.uid).then((value) {
+        navigateAndFinish(context, StoreLayout());
+      });
       emit(LoginAnonymousSuccessState());
     }).catchError((error) {
       emit(LoginAnonymousErrorState(error.toString()));
@@ -564,7 +566,9 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
           getWishList();
           getWatchedProducts();
           getOrders();
-          navigateTo(context, StoreLayout());
+          CacheHelper.saveData(key: 'uId', value: googleAccount.id).then((value) {
+            navigateAndFinish(context, StoreLayout());
+          });
         } catch (error) {
           authErrorHandle(error.message, context);
         }

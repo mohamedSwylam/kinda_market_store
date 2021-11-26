@@ -484,7 +484,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     });
                                     StoreAppCubit.get(context).getOrders();
                                     StoreAppCubit.get(context).clearCart();
-                                    //StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد  ',token: karima);
+                                    StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد  ',token: karima);
                                     StoreAppCubit.get(context).pushNotification(title:'اوردر جديد',body:' قام ${StoreAppCubit.get(context).name}   بطلب اوردر جديد  ',token: y9ksc);
                                     showDialog(
                                       context: context,

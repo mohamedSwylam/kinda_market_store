@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
+import 'package:kinda_store/shared/styles/color.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 class BackLayer extends StatelessWidget {
@@ -94,8 +96,15 @@ class BackLayer extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
                               child: CircleAvatar(
-                                backgroundImage:  NetworkImage(StoreAppCubit.get(context).profileImage ??
-          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',),
+                                child:  Image.network(StoreAppCubit.get(context).profileImage ??
+                                      'https://cdn-icons-png.flaticon.com/512/2657/265793',
+                                  errorBuilder:(context,child,progress){
+                                    return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                                  },
+                                  loadingBuilder:(context,child,progress){
+                                    return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                                  },
+                                ),
                                 radius: 10.w,
                                 backgroundColor: Colors.grey[300],
                               ),

@@ -6,6 +6,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/models/product_model.dart';
 import 'package:sizer/sizer.dart';
@@ -141,7 +142,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * .09,
+                  height: MediaQuery.of(context).size.height * .06,
                   child: TextFormField(
                     textAlign: TextAlign.end,
                     onTap: () {},
@@ -178,6 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: TextStyle(
                         color: Theme.of(context).scaffoldBackgroundColor),
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 8.0),
                       hintText: '${cubit.getTexts('search2')}',
                       hintStyle: TextStyle(
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -190,7 +192,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Icon(
                             Feather.search,
                             color: Theme.of(context).scaffoldBackgroundColor,
-                            size: 8.w,
+                            size: 5.w,
                           ),
                         ),
                       ),
@@ -202,7 +204,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 _node.unfocus();
                               },
                         child: Icon(Feather.x,
-                            size: 8.w,
+                            size: 5.w,
                             color: _searchTextController.text.isNotEmpty
                                 ? Colors.red
                                 : Colors.grey),
@@ -293,11 +295,17 @@ class _SearchScreenState extends State<SearchScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Image(
+                child: Image.network(
+                  model.imageUrl,
                   fit: BoxFit.fill,
                   height: 180,
-                  image: NetworkImage(model.imageUrl),
                   width: double.infinity,
+                  errorBuilder:(context,child,progress){
+                    return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                  },
+                  loadingBuilder:(context,child,progress){
+                    return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                  },
                 ),
               ),
               Container(

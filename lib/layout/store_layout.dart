@@ -16,15 +16,16 @@ class StoreLayout extends StatelessWidget {
         return Scaffold(
           body: cubit.StoreScreens[cubit.currentIndex],
           bottomNavigationBar: TitledBottomNavigationBar(
-            activeColor: Colors.yellowAccent[700],
+            activeColor: Color.fromRGBO(169,134,0,1),
+            enableShadow: true,
             onTap: (index) => cubit.changeIndex(index),
             currentIndex: cubit.currentIndex,
             items: [
-              TitledNavigationBarItem(title: Text(cubit.getTexts('layout1'), style: Theme.of(context).textTheme.subtitle1,), icon: MaterialCommunityIcons.home_account,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text(cubit.getTexts('layout2'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.rss,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text(cubit.getTexts('layout3'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.search,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text(cubit.getTexts('layout4'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.shopping_cart,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
-              TitledNavigationBarItem(title: Text(cubit.getTexts('layout5'),style: Theme.of(context).textTheme.subtitle1,), icon: Feather.user,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout1'), style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),), icon: MaterialCommunityIcons.home,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout2'),style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),), icon: Feather.rss,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout3'),style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),), icon: Feather.search,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout4'),style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),), icon: Feather.shopping_cart,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+              TitledNavigationBarItem(title: Text(cubit.getTexts('layout5'),style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),), icon: Feather.user,backgroundColor: Theme.of(context).scaffoldBackgroundColor),
             ],
           ),
         );

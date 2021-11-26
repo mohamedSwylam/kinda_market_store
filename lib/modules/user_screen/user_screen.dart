@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/modules/cart_screen/cart_screen.dart';
@@ -96,6 +97,18 @@ class _UserInfoState extends State<UserScreen> {
                             child: Row(
                               children: [
                                 Container(
+                                  child: Image.network(StoreAppCubit.get(
+                                      context)
+                                      .profileImage ??
+                                      'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
+                                    fit: BoxFit.fill,
+                                    errorBuilder:(context,child,progress){
+                                      return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                                    },
+                                    loadingBuilder:(context,child,progress){
+                                      return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                                    },
+                                  ),
                                   height: kToolbarHeight / 1.8,
                                   width: kToolbarHeight / 1.8,
                                   decoration: BoxDecoration(
@@ -106,13 +119,6 @@ class _UserInfoState extends State<UserScreen> {
                                       ),
                                     ],
                                     shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(StoreAppCubit.get(
-                                                  context)
-                                              .profileImage ??
-                                          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
-                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -134,11 +140,16 @@ class _UserInfoState extends State<UserScreen> {
                         ],
                       ),
 
-                      background: Image(
-                        image: NetworkImage(StoreAppCubit.get(context)
-                                .profileImage ??
-                            'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'),
+                      background: Image.network(StoreAppCubit.get(context)
+                          .profileImage ??
+                          'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
                         fit: BoxFit.fill,
+                        errorBuilder:(context,child,progress){
+                          return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                        },
+                        loadingBuilder:(context,child,progress){
+                          return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                        },
                       ),
                     ),
                   );
@@ -632,14 +643,16 @@ class _UserInfoState extends State<UserScreen> {
                               SizedBox(
                                 width: 4.w,
                               ),
-                              Container(
+                              Image.network(
+                                'https://cdn-icons-png.flaticon.com/512/1828/1828404.png',
                                 width: 11.w,
                                 height: 11.h,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          'https://cdn-icons-png.flaticon.com/512/1828/1828404.png')),
-                                ),
+                                errorBuilder:(context,child,progress){
+                                  return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                                },
+                                loadingBuilder:(context,child,progress){
+                                  return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                                },
                               ),
                             ],
                           ),

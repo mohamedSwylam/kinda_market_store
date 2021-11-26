@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/modules/Login_screen/login_screen.dart';
 import 'package:kinda_store/modules/phone_sign_in/phone_verifcation.dart';
@@ -56,10 +57,19 @@ class _LandingPageState extends State<LandingPage>
   Widget build(BuildContext context) {
     var cubit = StoreAppCubit.get(context);
     return Directionality(
-      textDirection: cubit.isEn == false? TextDirection.ltr :TextDirection.rtl,
+      textDirection:
+          cubit.isEn == false ? TextDirection.ltr : TextDirection.rtl,
       child: Scaffold(
           body: Stack(children: [
         CachedNetworkImage(
+          errorWidget: (context, child, progress) {
+            return progress == null
+                ? child
+                : SpinKitChasingDots(
+                    size: 50,
+                    color: defaultColor,
+                  );
+          },
           imageUrl: images[1],
           fit: BoxFit.cover,
           height: double.infinity,
@@ -141,8 +151,8 @@ class _LandingPageState extends State<LandingPage>
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
-                              side:
-                                  BorderSide(color: ColorsConsts.backgroundColor),
+                              side: BorderSide(
+                                  color: ColorsConsts.backgroundColor),
                             ),
                           )),
                       onPressed: () {
@@ -215,7 +225,7 @@ class _LandingPageState extends State<LandingPage>
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     StoreAppCubit.get(context).logInWithFacebook(context);
                   },
                   color: Colors.blue[900],

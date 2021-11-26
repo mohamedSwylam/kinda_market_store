@@ -1,5 +1,6 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
@@ -234,6 +235,12 @@ Future<void> showDialogg(context,title,subtitle,Function function) async {
                     'https://firebasestorage.googleapis.com/v0/b/kindacheese-7c99d.appspot.com/o/3071694.png?alt=media&token=4096d309-9f1f-45f0-8430-b46fed6f732b',
                     height: 18.h,
                     width: 18.w,
+                    errorBuilder:(context,child,progress){
+                      return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                    },
+                    loadingBuilder:(context,child,progress){
+                      return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                    },
                   ),
                 ),
                 Spacer(),
@@ -286,6 +293,12 @@ Future<void> showDialoggLogout(context,title,subtitle,Function function) async {
                     'https://cdn-icons-png.flaticon.com/512/889/889937.png',
                     height: 18.h,
                     width: 18.w,
+                    errorBuilder:(context,child,progress){
+                      return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                    },
+                    loadingBuilder:(context,child,progress){
+                      return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                    },
                   ),
                 ),
                 Spacer(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/product_model.dart';
@@ -155,16 +156,17 @@ Widget buildFeedsItem(context,Product model){
 
             Expanded(
 
-              child: Image(
-
+              child: Image.network(
+                model.imageUrl,
                 fit: BoxFit.fill,
-
                 height: 180,
-
-                image:NetworkImage(model.imageUrl),
-
+                errorBuilder:(context,child,progress){
+                  return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                },
+                loadingBuilder:(context,child,progress){
+                  return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                },
                 width: double.infinity,
-
               ),
 
             ),

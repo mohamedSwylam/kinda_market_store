@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/shared/components/components.dart';
 import 'package:kinda_store/shared/styles/color.dart';
 import '../../layout/cubit/cubit.dart';
@@ -37,6 +38,12 @@ class FeedsDialog extends StatelessWidget {
                 ),
                 child: Image.network(
                   StoreAppCubit.get(context).findById(productId).imageUrl,
+                  errorBuilder:(context,child,progress){
+                    return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                  },
+                  loadingBuilder:(context,child,progress){
+                    return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                  },
                 ),
               ),
               SizedBox(height: 15,),
