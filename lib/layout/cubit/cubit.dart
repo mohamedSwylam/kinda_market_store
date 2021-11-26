@@ -645,6 +645,22 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
       emit(GetOrdersErrorStates());
     });
   }
+  OrderModel findByOrderId(String orderId) {
+    return orders.firstWhere((element) => element.orderId == orderId);
+  }
+  void removeOrder(orderId) async {
+    emit(RemoveOrderLoadingStates());
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .doc(orderId)
+        .delete()
+        .then((_) {
+      getOrders();
+      emit(RemoveOrderSuccessStates());
+    }).catchError((error) {
+      emit(RemoveOrderErrorStates());
+    });
+  }
 
 //////////////get banners
   List banners = [];
@@ -1371,6 +1387,17 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "layout5": "المستخدم",
     "phone1": "التحقق من",
     "phone2": "اكتب 6 رموز للتأكيد",
+    "orderDialog1": "تفاصيل الطلب",
+    "orderDialog2": "اسم العميل",
+    "orderDialog3": "عنوان العميل",
+    "orderDialog4": "رقم تواصل",
+    "orderDialog5": "المنتجات",
+    "orderDialog6": "السعر الكلي",
+    "orderDialog7": "الشحن",
+    "orderDialog8": "الاجمالي",
+    "orderDialog9": "الغاء الطلب",
+    "orderDialog10": "الاستفسار بشان الطلب",
+    "orderDialog11": "هل تريد حقا الغاء طلب الشراء",
   };
   Map<String, Object> textsEn = {
     "landing1": "Welcome",
@@ -1517,6 +1544,17 @@ class StoreAppCubit extends Cubit<StoreAppStates> {
     "layout5": "User",
     "phone1": "Verify",
     "phone2": "Enter 6 digit OTP",
+    "orderDialog1": "Order details",
+    "orderDialog2": "Customer name",
+    "orderDialog3": "Customer address",
+    "orderDialog4": "Customer phone",
+    "orderDialog5": "Products",
+    "orderDialog6": "Total",
+    "orderDialog7": "Shipping",
+    "orderDialog8": "Total Price",
+    "orderDialog9": "Cancel order",
+    "orderDialog10": "Inquiries about order",
+    "orderDialog11": "Do you want to cancel order",
   };
 
   void changeLanguage({bool fromShared}) {

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kinda_store/layout/cubit/cubit.dart';
 import 'package:kinda_store/layout/cubit/states.dart';
 import 'package:kinda_store/models/category_model.dart';
@@ -193,6 +194,12 @@ class HomeScreen extends StatelessWidget {
                           Image.network(
                             'https://firebasestorage.googleapis.com/v0/b/flutter-app3-17a99.appspot.com/o/banners%2Fbkala.jpg?alt=media&token=ef69d9d8-7453-4bb3-933e-8e73102c6a1d',
                             fit: BoxFit.fill,
+                            errorBuilder:(context,child,progress){
+                              return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                            },
+                            loadingBuilder:(context,child,progress){
+                              return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                            },
                           )
                           ]
                               : [
@@ -201,24 +208,48 @@ class HomeScreen extends StatelessWidget {
                           .banners[0]
                           .imageUrl,
                       fit: BoxFit.fill,
+                      errorBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
+                      loadingBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
                     ),
                     Image.network(
                       StoreAppCubit.get(context)
                           .banners[1]
                           .imageUrl,
                       fit: BoxFit.fill,
+                      errorBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
+                      loadingBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
                     ),
                     Image.network(
                       StoreAppCubit.get(context)
                           .banners[2]
                           .imageUrl,
                       fit: BoxFit.fill,
+                      errorBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
+                      loadingBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
                     ),
                     Image.network(
                       StoreAppCubit.get(context)
                           .banners[3]
                           .imageUrl,
                       fit: BoxFit.fill,
+                      errorBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
+                      loadingBuilder:(context,child,progress){
+                        return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                      },
                     ),
                     ],
                   ),
@@ -370,8 +401,14 @@ Widget buildProductItem(context, Product model) {
                     decoration: BoxDecoration(),
                     child: Stack(
                       children: [
-                        Image(
-                          image: NetworkImage(model.imageUrl),
+                        Image.network(
+                         model.imageUrl,
+                          errorBuilder:(context,child,progress){
+                            return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                          },
+                          loadingBuilder:(context,child,progress){
+                            return progress == null  ? child : SpinKitChasingDots(size: 50,color: defaultColor,);
+                          },
                           width: double.infinity,
                           height: double.infinity,
                           fit: BoxFit.fill,

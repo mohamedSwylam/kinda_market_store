@@ -245,7 +245,13 @@ class UpdateErrorState extends StoreAppStates {
 
   UpdateErrorState(this.error);
 }
+//Remove order
+class RemoveOrderLoadingStates extends StoreAppStates {}
 
+class RemoveOrderSuccessStates extends StoreAppStates {}
+
+class RemoveOrderErrorStates extends StoreAppStates {}
+////////////
 class UpdateLoadingState extends StoreAppStates {}
 
 /////signUp
