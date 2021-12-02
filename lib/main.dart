@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget
               debugShowCheckedModeBanner: false,
               darkTheme: darkTheme,
               theme: lightTheme,
-              themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+              themeMode: StoreAppCubit.get(context).isDark ? ThemeMode.light : ThemeMode.dark,
               home: startWidget,
             ),
           );

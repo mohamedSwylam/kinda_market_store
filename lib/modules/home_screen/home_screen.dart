@@ -599,7 +599,7 @@ Widget buildCategoryItem(context, CategoryModel category) => InkWell(
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 11.sp,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),

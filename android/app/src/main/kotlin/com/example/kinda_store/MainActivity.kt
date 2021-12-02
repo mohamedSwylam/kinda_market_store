@@ -1,4 +1,4 @@
-package com.example.kinda_store
+package dev.swylam.kinda_store
 
 import io.flutter.embedding.android.FlutterActivity
 

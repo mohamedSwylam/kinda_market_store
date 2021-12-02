@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:644217601192:android:6bfa9bd5e0873d1416169d",
         "android_client_info": {
-          "package_name": "com.example.flutter_app3"
+          "package_name": "dev.swylam.kinda_store"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "644217601192-fpqvganmdh0lpv9pkhjemevm20as6ps2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.flutter_app3",
+            "package_name": " 'dev.swylam.kinda_store",
             "certificate_hash": "6096cf1848fb80a156b1de8093d091989e39dc08"
           }
         },
@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:644217601192:android:6111eff74b4836b216169d",
         "android_client_info": {
-          "package_name": "com.example.kinda_store"
+          "package_name": " 'dev.swylam.kinda_store"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "644217601192-5v7e6c7rfe79m8v4b5m4eha4v0kuj7c9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.kinda_store",
+            "package_name": " 'dev.swylam.kinda_store",
             "certificate_hash": "6096cf1848fb80a156b1de8093d091989e39dc08"
           }
         },

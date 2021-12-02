@@ -465,8 +465,8 @@ class OrderDetailsScreen extends StatelessWidget {
                                       'productsEn': StoreAppCubit.get(context).carts.map((e) => e.titleEn).toList(),
                                       'prices': StoreAppCubit.get(context).carts.map((e) => e.price).toList(),
                                       'quantities': StoreAppCubit.get(context).carts.map((e) => e.quantity).toList(),
-                                      'titleEn': StoreAppCubit.get(context).carts[1].titleEn,
-                                      'title': StoreAppCubit.get(context).carts[1].title,
+                                      'titleEn': StoreAppCubit.get(context).carts[0].titleEn,
+                                      'title': StoreAppCubit.get(context).carts[0].title,
                                       'subTotal': totalAmount,
                                       'total': totalAmount+10,
                                       'userPhone': StoreAppCubit
@@ -480,7 +480,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                           .address,
                                       'addressDetails': addressDetailsController.text,
                                       'anotherNumber': anotherPhoneController.text,
-                                      'imageUrl': StoreAppCubit.get(context).carts[1].imageUrl,
+                                      'imageUrl': StoreAppCubit.get(context).carts[0].imageUrl,
                                     });
                                     StoreAppCubit.get(context).getOrders();
                                     StoreAppCubit.get(context).clearCart();
